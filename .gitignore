@@ -1,5 +1,29 @@
+# Node / Package Manager Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build and Distribution
+dist/
+dist-ssr/
+build/
+
+# Environment Variables and Secrets
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+!.env.example
+
+# SQLite runtime temporary files
+*.db-wal
+*.db-shm
+*.db-journal
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,20 +31,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-*.db-wal
-*.db-shm
-
-# Editor directories and files
+# Editor and IDE configurations
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Agent / AI local workspace artifacts
+.gemini/
