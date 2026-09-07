@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-ink: #e8f0ea;
+  --color-muted: #9bb3a6;
+  --color-command: #071411;
+  --color-panel: #0c1f1a;
+  --color-forest: #1a3a34;
+  --color-lime: #9ccc65;
+  --color-soil: #b08968;
+  --color-alert: #e07040;
+  --color-warn: #e0b04a;
+  --color-info: #5aa7b8;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #071411;
+  color: #e8f0ea;
+  font-family: var(--font-sans);
+}
+
+.leaflet-container {
+  background: #0a1613;
+  font-family: var(--font-sans);
+  isolation: isolate;
+  z-index: 1 !important;
+}
+
+.leaflet-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-tile-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-overlay-pane {
+  z-index: 2 !important;
+}
+
+.leaflet-shadow-pane {
+  z-index: 3 !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 4 !important;
+}
+
+.leaflet-tooltip-pane {
+  z-index: 5 !important;
+}
+
+.leaflet-popup-pane {
+  z-index: 6 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 8 !important;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #0f241e;
+  color: #e8f0ea;
+  border: 1px solid #2a5a4c;
+}
+
+.leaflet-control-zoom a {
+  background: #10241e !important;
+  color: #d7eadc !important;
+  border-color: #2a5a4c !important;
+}
+
+.scan-grid {
+  background-image:
+    linear-gradient(rgba(156, 204, 101, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(156, 204, 101, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.pulse-dot {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+.ticker {
+  animation: ticker 42s linear infinite;
+}
+
+.ticker:hover {
+  animation-play-state: paused;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media print {
+  nav,
+  aside,
+  .no-print {
+    display: none !important;
+  }
+  main {
+    overflow: visible !important;
+  }
+}
