@@ -47,3 +47,4 @@ Thumbs.db
 
 # Agent / AI local workspace artifacts
 .gemini/
+.agents/

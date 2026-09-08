@@ -31,13 +31,13 @@ export function CommandCenterPage() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[11px] tracking-[0.22em] text-lime uppercase">Live common operating picture</p>
-          <h1 className="text-2xl font-semibold">NER Landslide Command Center</h1>
-          <p className="text-sm text-muted">
+          <p className="text-[11px] font-semibold tracking-[0.24em] text-muted uppercase">Live common operating picture</p>
+          <h1 className="text-2xl font-bold tracking-tight text-ink">NER Landslide Command Center</h1>
+          <p className="text-sm text-muted/90">
             SEOC Operational Ingest #{tick} &bull; {live ? 'Telemetry Stream Active' : 'Telemetry Paused'} &bull; Fused AWS, soil moisture probes, GNSS displacement &amp; corridor intelligence
           </p>
         </div>
-        <Link to="/gis" className="rounded-lg border border-lime/30 px-3 py-2 text-xs font-semibold text-lime hover:bg-lime/10">
+        <Link to="/gis" className="minim-button">
           Open Full GIS Operations
         </Link>
       </div>
@@ -61,17 +61,17 @@ export function CommandCenterPage() {
               .sort((a, b) => b.riskScore - a.riskScore)
               .slice(0, 8)
               .map((z) => (
-                <li key={z.id} className="rounded-lg border border-white/5 bg-command/60 p-3">
+                <li key={z.id} className="rounded-lg border border-gray-200 bg-gray-50/70 p-3 shadow-xs hover:border-gray-300 transition">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="text-sm font-medium">{z.name}</p>
+                      <p className="text-sm font-medium text-gray-900">{z.name}</p>
                       <p className="text-[11px] text-muted">
                         {z.district}, {z.state}
                       </p>
                     </div>
                     <Pill severity={z.severity} />
                   </div>
-                  <div className="mt-2 h-1.5 overflow-hidden rounded bg-white/10">
+                  <div className="mt-2 h-1.5 overflow-hidden rounded bg-gray-200">
                     <div className="h-full" style={{ width: `${z.riskScore}%`, background: severityColor(z.severity) }} />
                   </div>
                   <p className="mt-2 font-mono text-[11px] text-muted">
@@ -88,12 +88,12 @@ export function CommandCenterPage() {
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chart}>
-                <CartesianGrid stroke="rgba(156,204,101,0.12)" />
-                <XAxis dataKey="name" stroke="#9bb3a6" fontSize={11} />
-                <YAxis stroke="#9bb3a6" fontSize={11} />
-                <Tooltip contentStyle={{ background: '#0c1f1a', border: '1px solid #2a5a4c' }} />
-                <Area type="monotone" dataKey="risk" stroke="#e07040" fill="#e0704033" name="Risk score" />
-                <Area type="monotone" dataKey="rain" stroke="#5aa7b8" fill="#5aa7b833" name="Rain mm" />
+                <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
+                <XAxis dataKey="name" stroke="#64748b" fontSize={11} />
+                <YAxis stroke="#64748b" fontSize={11} />
+                <Tooltip contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', color: '#0f172a', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }} />
+                <Area type="monotone" dataKey="risk" stroke="#e11d48" fill="#e11d4822" name="Risk score" />
+                <Area type="monotone" dataKey="rain" stroke="#0284c7" fill="#0284c722" name="Rain mm" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -103,12 +103,12 @@ export function CommandCenterPage() {
             {actions.slice(0, 5).map((a) => {
               const z = zones.find((x) => x.id === a.zoneId)
               return (
-                <li key={a.id} className="flex items-center justify-between gap-3 rounded-lg border border-white/5 px-3 py-2 text-sm">
+                <li key={a.id} className="flex items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50/70 px-3 py-2 text-sm">
                   <div>
-                    <p className="font-medium">P{a.priority} · {z?.district}</p>
+                    <p className="font-medium text-gray-900">P{a.priority} · {z?.district}</p>
                     <p className="text-xs text-muted">{a.unit} · ETA {a.etaMin} min</p>
                   </div>
-                  <span className="text-[11px] text-lime">{a.status}</span>
+                  <span className="text-[11px] font-semibold text-emerald-700">{a.status}</span>
                 </li>
               )
             })}

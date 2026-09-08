@@ -9,6 +9,7 @@ import type {
   Village,
   WeatherCell,
 } from '../types'
+import { findNearestEmergencyResources } from './consequenceEngine'
 
 export interface UserLocation {
   name: string
@@ -333,6 +334,60 @@ ${
     }
   }
 
+  // 3.1. Nearest Food Place / Relief Kitchen Inquiries
+  if (q.includes('food') || q.includes('ration') || q.includes('kitchen') || q.includes('meal') || q.includes('eat') || q.includes('nutrition')) {
+    if (userLocation) {
+      const res = findNearestEmergencyResources(userLocation, context.roads)
+      const f = res.foodPlace
+      return {
+        id: `bot-${Date.now()}`,
+        sender: 'bot',
+        text: `🍲 **Nearest Emergency Food & Relief Kitchen for ${userLocation.name}**\n\n• **Facility**: **${f.data.name}** (${f.data.type})\n• **Distance**: **${f.distanceKm} km** (~${f.driveTimeMin} min vehicle / ~${f.walkTimeMin} min walk)\n• **Daily Meal Capacity**: **${f.data.dailyMealCapacity.toLocaleString()} hot meals / day**\n• **Ration Stock**: **${f.data.rationStockStatus} Stock**\n• **Operating Hours**: ${f.data.operatingHours}\n• **In-Charge Officer**: ${f.data.inCharge}\n• **Emergency Supply Contact**: **${f.data.contactNumber}**\n• **Route Access**: ${f.safeRoute}\n\n[Google Maps Route](${f.googleMapsUrl})`,
+        timestamp: new Date().toISOString(),
+        actions: [
+          { label: '🍲 View AI Geohazard Console', type: 'NAVIGATE', payload: '/ai' },
+          { label: '🗺️ Open GIS Map', type: 'NAVIGATE', payload: '/gis' },
+        ],
+      }
+    }
+  }
+
+  // 3.2. Nearest Hospital / Trauma Center / Ambulance Inquiries
+  if (q.includes('hospital') || q.includes('medical') || q.includes('doctor') || q.includes('ambulance') || q.includes('trauma') || q.includes('phc') || q.includes('clinic')) {
+    if (userLocation) {
+      const res = findNearestEmergencyResources(userLocation, context.roads)
+      const h = res.hospital
+      return {
+        id: `bot-${Date.now()}`,
+        sender: 'bot',
+        text: `🏥 **Nearest Emergency Hospital & Trauma Unit for ${userLocation.name}**\n\n• **Facility**: **${h.data.name}** (${h.data.type})\n• **Distance**: **${h.distanceKm} km** (~${h.driveTimeMin} min ambulance / ~${h.walkTimeMin} min walk)\n• **Emergency Beds**: **${h.data.emergencyBeds} Beds** (ICU: ${h.data.icuAvailable ? 'Available' : 'Limited'})\n• **Standby Ambulances**: **${h.data.ambulancesOnStandby} Units**\n• **Oxygen Status**: ${h.data.oxygenCapacity} | Surgeons on Duty: ${h.data.traumaSurgeonsOnDuty}\n• **24/7 Helpline**: **${h.data.emergencyHelpline}**\n• **Corridor Access**: ${h.safeRoute}\n\n[Google Maps Route](${h.googleMapsUrl})`,
+        timestamp: new Date().toISOString(),
+        actions: [
+          { label: '🏥 View AI Geohazard Console', type: 'NAVIGATE', payload: '/ai' },
+          { label: '🚨 Emergency Alerts', type: 'NAVIGATE', payload: '/alerts' },
+        ],
+      }
+    }
+  }
+
+  // 3.3. Nearest Government Vehicle Depot / Heavy Machinery Inquiries
+  if (q.includes('depot') || q.includes('vehicle') || q.includes('machinery') || q.includes('excavator') || q.includes('jcb') || q.includes('bro yard') || q.includes('equipment') || q.includes('truck') || q.includes('bulldozer')) {
+    if (userLocation) {
+      const res = findNearestEmergencyResources(userLocation, context.roads)
+      const d = res.vehicleDepot
+      return {
+        id: `bot-${Date.now()}`,
+        sender: 'bot',
+        text: `🚜 **Nearest Government Machinery & Vehicle Depot for ${userLocation.name}**\n\n• **Facility**: **${d.data.name}**\n• **Agency**: **${d.data.agency}**\n• **Distance**: **${d.distanceKm} km** (~${d.driveTimeMin} min vehicle / ~${Math.round(d.driveTimeMin * 1.35)} min heavy convoy)\n• **Heavy Machinery Ready**: ${d.data.heavyExcavators} Tracked Excavators | ${d.data.jcbBulldozers} JCB Bulldozers\n• **Rescue Fleet**: ${d.data.fourByFourAmbulanceTrucks} 4x4 All-Terrain Trucks | ${d.data.recoveryCranes} Heavy Cranes\n• **Readiness Status**: **${d.data.readinessStatus}**\n• **Dispatch Hotline**: **${d.data.dispatchHotline}** (Commander: ${d.data.commandingOfficer})\n• **Corridor Access**: ${d.safeRoute}\n\n[Google Maps Route](${d.googleMapsUrl})`,
+        timestamp: new Date().toISOString(),
+        actions: [
+          { label: '🚜 View AI Geohazard Console', type: 'NAVIGATE', payload: '/ai' },
+          { label: '🗺️ Open GIS Map', type: 'NAVIGATE', payload: '/gis' },
+        ],
+      }
+    }
+  }
+
   // 4. Highway & Road Corridor Status
   if (q.includes('road') || q.includes('highway') || q.includes('nh-') || q.includes('nh10') || q.includes('nh6') || q.includes('nh37') || q.includes('nh29') || q.includes('traffic') || q.includes('passable') || q.includes('blocked')) {
     const blocked = context.roads.filter((r) => r.status === 'Blocked')
@@ -547,13 +602,13 @@ ${
   return {
     id: `bot-${Date.now()}`,
     sender: 'bot',
-    text: `👋 **Hello! I am Shru, your Bhuraksha SEOC AI Operations Assistant.**\n\nI have complete real-time access to the **National Landslide Early Warning System** across all 8 Northeast states:\n\n• 📍 **Location-Based Risk**: Share your GPS location to get tailored landslide nowcasts, road connectivity, and nearest shelters.\n• 📊 **16 Active High-Risk Zones**: Instant ML risk scores, SHAP explainability, and 6-hour predictive nowcasts.\n• 🛣️ **Strategic Highway Status**: Real-time road passability (NH-10, NH-6, NH-37, Balipara-Tawang) and diversions.\n• 🛰️ **IoT Telemetry**: Rain gauges, InSAR satellites, GNSS displacement, and piezometers.\n• 🌦️ **IMD Doppler Bulletins & Alerts**: Multi-lingual emergency broadcasts.\n\n*What would you like to explore or check with Shru right now?*`,
+    text: `🛰️ **BHURAKSHA SEOC Tactical Operations Console**\n\nDirect real-time telemetry access across all 8 North Eastern states:\n\n• 📍 **Location-Based Risk**: Share or select your GPS sector to get slope stability assessments, road connectivity, and designated DDMA shelters.\n• 📊 **16 Active High-Risk Sectors**: Real-time physical risk scores, feature explainability, and 6-hour predictive nowcasts.\n• 🛣️ **Strategic Highway Status**: Real-time road passability (NH-10, NH-6, NH-37, Balipara-Tawang) and bypass diversions.\n• 🛰️ **IoT Slope Telemetry**: AWS rain gauges, InSAR satellites, GNSS displacement, and piezometers.\n• 🌦️ **IMD Doppler Bulletins & Alerts**: Multi-lingual emergency broadcasts.\n\n*Select a command or query telemetry below:*`,
     timestamp: new Date().toISOString(),
     actions: [
       { label: '📍 Check Risk Near My Location', type: 'SET_LOCATION', payload: 'Gangtok, Sikkim' },
       { label: '🛣️ Check Strategic Road Passability', type: 'NAVIGATE', payload: '/gis' },
       { label: `⚠️ View ${criticalZones.length} Critical Alert Zones`, type: 'NAVIGATE', payload: '/alerts' },
-      { label: '🧠 Explain AI Gradient-Boosted Model', type: 'NAVIGATE', payload: '/ai' },
+      { label: '🧠 BHOOMI Consequence Engine', type: 'NAVIGATE', payload: '/ai' },
     ],
   }
 }

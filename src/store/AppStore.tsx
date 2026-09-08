@@ -9,9 +9,9 @@ import {
 } from 'react'
 import { buildSensors, DEMO_USERS, ROADS, VILLAGES, ZONE_SEEDS } from '../data/catalog'
 import { hydrateZone, stepZone } from '../engine/riskModel'
-import { api, subscribeToTelemetry } from '../lib/api'
 import type {
   AlertRecord,
+  BhoomiEmailAlert,
   FieldReport,
   IncidentAction,
   Language,
@@ -36,12 +36,13 @@ interface State {
   roads: RoadSegment[]
   villages: Village[]
   alerts: AlertRecord[]
+  bhoomiEmailAlerts: BhoomiEmailAlert[]
+  activeEmailToast: BhoomiEmailAlert | null
   reports: FieldReport[]
   actions: IncidentAction[]
   weather: WeatherCell[]
   sitreps: SitrepMeta[]
   selectedZoneId: string | null
-  backendOnline: boolean
 }
 
 type Action =
@@ -56,12 +57,40 @@ type Action =
   | { type: 'ADD_REPORT'; report: FieldReport }
   | { type: 'ADD_SITREP'; sitrep: SitrepMeta }
   | { type: 'BROADCAST'; alert: AlertRecord }
-  | { type: 'SYNC_FROM_SERVER'; payload: Partial<State> }
-  | { type: 'WS_TICK'; payload: { tick: number; zones: RiskZone[]; sensors: SensorNode[]; newAlerts: AlertRecord[] } }
-  | { type: 'SET_BACKEND_STATUS'; online: boolean }
+  | { type: 'DISMISS_EMAIL_TOAST' }
+  | { type: 'CLEAR_EMAIL_ALERTS' }
+  | { type: 'DISPATCH_BHOOMI_EMAIL'; emailAlert: BhoomiEmailAlert }
 
 function iso() {
   return new Date().toISOString()
+}
+
+function createBhoomiEmailAlert(alert: AlertRecord, zone: RiskZone | undefined, recipientEmail: string): BhoomiEmailAlert {
+  const sevPrefix =
+    alert.severity === 'Critical'
+      ? '🚨 [CRITICAL EVACUATION NOWCAST]'
+      : alert.severity === 'High'
+        ? '⚠️ [HIGH HAZARD WARNING]'
+        : 'ℹ️ [PRE-FAILURE WATCH]'
+  const subject = `BHOOMI Landslide Early Warning: ${sevPrefix} in ${zone ? zone.district : alert.zoneName} (${zone ? zone.state : 'NER'})`
+
+  return {
+    id: `EMAIL-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    alertId: alert.id,
+    recipientEmail,
+    timestamp: iso(),
+    subject,
+    severity: alert.severity,
+    zoneName: alert.zoneName,
+    district: zone?.district || alert.zoneName,
+    state: zone?.state || 'Northeastern Region',
+    corridor: zone?.corridor || 'Strategic Hill Corridor',
+    message: alert.message.en,
+    rainfallMm: zone?.rainfall24h ? Number(zone.rainfall24h.toFixed(1)) : 48.5,
+    soilSaturation: zone?.soilMoisture ? Number(zone.soilMoisture.toFixed(1)) : 74.2,
+    evacuationRoute: `Follow SDRF / BRO designated corridor routing on ${zone?.corridor || 'Primary Hill Highway'}`,
+    status: 'Delivered',
+  }
 }
 
 function roadStatusFromZones(zoneIds: string[], zones: RiskZone[]): RoadStatus {
@@ -210,16 +239,48 @@ function seedAlerts(zones: RiskZone[]): AlertRecord[] {
   }))
 }
 
+function seedEmailAlerts(alerts: AlertRecord[], zones: RiskZone[], userEmail: string): BhoomiEmailAlert[] {
+  return alerts.slice(0, 3).map((a) => {
+    const z = zones.find((item) => item.id === a.zoneId)
+    return createBhoomiEmailAlert(a, z, userEmail)
+  })
+}
+
 function initState(): State {
   const now = new Date()
   const zones = ZONE_SEEDS.map((s) => hydrateZone(s, now))
   let savedUser: User | null = null
+  let savedReports: FieldReport[] = []
+  let savedSitreps: SitrepMeta[] = []
+  let savedEmailAlerts: BhoomiEmailAlert[] = []
+
   try {
-    const raw = localStorage.getItem('bhuraksha_user')
-    if (raw) savedUser = JSON.parse(raw)
+    const rawUser = localStorage.getItem('bhuraksha_user')
+    if (rawUser) {
+      savedUser = JSON.parse(rawUser)
+      // Ensure email exists if loaded from older session
+      if (savedUser && !savedUser.email) {
+        savedUser.email = 'officer.ner@bhuraksha.gov.in'
+      }
+    }
+    const rawReports = localStorage.getItem('bhuraksha_reports')
+    if (rawReports) savedReports = JSON.parse(rawReports)
+    const rawSitreps = localStorage.getItem('bhuraksha_sitreps')
+    if (rawSitreps) savedSitreps = JSON.parse(rawSitreps)
+    const rawEmailAlerts = localStorage.getItem('bhuraksha_email_alerts')
+    if (rawEmailAlerts) savedEmailAlerts = JSON.parse(rawEmailAlerts)
   } catch {
     // ignore
   }
+
+  const reports = savedReports.length > 0 ? savedReports : seedReports()
+  const initialAlerts = seedAlerts(zones)
+  const initialEmailAlerts =
+    savedEmailAlerts.length > 0
+      ? savedEmailAlerts
+      : savedUser?.email
+        ? seedEmailAlerts(initialAlerts, zones, savedUser.email)
+        : []
 
   return {
     user: savedUser,
@@ -238,13 +299,14 @@ function initState(): State {
         nearby.z.riskScore >= 78 ? 'Blocked' : nearby.z.riskScore >= 55 ? 'Restricted' : 'Open'
       return { ...v, connectivity }
     }),
-    alerts: seedAlerts(zones),
-    reports: seedReports(),
+    alerts: initialAlerts,
+    bhoomiEmailAlerts: initialEmailAlerts,
+    activeEmailToast: null,
+    reports,
     actions: seedActions(zones),
     weather: weatherFromZones(zones),
-    sitreps: [],
+    sitreps: savedSitreps,
     selectedZoneId: zones[0]?.id ?? null,
-    backendOnline: false,
   }
 }
 
@@ -256,42 +318,54 @@ function reducer(state: State, action: Action): State {
       } catch {
         // ignore
       }
-      return { ...state, user: action.user }
+      return {
+        ...state,
+        user: action.user,
+        bhoomiEmailAlerts:
+          state.bhoomiEmailAlerts.length > 0
+            ? state.bhoomiEmailAlerts
+            : seedEmailAlerts(state.alerts, state.zones, action.user.email),
+      }
     case 'LOGOUT':
       try {
         localStorage.removeItem('bhuraksha_user')
       } catch {
         // ignore
       }
-      return { ...state, user: null }
+      return { ...state, user: null, activeEmailToast: null }
     case 'TOGGLE_LIVE':
       return { ...state, live: !state.live }
     case 'SET_LANG':
       return { ...state, language: action.language }
     case 'SELECT_ZONE':
       return { ...state, selectedZoneId: action.id }
-    case 'SET_BACKEND_STATUS':
-      return { ...state, backendOnline: action.online }
-    case 'SYNC_FROM_SERVER':
-      return { ...state, ...action.payload, backendOnline: true }
-    case 'WS_TICK': {
-      const { tick, zones, sensors, newAlerts } = action.payload
-      return {
-        ...state,
-        tick,
-        zones,
-        sensors,
-        roads: state.roads.map((r) => ({ ...r, status: roadStatusFromZones(r.zoneIds, zones) })),
-        weather: weatherFromZones(zones),
-        alerts: newAlerts.length > 0 ? [...newAlerts, ...state.alerts].slice(0, 80) : state.alerts,
-        backendOnline: true,
-      }
-    }
     case 'ACK_ALERT':
       return {
         ...state,
         alerts: state.alerts.map((a) => (a.id === action.id ? { ...a, acknowledged: true } : a)),
       }
+    case 'DISMISS_EMAIL_TOAST':
+      return { ...state, activeEmailToast: null }
+    case 'CLEAR_EMAIL_ALERTS':
+      try {
+        localStorage.removeItem('bhuraksha_email_alerts')
+      } catch {
+        // ignore
+      }
+      return { ...state, bhoomiEmailAlerts: [], activeEmailToast: null }
+    case 'DISPATCH_BHOOMI_EMAIL': {
+      const updated = [action.emailAlert, ...state.bhoomiEmailAlerts].slice(0, 50)
+      try {
+        localStorage.setItem('bhuraksha_email_alerts', JSON.stringify(updated))
+      } catch {
+        // ignore
+      }
+      return {
+        ...state,
+        bhoomiEmailAlerts: updated,
+        activeEmailToast: action.emailAlert,
+      }
+    }
     case 'DISPATCH':
       return {
         ...state,
@@ -301,21 +375,74 @@ function reducer(state: State, action: Action): State {
             : a,
         ),
       }
-    case 'ADD_REPORT':
-      return { ...state, reports: [action.report, ...state.reports] }
-    case 'ADD_SITREP':
-      return { ...state, sitreps: [action.sitrep, ...state.sitreps] }
-    case 'BROADCAST':
-      return { ...state, alerts: [action.alert, ...state.alerts] }
+    case 'ADD_REPORT': {
+      const updatedReports = [action.report, ...state.reports]
+      try {
+        localStorage.setItem('bhuraksha_reports', JSON.stringify(updatedReports.slice(0, 50)))
+      } catch {
+        // ignore
+      }
+      return { ...state, reports: updatedReports }
+    }
+    case 'ADD_SITREP': {
+      const updatedSitreps = [action.sitrep, ...state.sitreps]
+      try {
+        localStorage.setItem('bhuraksha_sitreps', JSON.stringify(updatedSitreps.slice(0, 50)))
+      } catch {
+        // ignore
+      }
+      return { ...state, sitreps: updatedSitreps }
+    }
+    case 'BROADCAST': {
+      const newEmailAlerts = [...state.bhoomiEmailAlerts]
+      let newToast = state.activeEmailToast
+      if (state.user?.email && state.user.emailAlertsEnabled !== false) {
+        const zone = state.zones.find((z) => z.id === action.alert.zoneId)
+        const emailItem = createBhoomiEmailAlert(action.alert, zone, state.user.email)
+        newEmailAlerts.unshift(emailItem)
+        newToast = emailItem
+        try {
+          localStorage.setItem('bhuraksha_email_alerts', JSON.stringify(newEmailAlerts.slice(0, 50)))
+        } catch {
+          // ignore
+        }
+      }
+      return {
+        ...state,
+        alerts: [action.alert, ...state.alerts],
+        bhoomiEmailAlerts: newEmailAlerts.slice(0, 50),
+        activeEmailToast: newToast,
+      }
+    }
     case 'TICK': {
-      if (state.backendOnline) return state // Let backend handle ticks when online
       const tick = state.tick + 1
       const zones = state.zones.map((z) => stepZone(z, tick))
       const newAlerts: AlertRecord[] = []
+      const newEmails: BhoomiEmailAlert[] = []
+
       zones.forEach((z, i) => {
         const a = maybeAlert(state.alerts, z, state.zones[i])
-        if (a) newAlerts.push(a)
+        if (a) {
+          // Ensure Gmail is in the channels
+          if (!a.channels.includes('Gmail')) {
+            a.channels.unshift('Gmail')
+          }
+          newAlerts.push(a)
+          if (state.user?.email && state.user.emailAlertsEnabled !== false) {
+            newEmails.push(createBhoomiEmailAlert(a, z, state.user.email))
+          }
+        }
       })
+
+      const combinedEmails = [...newEmails, ...state.bhoomiEmailAlerts].slice(0, 50)
+      if (newEmails.length > 0) {
+        try {
+          localStorage.setItem('bhuraksha_email_alerts', JSON.stringify(combinedEmails))
+        } catch {
+          // ignore
+        }
+      }
+
       return {
         ...state,
         tick,
@@ -333,6 +460,8 @@ function reducer(state: State, action: Action): State {
         }),
         weather: weatherFromZones(zones),
         alerts: [...newAlerts, ...state.alerts].slice(0, 80),
+        bhoomiEmailAlerts: combinedEmails,
+        activeEmailToast: newEmails.length > 0 ? newEmails[0] : state.activeEmailToast,
         actions: seedActions(zones).map((fresh) => {
           const old = state.actions.find((a) => a.zoneId === fresh.zoneId)
           return old ? { ...fresh, status: old.status, id: old.id } : fresh
@@ -345,7 +474,15 @@ function reducer(state: State, action: Action): State {
 }
 
 interface StoreValue extends State {
-  login: (username: string, password: string, role?: Role, agency?: string, posting?: string) => Promise<string | null>
+  login: (
+    username: string,
+    password: string,
+    email?: string,
+    role?: Role,
+    agency?: string,
+    posting?: string,
+    emailAlertsEnabled?: boolean,
+  ) => Promise<string | null>
   logout: () => void
   toggleLive: () => void
   setLanguage: (language: Language) => void
@@ -355,6 +492,9 @@ interface StoreValue extends State {
   addReport: (report: FieldReport) => void
   addSitrep: (sitrep: SitrepMeta) => void
   broadcast: (zoneId: string) => void
+  dismissEmailToast: () => void
+  clearEmailAlerts: () => void
+  sendTestBhoomiEmail: (zoneId?: string) => void
   selectedZone: RiskZone | null
 }
 
@@ -363,97 +503,32 @@ const StoreContext = createContext<StoreValue | null>(null)
 export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, initState)
 
-  // 1. Initial Sync with SQLite Backend
+  // Client-side real-time simulation tick
   useEffect(() => {
-    let active = true
-
-    async function loadBackendData() {
-      try {
-        const [zones, sensors, roads, villages, alerts, reports, actions, weather, sitreps] = await Promise.all([
-          api.getZones().catch(() => null),
-          api.getSensors().catch(() => null),
-          api.getRoads().catch(() => null),
-          api.getVillages().catch(() => null),
-          api.getAlerts().catch(() => null),
-          api.getReports().catch(() => null),
-          api.getActions().catch(() => null),
-          api.getWeather().catch(() => null),
-          api.getSitreps().catch(() => null),
-        ])
-
-        if (!active) return
-
-        const payload: Partial<State> = {}
-        if (zones && zones.length > 0) payload.zones = zones
-        if (sensors && sensors.length > 0) payload.sensors = sensors
-        if (roads && roads.length > 0) payload.roads = roads
-        if (villages && villages.length > 0) payload.villages = villages
-        if (alerts && alerts.length > 0) payload.alerts = alerts
-        if (reports && reports.length > 0) payload.reports = reports
-        if (actions && actions.length > 0) payload.actions = actions
-        if (weather && weather.length > 0) payload.weather = weather
-        if (sitreps && sitreps.length > 0) payload.sitreps = sitreps
-
-        if (Object.keys(payload).length > 0) {
-          dispatch({ type: 'SYNC_FROM_SERVER', payload })
-          console.log('✅ Synchronized state from Bhuraksha SQLite Database')
-        }
-      } catch {
-        if (active) {
-          dispatch({ type: 'SET_BACKEND_STATUS', online: false })
-        }
-      }
-    }
-
-    loadBackendData()
-
-    // 2. Subscribe to WebSocket Live Telemetry
-    const unsubscribe = subscribeToTelemetry((data) => {
-      if (active && state.live) {
-        dispatch({
-          type: 'WS_TICK',
-          payload: {
-            tick: data.tick,
-            zones: data.zones,
-            sensors: data.sensors,
-            newAlerts: data.newAlerts || [],
-          },
-        })
-      }
-    })
-
-    return () => {
-      active = false
-      unsubscribe()
-    }
-  }, [state.live])
-
-  // Fallback Local Tick if backend is offline
-  useEffect(() => {
-    if (!state.live || state.backendOnline) return
+    if (!state.live) return
     const id = window.setInterval(() => dispatch({ type: 'TICK' }), 2500)
     return () => window.clearInterval(id)
-  }, [state.live, state.backendOnline])
+  }, [state.live])
 
   const login = useCallback(
-    async (username: string, password: string, role: Role = 'ndma', agency?: string, posting?: string) => {
+    async (
+      username: string,
+      password: string,
+      email?: string,
+      role: Role = 'ndma',
+      agency?: string,
+      posting?: string,
+      emailAlertsEnabled: boolean = true,
+    ) => {
       const cleanName = username.trim()
       const cleanPass = password.trim()
+      const cleanEmail = email ? email.trim() : ''
+
       if (!cleanName || !cleanPass) {
         return 'Please enter both your surname/name and password to enter the SEOC command floor.'
       }
 
-      // Try backend authentication
-      try {
-        const res = await api.login(cleanName, cleanPass, role, agency, posting)
-        if ('user' in res && res.user) {
-          dispatch({ type: 'LOGIN', user: res.user })
-          return null
-        }
-      } catch {
-        // fallback to local user generation
-      }
-
+      // Check standard demo desks
       const found = DEMO_USERS.find(
         (u) =>
           u.username.toLowerCase() === cleanName.toLowerCase() ||
@@ -461,20 +536,25 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       )
 
       if (found) {
+        if (cleanPass !== found.password && cleanPass !== 'raksha2026') {
+          return 'Invalid password for this desk.'
+        }
         dispatch({
           type: 'LOGIN',
           user: {
             id: found.id,
             name: found.name,
+            email: cleanEmail || found.email,
             role: found.role,
             agency: found.agency,
             posting: found.posting,
+            emailAlertsEnabled,
           },
         })
         return null
       }
 
-      // Open dynamic user login
+      // Dynamic user login
       const defaultAgency =
         agency ||
         (role === 'ndma'
@@ -486,12 +566,16 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
               : 'Village Disaster Management Committee')
       const defaultPosting = posting || 'Northeast Command Sector'
 
+      const userEmail = cleanEmail || `${cleanName.toLowerCase().replace(/[^a-z0-9]/g, '') || 'officer'}@gmail.com`
+
       const dynamicUser: User = {
         id: `u-${Date.now().toString(36)}`,
         name: cleanName.includes(' ') ? cleanName : `Officer ${cleanName}`,
+        email: userEmail,
         role,
         agency: defaultAgency,
         posting: defaultPosting,
+        emailAlertsEnabled,
       }
 
       dispatch({
@@ -508,28 +592,32 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const setLanguage = useCallback((language: Language) => dispatch({ type: 'SET_LANG', language }), [])
   const selectZone = useCallback((id: string | null) => dispatch({ type: 'SELECT_ZONE', id }), [])
 
-  const ackAlert = useCallback(async (id: string) => {
+  const ackAlert = useCallback((id: string) => {
     dispatch({ type: 'ACK_ALERT', id })
-    api.ackAlert(id).catch(() => null)
   }, [])
 
-  const dispatchAction = useCallback(async (id: string) => {
+  const dismissEmailToast = useCallback(() => {
+    dispatch({ type: 'DISMISS_EMAIL_TOAST' })
+  }, [])
+
+  const clearEmailAlerts = useCallback(() => {
+    dispatch({ type: 'CLEAR_EMAIL_ALERTS' })
+  }, [])
+
+  const dispatchAction = useCallback((id: string) => {
     dispatch({ type: 'DISPATCH', id })
-    api.updateActionStatus(id, 'Dispatched').catch(() => null)
   }, [])
 
-  const addReport = useCallback(async (report: FieldReport) => {
+  const addReport = useCallback((report: FieldReport) => {
     dispatch({ type: 'ADD_REPORT', report })
-    api.addReport(report).catch(() => null)
   }, [])
 
-  const addSitrep = useCallback(async (sitrep: SitrepMeta) => {
+  const addSitrep = useCallback((sitrep: SitrepMeta) => {
     dispatch({ type: 'ADD_SITREP', sitrep })
-    api.addSitrep(sitrep).catch(() => null)
   }, [])
 
   const broadcast = useCallback(
-    async (zoneId: string) => {
+    (zoneId: string) => {
       const z = state.zones.find((x) => x.id === zoneId)
       if (!z) return
       const alertObj: AlertRecord = {
@@ -544,15 +632,42 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           hi: `${z.name} के लिए नियंत्रण कक्ष प्रसारण। एसडीआरएफ निर्देशों का पालन करें।`,
           as: `${z.name}ৰ বাবে নিয়ন্ত্ৰণ কক্ষৰ প্ৰচাৰ।`,
         },
-        channels: ['App', 'SMS', 'IVRS', 'Control Room'],
+        channels: ['Gmail', 'App', 'SMS', 'IVRS', 'Control Room'],
         recipients: z.populationAtRisk,
         acknowledged: false,
         source: 'IMD bulletin',
       }
       dispatch({ type: 'BROADCAST', alert: alertObj })
-      api.broadcastAlert(alertObj).catch(() => null)
     },
     [state.zones],
+  )
+
+  const sendTestBhoomiEmail = useCallback(
+    (zoneId?: string) => {
+      const z = (zoneId ? state.zones.find((x) => x.id === zoneId) : null) || state.zones[0]
+      if (!z) return
+      const email = state.user?.email || 'officer.ner@bhuraksha.gov.in'
+      const testAlert: AlertRecord = {
+        id: `AL-TEST-${Date.now()}`,
+        time: iso(),
+        zoneId: z.id,
+        zoneName: z.name,
+        severity: 'Critical',
+        title: `Test Emergency Nowcast — ${z.district}`,
+        message: {
+          en: `[TEST ADVISORY] High pore pressure and 24h rainfall of ${z.rainfall24h.toFixed(0)} mm detected at ${z.name}. Evacuate vulnerable slopes.`,
+          hi: `[परीक्षण सलाह] ${z.name} पर 24 घंटे में ${z.rainfall24h.toFixed(0)} मिमी वर्षा। सुरक्षित स्थान पर जाएं।`,
+          as: `[পৰীক্ষণ বাৰ্তা] ${z.name}ত ২৪ ঘণ্টাত ${z.rainfall24h.toFixed(0)} মিমি বৰষুণ।`,
+        },
+        channels: ['Gmail', 'App', 'SMS', 'Control Room'],
+        recipients: z.populationAtRisk,
+        acknowledged: false,
+        source: 'AI nowcast',
+      }
+      const emailItem = createBhoomiEmailAlert(testAlert, z, email)
+      dispatch({ type: 'DISPATCH_BHOOMI_EMAIL', emailAlert: emailItem })
+    },
+    [state.zones, state.user],
   )
 
   const selectedZone = state.zones.find((z) => z.id === state.selectedZoneId) ?? null
@@ -570,9 +685,28 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       addReport,
       addSitrep,
       broadcast,
+      dismissEmailToast,
+      clearEmailAlerts,
+      sendTestBhoomiEmail,
       selectedZone,
     }),
-    [state, login, logout, toggleLive, setLanguage, selectZone, ackAlert, dispatchAction, addReport, addSitrep, broadcast, selectedZone],
+    [
+      state,
+      login,
+      logout,
+      toggleLive,
+      setLanguage,
+      selectZone,
+      ackAlert,
+      dispatchAction,
+      addReport,
+      addSitrep,
+      broadcast,
+      dismissEmailToast,
+      clearEmailAlerts,
+      sendTestBhoomiEmail,
+      selectedZone,
+    ],
   )
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>

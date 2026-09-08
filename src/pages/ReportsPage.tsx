@@ -95,29 +95,29 @@ export function ReportsPage() {
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="Compose">
-          <label className="block text-xs text-muted">
+          <label className="block text-xs font-semibold text-muted uppercase">
             Title
-            <input className="mt-1 w-full rounded border border-lime/20 bg-command px-2 py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-xs outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600" value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
-          <label className="mt-3 block text-xs text-muted">
+          <label className="mt-3 block text-xs font-semibold text-muted uppercase">
             Duty officer note
-            <textarea className="mt-1 min-h-28 w-full rounded border border-lime/20 bg-command px-2 py-2 text-sm" value={note} onChange={(e) => setNote(e.target.value)} />
+            <textarea className="mt-1 min-h-28 w-full rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-900 shadow-xs outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600" value={note} onChange={(e) => setNote(e.target.value)} />
           </label>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" onClick={downloadPdf} className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-command">
+            <button type="button" onClick={downloadPdf} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition cursor-pointer">
               Generate PDF
             </button>
-            <button type="button" onClick={downloadTxt} className="rounded-lg border border-lime/30 px-4 py-2 text-sm text-lime">
+            <button type="button" onClick={downloadTxt} className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-50 transition cursor-pointer">
               Download TXT
             </button>
-            <button type="button" onClick={() => window.print()} className="rounded-lg border border-white/20 px-4 py-2 text-sm">
+            <button type="button" onClick={() => window.print()} className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-50 transition cursor-pointer">
               Print preview
             </button>
           </div>
-          {flash ? <p className="mt-3 text-sm text-lime">{flash}</p> : null}
+          {flash ? <p className="mt-3 text-sm font-semibold text-emerald-700">{flash}</p> : null}
         </Panel>
         <Panel title="Live brief preview">
-          <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap font-mono text-[11px] leading-5 text-muted">{buildBody()}</pre>
+          <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap font-mono text-[11px] leading-5 text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-200">{buildBody()}</pre>
         </Panel>
       </div>
       <Panel title="Generated this session">
@@ -126,8 +126,8 @@ export function ReportsPage() {
         ) : (
           <ul className="space-y-2 text-sm">
             {sitreps.map((s) => (
-              <li key={s.id} className="flex justify-between gap-2 border-b border-white/5 pb-2">
-                <span>{s.title}</span>
+              <li key={s.id} className="flex justify-between gap-2 border-b border-gray-100 pb-2 text-gray-900">
+                <span className="font-medium">{s.title}</span>
                 <span className="font-mono text-[11px] text-muted">
                   {s.id} · {fmtTime(s.generatedAt)} · {s.author}
                 </span>

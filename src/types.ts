@@ -1,15 +1,35 @@
 export type Role = 'ndma' | 'district' | 'field' | 'citizen'
 export type Severity = 'Low' | 'Moderate' | 'High' | 'Critical'
 export type RoadStatus = 'Open' | 'Restricted' | 'Blocked'
-export type AlertChannel = 'App' | 'SMS' | 'IVRS' | 'Control Room'
+export type AlertChannel = 'App' | 'SMS' | 'IVRS' | 'Control Room' | 'Gmail'
 export type Language = 'en' | 'hi' | 'as'
 
 export interface User {
   id: string
   name: string
+  email: string
   role: Role
   agency: string
   posting: string
+  emailAlertsEnabled?: boolean
+}
+
+export interface BhoomiEmailAlert {
+  id: string
+  alertId: string
+  recipientEmail: string
+  timestamp: string
+  subject: string
+  severity: Severity
+  zoneName: string
+  district: string
+  state: string
+  corridor: string
+  message: string
+  rainfallMm: number
+  soilSaturation: number
+  evacuationRoute?: string
+  status: 'Delivered' | 'Sending'
 }
 
 export interface FeatureContribution {
@@ -103,6 +123,9 @@ export interface FieldReport {
   zoneId: string
   lat: number
   lng: number
+  accuracyMeters?: number
+  altitudeM?: number
+  locationName?: string
   category: 'Slope crack' | 'Debris on road' | 'Blocked drain' | 'Building tilt' | 'River cut'
   note: string
   photoName: string
@@ -136,3 +159,69 @@ export interface SitrepMeta {
   author: string
   title: string
 }
+
+export interface EmergencyFoodPlace {
+  id: string
+  name: string
+  type: 'Community Relief Kitchen' | 'Ration Distribution Depot' | 'Red Cross Food Camp' | 'DDMA Food Bank'
+  district: string
+  state: string
+  lat: number
+  lng: number
+  dailyMealCapacity: number
+  rationStockStatus: 'Abundant' | 'Moderate' | 'Critical'
+  operatingHours: string
+  contactNumber: string
+  inCharge: string
+}
+
+export interface EmergencyHospital {
+  id: string
+  name: string
+  type: 'Multispeciality Trauma Hospital' | 'Civil District Hospital' | 'Primary Health Centre (PHC)' | 'Community Health Centre (CHC)'
+  district: string
+  state: string
+  lat: number
+  lng: number
+  emergencyBeds: number
+  icuAvailable: boolean
+  oxygenCapacity: '100% Full' | 'Adequate' | 'Limited'
+  ambulancesOnStandby: number
+  traumaSurgeonsOnDuty: number
+  emergencyHelpline: string
+  bloodBankAvailable: boolean
+}
+
+export interface GovernmentVehicleDepot {
+  id: string
+  name: string
+  agency: 'Border Roads Organisation (BRO)' | 'State PWD Heavy Machinery' | 'SDRF / NDRF Logistics Fleet' | 'DDMA Disaster Quick Response Fleet'
+  district: string
+  state: string
+  lat: number
+  lng: number
+  heavyExcavators: number
+  jcbBulldozers: number
+  fourByFourAmbulanceTrucks: number
+  recoveryCranes: number
+  readinessStatus: 'Immediate Standby (24/7)' | 'Dispatched / Active' | 'Standby'
+  dispatchHotline: string
+  commandingOfficer: string
+}
+
+export interface NearestResourceItem<T> {
+  data: T
+  distanceKm: number
+  driveTimeMin: number
+  walkTimeMin: number
+  safeRoute: string
+  isRoutePassable: boolean
+  googleMapsUrl: string
+}
+
+export interface NearestEmergencyResources {
+  foodPlace: NearestResourceItem<EmergencyFoodPlace>
+  hospital: NearestResourceItem<EmergencyHospital>
+  vehicleDepot: NearestResourceItem<GovernmentVehicleDepot>
+}
+

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Bot,
   ChevronDown,
   Compass,
   LocateFixed,
@@ -10,8 +9,8 @@ import {
   Mic,
   MicOff,
   Minimize2,
+  Radio,
   Send,
-  Sparkles,
   Volume2,
   VolumeX,
   X,
@@ -71,7 +70,7 @@ export function AiChatbot() {
     {
       id: 'init-1',
       sender: 'bot',
-      text: `👋 **Welcome to Shru — Your BHURAKSHA AI Operations Assistant.**\n\nI provide real-time landslide risk assessments, highway passability, sensor telemetry, and emergency shelter guidance tailored directly to your location.\n\n📍 Current Location set to: **${userLocation ? userLocation.name : 'Not set'}**`,
+      text: `🛰️ **BHURAKSHA SEOC Tactical Operations Console**\n\nReal-time telemetry interface for North East landslide hazard zones, strategic highway passability, slope sensor feeds, and DDMA designated shelter networks.\n\n📍 Current Active Sector: **${userLocation ? userLocation.name : 'Not set'}**`,
       timestamp: new Date().toISOString(),
       actions: [
         { label: '🛡️ Assess Risk at My Location', type: 'NAVIGATE', payload: 'PROXIMITY_CHECK' },
@@ -325,64 +324,64 @@ export function AiChatbot() {
 
   return (
     <>
-      {/* Floating Radar AI Assistant Launcher Button */}
+      {/* Floating Tactical Console Launcher Button */}
       {!isOpen && (
-        <aside aria-label="Shru AI Assistant Quick Launch" className="fixed bottom-14 right-3 z-40 sm:bottom-16 sm:right-6">
+        <aside aria-label="SEOC Tactical Operations Quick Launch" className="fixed bottom-14 right-3 z-40 sm:bottom-16 sm:right-6">
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2 rounded-full border border-lime/50 bg-[#071914]/90 px-3.5 py-2.5 sm:px-4 sm:py-2.5 text-ink shadow-[0_0_25px_rgba(156,204,101,0.35)] backdrop-blur-md transition-all hover:scale-105 hover:border-lime hover:bg-forest hover:shadow-[0_0_35px_rgba(156,204,101,0.6)]"
-            title="Open Shru AI Assistant"
-            aria-label="Open Shru AI Assistant"
+            className="group relative flex items-center gap-2 rounded-full border border-emerald-500 bg-[#071914] px-3.5 py-2.5 sm:px-4 sm:py-2.5 text-white shadow-[0_4px_25px_rgba(5,150,105,0.4)] backdrop-blur-md transition-all hover:scale-105 hover:border-emerald-400 hover:bg-[#0b241c] hover:shadow-[0_4px_35px_rgba(5,150,105,0.6)] cursor-pointer"
+            title="Open SEOC Duty Desk"
+            aria-label="Open SEOC Duty Desk"
           >
             {/* Pulsing radar rings */}
-            <span className="absolute -inset-0.5 animate-ping rounded-full bg-lime/20 duration-1000" />
-            <span className="relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-lime/20 text-lime group-hover:bg-lime group-hover:text-command transition">
-              <Bot size={18} className="animate-pulse" />
+            <span className="absolute -inset-0.5 animate-ping rounded-full bg-emerald-500/20 duration-1000" />
+            <span className="relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-emerald-600 text-white group-hover:bg-emerald-500 transition shadow-sm">
+              <Radio size={17} className="animate-pulse" />
             </span>
             <div className="text-left">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold tracking-wider text-lime uppercase">Shru AI</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-lime pulse-dot" />
+                <span className="text-xs font-bold tracking-wider text-emerald-400 uppercase">SEOC Desk</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
               </div>
-              <p className="text-[10px] text-muted font-mono">
-                {userLocation ? userLocation.name.split(',')[0] : 'Ask Shru'}
+              <p className="text-[10px] text-gray-300 font-mono">
+                {userLocation ? userLocation.name.split(',')[0] : 'Telemetry Console'}
               </p>
             </div>
-            <Sparkles size={15} className="text-lime/70 transition group-hover:rotate-12 group-hover:text-lime" />
+            <Compass size={15} className="text-emerald-400 transition group-hover:rotate-45" />
           </button>
         </aside>
       )}
 
-      {/* Main Interactive AI Assistant Window */}
+      {/* Main Interactive SEOC Console Window */}
       {isOpen && (
         <aside
-          aria-label="Shru AI Assistant Window"
-          className={`fixed bottom-14 right-2 z-50 flex flex-col rounded-2xl border border-lime/30 bg-[#061410]/95 shadow-[0_12px_45px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-all duration-300 sm:bottom-16 sm:right-6 ${
+          aria-label="SEOC Duty Desk Window"
+          className={`fixed bottom-14 right-2 z-50 flex flex-col rounded-2xl border border-emerald-500/40 bg-[#061410] shadow-[0_12px_45px_rgba(0,0,0,0.85)] text-white backdrop-blur-xl transition-all duration-300 sm:bottom-16 sm:right-6 ${
             isExpanded
               ? 'h-[70vh] max-h-[76vh] w-[95vw] sm:w-[540px] lg:w-[600px]'
               : 'h-[440px] sm:h-[470px] max-h-[68vh] w-[94vw] sm:w-[370px] md:w-[380px]'
           }`}
         >
           {/* Header Bar */}
-          <div className="flex items-center justify-between border-b border-lime/20 bg-[#081b15]/95 px-3.5 py-2.5 rounded-t-2xl">
+          <div className="flex items-center justify-between border-b border-emerald-500/20 bg-[#081b15] px-3.5 py-2.5 rounded-t-2xl">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-lime/20 border border-lime/40 text-lime shadow-md shadow-lime/10">
-                <Bot size={18} />
-                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-lime pulse-dot border border-command" />
+              <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-600 border border-emerald-400 text-white shadow-md">
+                <Radio size={17} />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-bold tracking-wider text-lime uppercase">SHRU AI</h3>
-                  <span className="rounded bg-lime/15 px-1.5 py-0.2 font-mono text-[9px] font-semibold text-lime border border-lime/30">
+                  <h3 className="text-sm font-bold tracking-wider text-emerald-400 uppercase">SEOC DUTY DESK</h3>
+                  <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 font-mono text-[9px] font-semibold text-emerald-300 border border-emerald-500/40">
                     LIVE OPS
                   </span>
                 </div>
-                <p className="text-[10px] text-muted">SEOC Operational Assistant</p>
+                <p className="text-[10px] text-gray-300">Tactical Geohazard Telemetry</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1 text-muted">
+            <div className="flex items-center gap-1 text-gray-300">
               {/* Text-to-speech toggle */}
               <button
                 type="button"
@@ -392,8 +391,8 @@ export function AiChatbot() {
                     window.speechSynthesis.cancel()
                   }
                 }}
-                className={`rounded-lg p-1.5 transition ${
-                  speechEnabled ? 'text-lime bg-lime/15 border border-lime/30' : 'hover:bg-white/5 hover:text-ink'
+                className={`rounded-lg p-1.5 transition cursor-pointer ${
+                  speechEnabled ? 'text-emerald-300 bg-emerald-500/20 border border-emerald-400' : 'hover:bg-white/10 hover:text-white'
                 }`}
                 title={speechEnabled ? 'Voice Reader On (Mute)' : 'Voice Reader Off (Enable audio narration)'}
                 aria-label="Toggle voice output"
@@ -405,20 +404,20 @@ export function AiChatbot() {
               <button
                 type="button"
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="rounded-lg p-1.5 transition hover:bg-white/5 hover:text-ink hidden sm:block"
+                className="rounded-lg p-1.5 transition hover:bg-white/10 hover:text-white hidden sm:block cursor-pointer"
                 title={isExpanded ? 'Restore window size' : 'Expand window'}
                 aria-label="Toggle window size"
               >
                 {isExpanded ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
               </button>
 
-              {/* Prominent, easily reachable close button */}
+              {/* Prominent close button */}
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg border border-alert/30 bg-alert/15 p-1.5 text-alert transition hover:bg-alert hover:text-command hover:border-alert shadow-sm ml-1"
-                title="Close Shru (Esc)"
-                aria-label="Close Shru"
+                className="rounded-lg border border-rose-500/40 bg-rose-500/20 p-1.5 text-rose-300 transition hover:bg-rose-600 hover:text-white hover:border-rose-500 shadow-sm ml-1 cursor-pointer"
+                title="Close Duty Desk (Esc)"
+                aria-label="Close Duty Desk"
               >
                 <X size={16} className="stroke-[2.5]" />
               </button>
@@ -426,15 +425,15 @@ export function AiChatbot() {
           </div>
 
           {/* Location Bar & Quick Proximity Summary */}
-          <div className="border-b border-lime/15 bg-[#0a211a]/70 px-3.5 py-2.5">
+          <div className="border-b border-emerald-500/20 bg-[#0a211a] px-3.5 py-2.5">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1.5 overflow-hidden">
-                <MapPin size={14} className="shrink-0 text-lime pulse-dot" />
-                <span className="text-[11px] font-medium text-muted shrink-0">Location:</span>
+                <MapPin size={14} className="shrink-0 text-emerald-400" />
+                <span className="text-[11px] font-medium text-gray-300 shrink-0">Location:</span>
                 <button
                   type="button"
                   onClick={() => setShowLocationPicker(!showLocationPicker)}
-                  className="truncate text-xs font-semibold text-lime underline decoration-lime/40 underline-offset-2 hover:text-white transition"
+                  className="truncate text-xs font-bold text-emerald-300 underline decoration-emerald-400/40 underline-offset-2 hover:text-white transition cursor-pointer"
                   title="Click to change your location"
                 >
                   {userLocation ? userLocation.name : 'Click to Set Location'}
@@ -446,7 +445,7 @@ export function AiChatbot() {
                   type="button"
                   onClick={handleDetectGps}
                   disabled={isGpsLoading}
-                  className="flex items-center gap-1 rounded border border-lime/30 bg-lime/10 px-2 py-0.5 text-[10px] font-semibold text-lime hover:bg-lime/20 transition disabled:opacity-50"
+                  className="flex items-center gap-1 rounded border border-emerald-500/40 bg-emerald-600/30 px-2 py-0.5 text-[10px] font-bold text-emerald-300 hover:bg-emerald-600 hover:text-white transition disabled:opacity-50 cursor-pointer"
                   title="Detect GPS location"
                 >
                   <LocateFixed size={11} className={isGpsLoading ? 'animate-spin' : ''} />
@@ -455,7 +454,7 @@ export function AiChatbot() {
                 <button
                   type="button"
                   onClick={() => setShowLocationPicker(!showLocationPicker)}
-                  className="rounded border border-white/10 bg-white/5 p-1 text-muted hover:text-ink hover:bg-white/10"
+                  className="rounded border border-white/10 bg-white/5 p-1 text-gray-300 hover:text-white hover:bg-white/10 cursor-pointer"
                   title="Select from cities"
                   aria-label="Open location selector"
                 >
@@ -466,28 +465,28 @@ export function AiChatbot() {
 
             {/* Live Proximity Indicator Pill */}
             {currentProximity && (
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-1.5 rounded-lg border border-lime/15 bg-command/80 px-2.5 py-1 text-[10px]">
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-1.5 rounded-lg border border-emerald-500/20 bg-black/40 px-2.5 py-1 text-[10px]">
                 <div className="flex items-center gap-1.5">
                   <span
                     className={`h-2 w-2 rounded-full ${
                       currentProximity.hazardLevel === 'Immediate Danger'
-                        ? 'bg-alert pulse-dot'
+                        ? 'bg-rose-500 animate-ping'
                         : currentProximity.hazardLevel === 'High Vigilance'
-                          ? 'bg-warn'
-                          : 'bg-lime'
+                          ? 'bg-amber-400'
+                          : 'bg-emerald-400'
                     }`}
                   />
-                  <span className="font-semibold text-ink/90">
+                  <span className="font-bold text-white">
                     {currentProximity.hazardLevel}:
                   </span>
-                  <span className="text-muted">
+                  <span className="text-gray-300">
                     {currentProximity.distanceToZoneKm} km to {currentProximity.nearestZone.district}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleSendMessage('What is the landslide risk near my location?')}
-                  className="text-lime font-mono hover:underline"
+                  className="text-emerald-300 font-mono font-bold hover:text-white hover:underline cursor-pointer"
                 >
                   View Details &rarr;
                 </button>
@@ -496,16 +495,16 @@ export function AiChatbot() {
 
             {/* Expandable Location Selector Modal Dropdown */}
             {showLocationPicker && (
-              <div className="mt-2.5 rounded-xl border border-lime/30 bg-[#05110d] p-3 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+              <div className="mt-2.5 rounded-xl border border-emerald-500/40 bg-[#05110d] p-3 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-white/10">
-                  <span className="text-xs font-bold uppercase tracking-wider text-lime flex items-center gap-1.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                     <Compass size={13} />
                     Select Your Operational Sector
                   </span>
                   <button
                     type="button"
                     onClick={() => setShowLocationPicker(false)}
-                    className="text-muted hover:text-ink"
+                    className="text-gray-400 hover:text-white cursor-pointer"
                     aria-label="Close location selector"
                   >
                     <X size={14} />
@@ -513,7 +512,7 @@ export function AiChatbot() {
                 </div>
 
                 {gpsError && (
-                  <p className="mt-2 text-[11px] text-alert bg-alert/10 border border-alert/30 rounded p-1.5">
+                  <p className="mt-2 text-[11px] text-rose-300 bg-rose-500/20 border border-rose-500/40 rounded p-1.5">
                     {gpsError}
                   </p>
                 )}
@@ -524,7 +523,7 @@ export function AiChatbot() {
                     value={locationSearch}
                     onChange={(e) => setLocationSearch(e.target.value)}
                     placeholder="Search district, town, or state..."
-                    className="w-full rounded-lg border border-lime/20 bg-panel px-2.5 py-1.5 text-xs text-ink placeholder-muted/60 outline-none focus:border-lime"
+                    className="w-full rounded-lg border border-emerald-500/40 bg-white px-2.5 py-1.5 text-xs text-gray-900 placeholder:text-gray-500 outline-none focus:border-emerald-500 shadow-sm"
                   />
                 </div>
 
@@ -534,14 +533,14 @@ export function AiChatbot() {
                       key={loc.name}
                       type="button"
                       onClick={() => handleSelectPreset(loc)}
-                      className={`w-full text-left flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition ${
+                      className={`w-full text-left flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition cursor-pointer ${
                         userLocation?.name === loc.name
-                          ? 'bg-lime/20 text-lime font-semibold border border-lime/40'
-                          : 'text-ink/80 hover:bg-white/5 hover:text-ink'
+                          ? 'bg-emerald-600 text-white font-bold border border-emerald-400'
+                          : 'text-gray-200 hover:bg-white/10 hover:text-white'
                       }`}
                     >
                       <span>{loc.name}</span>
-                      <span className="font-mono text-[10px] text-muted">{loc.state}</span>
+                      <span className="font-mono text-[10px] text-gray-400">{loc.state}</span>
                     </button>
                   ))}
                 </div>
@@ -550,7 +549,7 @@ export function AiChatbot() {
                   <button
                     type="button"
                     onClick={handleDetectGps}
-                    className="w-full flex items-center justify-center gap-1.5 rounded-lg border border-lime/40 bg-lime/15 py-1.5 text-xs font-semibold text-lime hover:bg-lime/25 transition"
+                    className="w-full flex items-center justify-center gap-1.5 rounded-lg border border-emerald-400 bg-emerald-600 py-1.5 text-xs font-bold text-white hover:bg-emerald-500 transition cursor-pointer shadow-sm"
                   >
                     <LocateFixed size={14} />
                     Use Device GPS Coordinates
@@ -568,27 +567,27 @@ export function AiChatbot() {
                 className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
               >
                 {/* Message Header / Timestamp */}
-                <div className="flex items-center gap-1.5 mb-1 px-1 text-[10px] text-muted">
+                <div className="flex items-center gap-1.5 mb-1 px-1 text-[10px] text-gray-300">
                   {m.sender === 'bot' ? (
                     <>
-                      <Bot size={11} className="text-lime" />
-                      <span className="font-bold text-lime">SHRU AI</span>
+                      <Radio size={11} className="text-emerald-400" />
+                      <span className="font-bold text-emerald-400">SEOC TACTICAL DESK</span>
                     </>
                   ) : (
                     <>
-                      <span className="font-semibold text-ink">You</span>
+                      <span className="font-semibold text-gray-200">You</span>
                     </>
                   )}
                   <span>&bull;</span>
-                  <span className="font-mono">{new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  <span className="font-mono text-gray-400">{new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
 
                 {/* Message Bubble */}
                 <div
                   className={`max-w-[92%] rounded-2xl px-4 py-3 text-xs leading-relaxed shadow-md ${
                     m.sender === 'user'
-                      ? 'bg-lime/20 text-ink border border-lime/40 rounded-tr-none font-medium'
-                      : 'bg-[#0b1f1a]/95 text-ink/90 border border-lime/20 rounded-tl-none backdrop-blur-md'
+                      ? 'bg-emerald-700 text-white border border-emerald-500 rounded-tr-none font-medium'
+                      : 'bg-[#0b241c] text-gray-100 border border-emerald-500/30 rounded-tl-none font-normal'
                   }`}
                 >
                   <div className="whitespace-pre-line space-y-1">
@@ -607,7 +606,7 @@ export function AiChatbot() {
                           key={actIdx}
                           type="button"
                           onClick={() => handleExecuteAction(act)}
-                          className="flex items-center gap-1 rounded-md border border-lime/35 bg-lime/10 px-2.5 py-1 text-[11px] font-semibold text-lime hover:bg-lime/25 hover:border-lime transition shadow-sm"
+                          className="flex items-center gap-1 rounded-md border border-emerald-400/60 bg-emerald-900/50 px-2.5 py-1 text-[11px] font-bold text-emerald-200 hover:bg-emerald-600 hover:text-white transition shadow-sm cursor-pointer"
                         >
                           <span>{act.label}</span>
                         </button>
@@ -621,56 +620,56 @@ export function AiChatbot() {
           </div>
 
           {/* Quick Prompt Recommendation Chips */}
-          <div className="border-t border-lime/10 bg-[#061410] px-3 py-2 overflow-x-auto no-scrollbar flex items-center gap-1.5">
-            <span className="text-[10px] text-muted font-mono uppercase shrink-0 flex items-center gap-1">
-              <Zap size={11} className="text-lime" /> Quick:
+          <div className="border-t border-emerald-500/20 bg-[#061410] px-3 py-2 overflow-x-auto no-scrollbar flex items-center gap-1.5">
+            <span className="text-[10px] text-gray-400 font-mono uppercase shrink-0 flex items-center gap-1">
+              <Zap size={11} className="text-emerald-400" /> Quick:
             </span>
             <button
               type="button"
               onClick={() => handleSendMessage('What is the landslide risk near my location?')}
-              className="shrink-0 rounded-full border border-lime/20 bg-panel px-2.5 py-0.5 text-[10px] font-medium text-ink/80 hover:border-lime hover:text-lime hover:bg-lime/10 transition"
+              className="shrink-0 rounded-full border border-emerald-500/30 bg-[#0b241c] px-2.5 py-0.5 text-[10px] font-medium text-gray-200 hover:border-emerald-400 hover:text-white hover:bg-emerald-600 transition cursor-pointer"
             >
               🛡️ Am I in danger?
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('Which strategic highways and roads are currently blocked?')}
-              className="shrink-0 rounded-full border border-lime/20 bg-panel px-2.5 py-0.5 text-[10px] font-medium text-ink/80 hover:border-lime hover:text-lime hover:bg-lime/10 transition"
+              className="shrink-0 rounded-full border border-emerald-500/30 bg-[#0b241c] px-2.5 py-0.5 text-[10px] font-medium text-gray-200 hover:border-emerald-400 hover:text-white hover:bg-emerald-600 transition cursor-pointer"
             >
               🛣️ Blocked Roads
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('Where is my nearest designated emergency shelter?')}
-              className="shrink-0 rounded-full border border-lime/20 bg-panel px-2.5 py-0.5 text-[10px] font-medium text-ink/80 hover:border-lime hover:text-lime hover:bg-lime/10 transition"
+              className="shrink-0 rounded-full border border-emerald-500/30 bg-[#0b241c] px-2.5 py-0.5 text-[10px] font-medium text-gray-200 hover:border-emerald-400 hover:text-white hover:bg-emerald-600 transition cursor-pointer"
             >
               🏛️ Nearest Shelter
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('Show me live IMD Doppler rainfall and weather warnings')}
-              className="shrink-0 rounded-full border border-lime/20 bg-panel px-2.5 py-0.5 text-[10px] font-medium text-ink/80 hover:border-lime hover:text-lime hover:bg-lime/10 transition"
+              className="shrink-0 rounded-full border border-emerald-500/30 bg-[#0b241c] px-2.5 py-0.5 text-[10px] font-medium text-gray-200 hover:border-emerald-400 hover:text-white hover:bg-emerald-600 transition cursor-pointer"
             >
               🌦️ IMD Weather
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('What should I do during a landslide? Give me NDMA safety precautions')}
-              className="shrink-0 rounded-full border border-lime/20 bg-panel px-2.5 py-0.5 text-[10px] font-medium text-ink/80 hover:border-lime hover:text-lime hover:bg-lime/10 transition"
+              className="shrink-0 rounded-full border border-emerald-500/30 bg-[#0b241c] px-2.5 py-0.5 text-[10px] font-medium text-gray-200 hover:border-emerald-400 hover:text-white hover:bg-emerald-600 transition cursor-pointer"
             >
               🚨 Safety Guide
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('Take me to GIS Operations map')}
-              className="shrink-0 rounded-full border border-lime/20 bg-panel px-2.5 py-0.5 text-[10px] font-medium text-ink/80 hover:border-lime hover:text-lime hover:bg-lime/10 transition"
+              className="shrink-0 rounded-full border border-emerald-500/30 bg-[#0b241c] px-2.5 py-0.5 text-[10px] font-medium text-gray-200 hover:border-emerald-400 hover:text-white hover:bg-emerald-600 transition cursor-pointer"
             >
               🗺️ Open GIS
             </button>
           </div>
 
           {/* Input & Voice Bar */}
-          <div className="border-t border-lime/20 bg-[#081a14] p-3 rounded-b-2xl">
+          <div className="border-t border-emerald-500/20 bg-[#081a14] p-3 rounded-b-2xl">
             <form
               onSubmit={(e) => {
                 e.preventDefault()
@@ -691,10 +690,10 @@ export function AiChatbot() {
                         ? 'भूस्खलन, सड़क या सुरक्षा सम्बन्धी प्रश्न पूछें...'
                         : 'Ask about landslide risks, roads, shelters, weather...'
                   }
-                  className={`w-full rounded-xl border px-3.5 py-2.5 text-xs text-ink placeholder-muted/60 outline-none transition ${
+                  className={`w-full rounded-xl border px-3.5 py-2.5 text-xs text-white placeholder:text-gray-400 outline-none transition ${
                     isListening
-                      ? 'border-alert bg-alert/10 ring-2 ring-alert/30'
-                      : 'border-lime/30 bg-command/90 focus:border-lime focus:ring-1 focus:ring-lime/50'
+                      ? 'border-rose-500 bg-rose-500/20 ring-2 ring-rose-500/40'
+                      : 'border-emerald-500/40 bg-[#0c261e] focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400'
                   }`}
                 />
               </div>
@@ -703,10 +702,10 @@ export function AiChatbot() {
               <button
                 type="button"
                 onClick={toggleListening}
-                className={`rounded-xl border p-2.5 transition ${
+                className={`rounded-xl border p-2.5 transition cursor-pointer ${
                   isListening
-                    ? 'border-alert bg-alert text-command animate-pulse'
-                    : 'border-lime/30 bg-panel text-muted hover:border-lime hover:text-lime'
+                    ? 'border-rose-500 bg-rose-600 text-white animate-pulse'
+                    : 'border-emerald-500/40 bg-[#0b241c] text-gray-300 hover:border-emerald-400 hover:text-white'
                 }`}
                 title={isListening ? 'Stop listening' : 'Speak using microphone (Speech to Text)'}
                 aria-label="Toggle voice input"
@@ -718,7 +717,7 @@ export function AiChatbot() {
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="flex items-center justify-center rounded-xl border border-lime/50 bg-lime px-3.5 py-2.5 font-bold text-command transition hover:bg-lime/90 disabled:opacity-40 disabled:hover:bg-lime shadow-md shadow-lime/20"
+                className="flex items-center justify-center rounded-xl border border-emerald-500 bg-emerald-600 px-3.5 py-2.5 font-bold text-white transition hover:bg-emerald-500 disabled:opacity-40 shadow-md shadow-emerald-600/20 cursor-pointer"
                 title="Send query"
                 aria-label="Send message"
               >

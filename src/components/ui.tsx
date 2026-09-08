@@ -14,9 +14,9 @@ export function Panel({
   className?: string
 }) {
   return (
-    <section className={`rounded-xl border border-lime/15 bg-panel/90 shadow-[0_0_0_1px_rgba(0,0,0,0.4)] ${className}`}>
-      <header className="flex items-center justify-between gap-3 border-b border-lime/10 px-4 py-2.5">
-        <h2 className="text-[11px] font-semibold tracking-[0.16em] text-lime uppercase">{title}</h2>
+    <section className={`minim-card overflow-hidden ${className}`}>
+      <header className="flex items-center justify-between gap-3 border-b border-white/[0.06] bg-white/[0.015] px-4 py-3">
+        <h2 className="text-[11px] font-semibold tracking-[0.2em] text-ink/90 uppercase">{title}</h2>
         {action}
       </header>
       <div className="p-4">{children}</div>
@@ -38,17 +38,17 @@ export function Kpi({
   const color =
     tone === 'alert' ? 'text-alert' : tone === 'warn' ? 'text-warn' : tone === 'info' ? 'text-info' : 'text-lime'
   return (
-    <div className="rounded-xl border border-lime/15 bg-panel px-4 py-3">
-      <p className="text-[10px] tracking-[0.18em] text-muted uppercase">{label}</p>
-      <p className={`mt-1 font-mono text-2xl font-semibold ${color}`}>{value}</p>
-      <p className="mt-1 text-xs text-muted">{hint}</p>
+    <div className="minim-card p-4 transition-all duration-200 hover:-translate-y-[1px]">
+      <p className="text-[10px] font-semibold tracking-[0.22em] text-muted uppercase">{label}</p>
+      <p className={`mt-1 font-mono text-2xl font-bold tracking-tight ${color}`}>{value}</p>
+      <p className="mt-1.5 text-xs text-muted/90">{hint}</p>
     </div>
   )
 }
 
 export function Pill({ severity }: { severity: Severity }) {
   return (
-    <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-semibold tracking-wide uppercase ${severityClass(severity)}`}>
+    <span className={`inline-flex rounded-md border px-2 py-0.5 text-[10px] font-semibold tracking-[0.14em] uppercase ${severityClass(severity)}`}>
       {severity}
     </span>
   )

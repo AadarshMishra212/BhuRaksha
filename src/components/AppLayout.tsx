@@ -15,16 +15,18 @@ import {
   Siren,
   Users,
   X,
+  Mail,
 } from 'lucide-react'
 import { fmtClock, roleLabel } from '../lib/format'
 import { useStore } from '../store/AppStore'
 import { AppFooter } from './AppFooter'
 import { AiChatbot } from './AiChatbot'
+import { BhoomiEmailNotificationToast } from './BhoomiEmailAlertModal'
 
 const NAV = [
   { to: '/', label: 'Command Center', icon: Home },
   { to: '/gis', label: 'GIS Operations', icon: Map },
-  { to: '/ai', label: 'AI Engine', icon: BrainCircuit },
+  { to: '/ai', label: 'BHOOMI', icon: BrainCircuit },
   { to: '/alerts', label: 'Early Warning', icon: Siren },
   { to: '/sensors', label: 'Sensors & Feeds', icon: Satellite },
   { to: '/weather', label: 'IMD Weather', icon: CloudRain },
@@ -34,7 +36,7 @@ const NAV = [
 ]
 
 export function AppLayout() {
-  const { user, logout, live, toggleLive, alerts, language, setLanguage } = useStore()
+  const { user, logout, live, toggleLive, alerts } = useStore()
   const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [clock, setClock] = useState(fmtClock())
@@ -52,20 +54,20 @@ export function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col bg-command text-ink">
       {/* Top Header & Navigation Bar */}
-      <header className="no-print sticky top-0 z-40 w-full border-b border-lime/20 bg-[#071411]/95 shadow-xl backdrop-blur-md">
+      <header className="no-print sticky top-0 z-40 w-full border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md">
         {/* Tier 1: System Identification & Operational Desks */}
-        <div className="flex items-center justify-between gap-3 border-b border-lime/10 px-4 py-2.5 lg:px-6">
+        <div className="flex items-center justify-between gap-3 border-b border-gray-100 px-4 py-2.5 lg:px-6">
           {/* Logo & Emblem Brand Area */}
           <div className="flex items-center gap-3">
             <img
               src="/logo.jpg"
               alt="BHURAKSHA Emblem"
-              className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-lime/50 shadow-md shadow-lime/10"
+              className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/40 shadow-sm"
             />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-base font-bold tracking-[0.2em] text-lime sm:text-lg">BHURAKSHA</span>
-                <span className="hidden rounded bg-lime/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-lime sm:inline-block border border-lime/30">
+                <span className="text-base font-bold tracking-[0.22em] text-gray-900 sm:text-lg">BHURAKSHA</span>
+                <span className="hidden rounded bg-emerald-50 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-emerald-700 sm:inline-block border border-emerald-200">
                   SEOC-NER
                 </span>
               </div>
@@ -77,42 +79,38 @@ export function AppLayout() {
 
           {/* Center: Live Status & Clock */}
           <div className="hidden items-center gap-4 md:flex">
-            <div className="flex items-center gap-2 rounded-full border border-lime/20 bg-panel px-3 py-1 text-xs">
+            <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs">
               <span className={`h-2 w-2 rounded-full ${live ? 'pulse-dot bg-alert' : 'bg-muted'}`} />
               <span className="font-mono text-muted">{clock} IST</span>
-              <span className="text-lime/60">|</span>
-              <span className="font-medium text-ink/90">MDoNER &bull; NDMA Cell</span>
+              <span className="text-gray-300">|</span>
+              <span className="font-medium text-gray-800">MDoNER &bull; NDMA Cell</span>
             </div>
           </div>
 
           {/* Right: Controls & User Profile */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <select
-              aria-label="Alert language"
-              className="rounded-lg border border-lime/20 bg-command px-2.5 py-1 text-xs font-medium text-ink outline-none transition focus:border-lime"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as 'en' | 'hi' | 'as')}
-            >
-              <option value="en">EN (English)</option>
-              <option value="hi">HI (हिन्दी)</option>
-              <option value="as">AS (অসমীয়া)</option>
-            </select>
-
             <button
               type="button"
               onClick={toggleLive}
               className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition ${
                 live
-                  ? 'border-alert/40 bg-alert/10 text-alert hover:bg-alert/20'
-                  : 'border-lime/40 bg-lime/10 text-lime hover:bg-lime/20'
+                  ? 'border-alert/30 bg-alert/10 text-alert hover:bg-alert/20'
+                  : 'border-emerald-500/30 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
               }`}
               title="Toggle live automated telemetry updates"
             >
               {live ? 'Pause Stream' : 'Resume Stream'}
             </button>
 
-            <div className="hidden text-right xl:block border-l border-lime/15 pl-3">
-              <p className="text-xs font-semibold text-ink">{user.name}</p>
+            <div className="hidden text-right xl:block border-l border-gray-200 pl-3">
+              <div className="flex items-center justify-end gap-1.5">
+                <p className="text-xs font-semibold text-gray-900">{user.name}</p>
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+              <div className="flex items-center justify-end gap-1 text-[10px] text-emerald-600 font-mono">
+                <Mail size={11} className="text-emerald-600" />
+                <span className="truncate max-w-[180px]">{user.email || 'alerts@gmail.com'}</span>
+              </div>
               <p className="text-[10px] text-muted">
                 {roleLabel(user.role)} &bull; {user.posting}
               </p>
@@ -134,7 +132,7 @@ export function AppLayout() {
 
             {/* Mobile menu button */}
             <button
-              className="rounded-lg border border-lime/20 p-1.5 text-ink hover:bg-white/5 lg:hidden"
+              className="rounded-lg border border-gray-200 p-1.5 text-gray-700 hover:bg-gray-100 lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               type="button"
               aria-label="Toggle navigation menu"
@@ -145,7 +143,7 @@ export function AppLayout() {
         </div>
 
         {/* Tier 2: Top Horizontal Control Panel / Navigation Tabs */}
-        <div className="hidden overflow-x-auto no-scrollbar border-t border-lime/10 bg-[#081713]/90 px-4 py-1 lg:block">
+        <div className="hidden overflow-x-auto no-scrollbar border-t border-gray-100 bg-gray-50/70 px-4 py-1.5 lg:block">
           <nav className="flex items-center gap-1">
             {NAV.map((item) => (
               <NavLink
@@ -153,10 +151,10 @@ export function AppLayout() {
                 to={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 whitespace-nowrap rounded-md px-3.5 py-2 text-xs font-medium transition-all ${
+                  `flex items-center gap-2 whitespace-nowrap rounded-md px-3.5 py-1.5 text-xs font-medium transition-all ${
                     isActive
-                      ? 'bg-lime/20 text-lime font-semibold border-b-2 border-lime shadow-[0_2px_12px_rgba(156,204,101,0.2)]'
-                      : 'text-ink/80 hover:bg-white/5 hover:text-lime'
+                      ? 'bg-emerald-600 text-white font-semibold shadow-sm'
+                      : 'text-gray-600 hover:bg-gray-200/70 hover:text-gray-900'
                   }`
                 }
               >
@@ -169,7 +167,7 @@ export function AppLayout() {
 
         {/* Mobile Dropdown Navigation Menu */}
         {mobileMenuOpen && (
-          <div className="border-t border-lime/15 bg-[#081713] p-3 lg:hidden">
+          <div className="border-t border-gray-200 bg-white p-3 lg:hidden shadow-lg">
             <nav className="grid grid-cols-1 gap-1 sm:grid-cols-2">
               {NAV.map((item) => (
                 <NavLink
@@ -179,7 +177,7 @@ export function AppLayout() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={({ isActive }) =>
                     `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
-                      isActive ? 'bg-lime/20 text-lime font-semibold' : 'text-ink/80 hover:bg-white/5'
+                      isActive ? 'bg-emerald-600 text-white font-semibold' : 'text-gray-700 hover:bg-gray-100'
                     }`
                   }
                 >
@@ -205,7 +203,7 @@ export function AppLayout() {
       </div>
 
       {/* Bottom Early Warning & Alerts Stream Dock */}
-      <div className="no-print fixed bottom-0 left-0 right-0 z-50 border-t border-alert/30 bg-[#05110e]/95 backdrop-blur-md shadow-2xl">
+      <div className="no-print fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white/95 backdrop-blur-md shadow-2xl">
         <div className="flex items-center gap-3 px-3 py-2 sm:px-4">
           {/* Alert Status Pill */}
           <div className="flex shrink-0 items-center gap-2 rounded-md border border-alert/40 bg-alert/15 px-2.5 py-1">
@@ -256,6 +254,9 @@ export function AppLayout() {
 
       {/* Omnipresent AI Assistant Widget */}
       <AiChatbot />
+
+      {/* Bhoomi AI Gmail Alert Dispatch Banner & Email Modal */}
+      <BhoomiEmailNotificationToast />
     </div>
   )
 }
