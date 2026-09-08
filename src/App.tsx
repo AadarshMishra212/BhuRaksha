@@ -10,7 +10,8 @@ import { LoginPage } from './pages/LoginPage'
 import { ResponsePage } from './pages/ResponsePage'
 import { SensorsPage } from './pages/SensorsPage'
 import { WeatherPage } from './pages/WeatherPage'
-import { AppStoreProvider, useStore } from './store/AppStore'
+import { AppStoreProvider } from './store/AppStore'
+import { useStore } from './store/useStore'
 import type { ReactNode } from 'react'
 
 function Guard({ children }: { children: ReactNode }) {

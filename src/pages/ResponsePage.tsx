@@ -1,5 +1,5 @@
 import { Pill } from '../components/ui'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 export function ResponsePage() {
   const { actions, zones, dispatchAction } = useStore()

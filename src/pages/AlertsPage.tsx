@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Panel, Pill } from '../components/ui'
 import { fmtTime } from '../lib/format'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import {
   Mail,
   CheckCircle2,

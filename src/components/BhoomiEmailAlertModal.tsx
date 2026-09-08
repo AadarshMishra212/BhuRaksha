@@ -11,7 +11,7 @@ import {
   Activity,
   Download,
 } from 'lucide-react'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import { fmtTime } from '../lib/format'
 import type { BhoomiEmailAlert } from '../types'
 

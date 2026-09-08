@@ -19,7 +19,7 @@ import {
   Info,
   Send,
 } from 'lucide-react'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import { AppFooter } from '../components/AppFooter'
 import type { Role } from '../types'
 

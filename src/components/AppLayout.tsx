@@ -18,7 +18,7 @@ import {
   Mail,
 } from 'lucide-react'
 import { fmtClock, roleLabel } from '../lib/format'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import { AppFooter } from './AppFooter'
 import { AiChatbot } from './AiChatbot'
 import { BhoomiEmailNotificationToast } from './BhoomiEmailAlertModal'

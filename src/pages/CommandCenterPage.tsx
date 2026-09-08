@@ -12,7 +12,7 @@ import { RiskMap } from '../components/RiskMap'
 import { Kpi, Panel, Pill } from '../components/ui'
 import { severityColor } from '../engine/riskModel'
 import { fmtTime } from '../lib/format'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 export function CommandCenterPage() {
   const { zones, alerts, roads, sensors, villages, actions, tick, live } = useStore()

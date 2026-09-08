@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, type FormEvent } from 'react'
 import { Panel } from '../components/ui'
 import { fmtTime } from '../lib/format'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import {
   MapPin,
   Navigation,
@@ -130,9 +130,11 @@ export function FieldPage() {
   }, [zones, updateNearestZone])
 
   // Automatically trigger location fetching on component mount
-  useEffect(() => {
+  const hasMounted = useCallback(() => {
     fetchLiveGPSLocation()
-  }, [fetchLiveGPSLocation])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // intentionally empty: fire once on mount only
+  useEffect(() => { hasMounted() }, [hasMounted])
 
   function handleSelectPreset(preset: (typeof NER_PRESETS)[0]) {
     setLat(preset.lat)

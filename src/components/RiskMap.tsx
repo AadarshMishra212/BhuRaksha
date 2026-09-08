@@ -3,7 +3,7 @@ import { Circle, CircleMarker, MapContainer, Polyline, Popup, TileLayer, Tooltip
 import { NER_CENTER } from '../data/catalog'
 import { severityColor } from '../engine/riskModel'
 import { roadClass } from '../lib/format'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import { Pill } from './ui'
 import type { RiskZone } from '../types'
 

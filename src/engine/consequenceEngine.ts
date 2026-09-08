@@ -10,6 +10,7 @@ import {
   EMERGENCY_HOSPITALS,
   GOVERNMENT_VEHICLE_DEPOTS,
 } from '../data/catalog'
+import trainedWeightsData from '../data/bhoomi_weights.json'
 
 export type BhoomiSituationMode =
   | 'NORMAL_WATCH'
@@ -162,7 +163,17 @@ function initializeWeights(inputs = 8, hidden = 12, outputs = 6): BhoomiModelWei
   }
 }
 
-const currentBhoomiWeights: BhoomiModelWeights = initializeWeights()
+export const currentBhoomiWeights: BhoomiModelWeights = trainedWeightsData
+  ? {
+      w1: trainedWeightsData.w1,
+      b1: trainedWeightsData.b1,
+      w2: trainedWeightsData.w2,
+      b2: trainedWeightsData.b2,
+      trainedEpochs: trainedWeightsData.trainedEpochs,
+      finalLoss: trainedWeightsData.finalLoss,
+      accuracyR2: trainedWeightsData.accuracyR2,
+    }
+  : initializeWeights()
 
 // -----------------------------------------------------------------------------
 // Forward Pass & Activation Functions

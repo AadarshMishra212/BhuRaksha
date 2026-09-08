@@ -1,5 +1,5 @@
 import { Panel } from '../components/ui'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 const ARCHIVE = [
   { id: 'H1', date: '04 Oct 2023', place: 'Chungthang, Sikkim', impact: 'Glacial lake outburst + debris flow; NH-10 severed for 18 days; Teesta cascade damaged.' },

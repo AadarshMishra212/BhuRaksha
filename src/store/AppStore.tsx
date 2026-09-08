@@ -1,7 +1,5 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useReducer,
@@ -25,6 +23,7 @@ import type {
   Village,
   WeatherCell,
 } from '../types'
+import { StoreContext, type StoreValue } from './StoreContext'
 
 interface State {
   user: User | null
@@ -473,32 +472,6 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-interface StoreValue extends State {
-  login: (
-    username: string,
-    password: string,
-    email?: string,
-    role?: Role,
-    agency?: string,
-    posting?: string,
-    emailAlertsEnabled?: boolean,
-  ) => Promise<string | null>
-  logout: () => void
-  toggleLive: () => void
-  setLanguage: (language: Language) => void
-  selectZone: (id: string | null) => void
-  ackAlert: (id: string) => void
-  dispatchAction: (id: string) => void
-  addReport: (report: FieldReport) => void
-  addSitrep: (sitrep: SitrepMeta) => void
-  broadcast: (zoneId: string) => void
-  dismissEmailToast: () => void
-  clearEmailAlerts: () => void
-  sendTestBhoomiEmail: (zoneId?: string) => void
-  selectedZone: RiskZone | null
-}
-
-const StoreContext = createContext<StoreValue | null>(null)
 
 export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, initState)
@@ -712,8 +685,3 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
 }
 
-export function useStore() {
-  const ctx = useContext(StoreContext)
-  if (!ctx) throw new Error('useStore must be used within AppStoreProvider')
-  return ctx
-}

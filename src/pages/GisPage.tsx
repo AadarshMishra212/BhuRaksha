@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { RiskMap } from '../components/RiskMap'
 import { Panel, Pill } from '../components/ui'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 export function GisPage() {
   const { zones, roads, selectedZone, selectZone } = useStore()

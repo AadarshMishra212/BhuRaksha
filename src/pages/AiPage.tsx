@@ -44,7 +44,7 @@ import {
   Layers,
 } from 'lucide-react'
 import { Panel, Pill } from '../components/ui'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 import {
   predictZoneConsequences,
   assessUserLocationExposure,
@@ -62,7 +62,7 @@ import { severityColor } from '../engine/riskModel'
 
 export type BhoomiBasemapKey = 'google_hybrid' | 'google_terrain' | 'google_streets' | 'carto_dark'
 
-export function getBhoomiBasemaps(apiKey: string) {
+function getBhoomiBasemaps(apiKey: string) {
   const cleanKey = apiKey ? apiKey.trim() : ''
   return {
     google_hybrid: {

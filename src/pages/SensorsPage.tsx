@@ -1,5 +1,5 @@
 import { Panel } from '../components/ui'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 export function SensorsPage() {
   const { sensors, zones } = useStore()

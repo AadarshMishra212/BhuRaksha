@@ -2,7 +2,7 @@ import { jsPDF } from 'jspdf'
 import { useState } from 'react'
 import { Panel } from '../components/ui'
 import { fmtClock, fmtTime } from '../lib/format'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 export function ReportsPage() {
   const { zones, alerts, roads, actions, user, sitreps, addSitrep } = useStore()

@@ -24,7 +24,7 @@ import {
   type ChatMessage,
   type UserLocation,
 } from '../engine/chatbotEngine'
-import { useStore } from '../store/AppStore'
+import { useStore } from '../store/useStore'
 
 export function AiChatbot() {
   const store = useStore()
