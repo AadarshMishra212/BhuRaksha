@@ -23,13 +23,14 @@ import type {
   Village,
   WeatherCell,
 } from '../types'
-import { StoreContext, type StoreValue } from './StoreContext'
+import { StoreContext, type StoreValue, type ThemeMode } from './StoreContext'
 
 interface State {
   user: User | null
   live: boolean
   tick: number
   language: Language
+  theme: ThemeMode
   zones: RiskZone[]
   sensors: SensorNode[]
   roads: RoadSegment[]
@@ -50,6 +51,8 @@ type Action =
   | { type: 'TICK' }
   | { type: 'TOGGLE_LIVE' }
   | { type: 'SET_LANG'; language: Language }
+  | { type: 'TOGGLE_THEME' }
+  | { type: 'SET_THEME'; theme: ThemeMode }
   | { type: 'SELECT_ZONE'; id: string | null }
   | { type: 'ACK_ALERT'; id: string }
   | { type: 'DISPATCH'; id: string }
@@ -252,8 +255,20 @@ function initState(): State {
   let savedReports: FieldReport[] = []
   let savedSitreps: SitrepMeta[] = []
   let savedEmailAlerts: BhoomiEmailAlert[] = []
+  let savedTheme: ThemeMode = 'light'
 
   try {
+    const rawTheme = localStorage.getItem('bhuraksha_theme')
+    if (rawTheme === 'dark' || rawTheme === 'light') {
+      savedTheme = rawTheme
+    } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      savedTheme = 'dark'
+    }
+
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark')
+    }
+
     const rawUser = localStorage.getItem('bhuraksha_user')
     if (rawUser) {
       savedUser = JSON.parse(rawUser)
@@ -286,6 +301,7 @@ function initState(): State {
     live: true,
     tick: 0,
     language: 'en',
+    theme: savedTheme,
     zones,
     sensors: syncSensors(buildSensors(), zones),
     roads: ROADS.map((r) => ({ ...r, status: roadStatusFromZones(r.zoneIds, zones) })),
@@ -336,6 +352,29 @@ function reducer(state: State, action: Action): State {
       return { ...state, live: !state.live }
     case 'SET_LANG':
       return { ...state, language: action.language }
+    case 'TOGGLE_THEME': {
+      const next: ThemeMode = state.theme === 'dark' ? 'light' : 'dark'
+      try {
+        localStorage.setItem('bhuraksha_theme', next)
+        if (typeof document !== 'undefined') {
+          document.documentElement.classList.toggle('dark', next === 'dark')
+        }
+      } catch {
+        // ignore
+      }
+      return { ...state, theme: next }
+    }
+    case 'SET_THEME': {
+      try {
+        localStorage.setItem('bhuraksha_theme', action.theme)
+        if (typeof document !== 'undefined') {
+          document.documentElement.classList.toggle('dark', action.theme === 'dark')
+        }
+      } catch {
+        // ignore
+      }
+      return { ...state, theme: action.theme }
+    }
     case 'SELECT_ZONE':
       return { ...state, selectedZoneId: action.id }
     case 'ACK_ALERT':
@@ -643,6 +682,15 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     [state.zones, state.user],
   )
 
+  const toggleTheme = useCallback(() => dispatch({ type: 'TOGGLE_THEME' }), [])
+  const setTheme = useCallback((theme: ThemeMode) => dispatch({ type: 'SET_THEME', theme }), [])
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', state.theme === 'dark')
+    }
+  }, [state.theme])
+
   const selectedZone = state.zones.find((z) => z.id === state.selectedZoneId) ?? null
 
   const value = useMemo<StoreValue>(
@@ -652,6 +700,8 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       logout,
       toggleLive,
       setLanguage,
+      toggleTheme,
+      setTheme,
       selectZone,
       ackAlert,
       dispatchAction,
@@ -669,6 +719,8 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       logout,
       toggleLive,
       setLanguage,
+      toggleTheme,
+      setTheme,
       selectZone,
       ackAlert,
       dispatchAction,

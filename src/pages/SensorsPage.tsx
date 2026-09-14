@@ -8,60 +8,72 @@ export function SensorsPage() {
   const offline = sensors.filter((s) => s.status === 'Offline').length
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-space-lg">
       <div>
-        <p className="text-[11px] tracking-[0.22em] text-lime uppercase">IoT + satellite ingest</p>
-        <h1 className="text-2xl font-semibold">Sensor mesh &amp; earth-observation proxies</h1>
-        <p className="text-sm text-muted">
-          {online} online · {degraded} degraded (intense rain) · {offline} offline. InSAR proxies stand in for Sentinel-1 LOS displacement.
+        <p className="font-label-caps text-primary">IoT + Satellite Telemetry</p>
+        <h1 className="font-display-2xl text-on-surface">Sensor Mesh &amp; Earth-Observation Proxies</h1>
+        <p className="font-body-base text-on-surface-variant text-xs sm:text-sm mt-0.5">
+          {online} online &bull; {degraded} degraded (intense rain) &bull; {offline} offline. InSAR proxies stand in for Sentinel-1 LOS displacement.
         </p>
       </div>
-      <div className="overflow-auto rounded-xl border border-gray-200 bg-white shadow-xs">
+
+      <div className="overflow-auto rounded-xl border border-surface-container-high bg-surface-container-lowest shadow-sm">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-gray-50 text-[11px] uppercase tracking-wider text-gray-700 font-semibold border-b border-gray-200">
+          <thead className="bg-surface-container-low font-label-caps text-[10px] text-outline border-b border-surface-container-high">
             <tr>
               <th className="px-4 py-3">Asset</th>
               <th className="px-3 py-3">Type</th>
               <th className="px-3 py-3">Zone</th>
               <th className="px-3 py-3">Reading</th>
               <th className="px-3 py-3">Status</th>
-              <th className="px-3 py-3">Battery</th>
+              <th className="px-3 py-3 text-right">Battery</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-surface-container-high/60 font-body-base text-on-surface">
             {sensors.map((s) => {
               const z = zones.find((x) => x.id === s.zoneId)
               return (
-                <tr key={s.id} className="border-t border-gray-100 hover:bg-gray-50/60 transition">
-                  <td className="px-4 py-3 font-semibold text-gray-900">{s.name}</td>
-                  <td className="px-3 py-3 text-gray-700">{s.type}</td>
-                  <td className="px-3 py-3 text-muted">{z?.district}</td>
-                  <td className="px-3 py-3 font-mono text-xs font-semibold text-gray-900">
+                <tr key={s.id} className="hover:bg-surface-container-low transition">
+                  <td className="px-4 py-3 font-semibold text-on-surface">{s.name}</td>
+                  <td className="px-3 py-3 text-on-surface-variant text-xs">{s.type}</td>
+                  <td className="px-3 py-3 text-outline text-xs">{z?.district}</td>
+                  <td className="px-3 py-3 font-mono text-xs font-semibold text-primary">
                     {s.value.toFixed(1)} {s.unit}
                   </td>
-                  <td className={`px-3 py-3 font-semibold ${s.status === 'Offline' ? 'text-alert' : s.status === 'Degraded' ? 'text-amber-700' : 'text-emerald-700'}`}>
-                    {s.status}
+                  <td className="px-3 py-3">
+                    <span
+                      className={`inline-flex px-2 py-0.5 rounded font-label-caps text-[10px] font-semibold ${
+                        s.status === 'Offline'
+                          ? 'bg-error-container text-on-error-container'
+                          : s.status === 'Degraded'
+                            ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant'
+                            : 'bg-secondary-container text-on-secondary-container'
+                      }`}
+                    >
+                      {s.status}
+                    </span>
                   </td>
-                  <td className="px-3 py-3 font-mono text-xs text-gray-700">{s.battery.toFixed(0)}%</td>
+                  <td className="px-3 py-3 font-mono text-xs text-on-surface-variant text-right">{s.battery.toFixed(0)}%</td>
                 </tr>
               )
             })}
           </tbody>
         </table>
       </div>
+
       <Panel title="Telemetry Ingestion & Satellite InSAR Feeds">
-        <ul className="grid gap-3 text-sm md:grid-cols-3">
-          <li className="rounded-lg border border-gray-200 bg-gray-50/70 p-3.5 shadow-xs">
-            <p className="font-bold text-emerald-800">IMD AWS / GPM</p>
-            <p className="text-gray-600 mt-1">15-min rainfall grids downscaled to watch boxes.</p>
+        <ul className="grid gap-space-md text-sm md:grid-cols-3">
+          <li className="rounded-lg border border-surface-container-high bg-surface-container-low p-3.5 shadow-xs">
+            <p className="font-headline-lg text-xs font-bold text-primary">IMD AWS / GPM</p>
+            <p className="text-on-surface-variant text-xs mt-1 leading-relaxed">15-min rainfall grids downscaled to watch boxes.</p>
           </li>
-          <li className="rounded-lg border border-gray-200 bg-gray-50/70 p-3.5 shadow-xs">
-            <p className="font-bold text-emerald-800">Soil &amp; GNSS mesh</p>
-            <p className="text-gray-600 mt-1">LoRa / VSAT backhaul with store-and-forward for 2G pockets.</p>
+          <li className="rounded-lg border border-surface-container-high bg-surface-container-low p-3.5 shadow-xs">
+            <p className="font-headline-lg text-xs font-bold text-secondary">Soil &amp; GNSS Mesh</p>
+            <p className="text-on-surface-variant text-xs mt-1 leading-relaxed">LoRa / VSAT backhaul with store-and-forward for 2G pockets.</p>
           </li>
-          <li className="rounded-lg border border-gray-200 bg-gray-50/70 p-3.5 shadow-xs">
-            <p className="font-bold text-emerald-800">Sentinel-1 InSAR</p>
-            <p className="text-gray-600 mt-1">12-day LOS velocity as displacement proxy until COSMO-SkyMed tasking.</p>
+          <li className="rounded-lg border border-surface-container-high bg-surface-container-low p-3.5 shadow-xs">
+            <p className="font-headline-lg text-xs font-bold text-tertiary">Sentinel-1 InSAR</p>
+            <p className="text-on-surface-variant text-xs mt-1 leading-relaxed">12-day LOS velocity as displacement proxy until COSMO-SkyMed tasking.</p>
           </li>
         </ul>
       </Panel>

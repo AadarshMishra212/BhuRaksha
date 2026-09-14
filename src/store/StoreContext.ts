@@ -15,11 +15,14 @@ import type {
   WeatherCell,
 } from '../types'
 
+export type ThemeMode = 'light' | 'dark'
+
 interface State {
   user: User | null
   live: boolean
   tick: number
   language: Language
+  theme: ThemeMode
   zones: RiskZone[]
   sensors: SensorNode[]
   roads: RoadSegment[]
@@ -47,6 +50,8 @@ export interface StoreValue extends State {
   logout: () => void
   toggleLive: () => void
   setLanguage: (language: Language) => void
+  toggleTheme: () => void
+  setTheme: (theme: ThemeMode) => void
   selectZone: (id: string | null) => void
   ackAlert: (id: string) => void
   dispatchAction: (id: string) => void

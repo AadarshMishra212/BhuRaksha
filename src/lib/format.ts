@@ -23,16 +23,16 @@ export function fmtClock() {
 }
 
 export function severityClass(s: Severity) {
-  if (s === 'Critical') return 'bg-alert/20 text-alert border-alert/40'
-  if (s === 'High') return 'bg-warn/20 text-warn border-warn/40'
-  if (s === 'Moderate') return 'bg-info/20 text-info border-info/40'
-  return 'bg-lime/20 text-lime border-lime/40'
+  if (s === 'Critical') return 'bg-error-container text-on-error-container border-error/30'
+  if (s === 'High') return 'bg-tertiary-fixed text-on-tertiary-fixed-variant border-tertiary/30'
+  if (s === 'Moderate') return 'bg-primary-fixed text-on-primary-fixed-variant border-primary/30'
+  return 'bg-secondary-container text-on-secondary-container border-secondary/30'
 }
 
 export function roadClass(s: RoadStatus) {
-  if (s === 'Blocked') return 'text-alert'
-  if (s === 'Restricted') return 'text-warn'
-  return 'text-lime'
+  if (s === 'Blocked') return 'text-error'
+  if (s === 'Restricted') return 'text-tertiary'
+  return 'text-secondary'
 }
 
 export function roleLabel(role: string) {

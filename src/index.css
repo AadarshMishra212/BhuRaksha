@@ -1,19 +1,194 @@
 @import "tailwindcss";
 
+:root {
+  --theme-surface: #faf8ff;
+  --theme-surface-dim: #d2d9f4;
+  --theme-surface-bright: #faf8ff;
+  --theme-surface-container-lowest: #ffffff;
+  --theme-surface-container-low: #f2f3ff;
+  --theme-surface-container: #eaedff;
+  --theme-surface-container-high: #e2e7ff;
+  --theme-surface-container-highest: #dae2fd;
+  --theme-on-surface: #131b2e;
+  --theme-on-surface-variant: #3f4850;
+  --theme-inverse-surface: #283044;
+  --theme-inverse-on-surface: #eef0ff;
+  --theme-outline: #707881;
+  --theme-outline-variant: #bfc7d2;
+  --theme-surface-tint: #006398;
+  --theme-primary: #006194;
+  --theme-on-primary: #ffffff;
+  --theme-primary-container: #007bb9;
+  --theme-on-primary-container: #fdfcff;
+  --theme-inverse-primary: #93ccff;
+  --theme-secondary: #006c4a;
+  --theme-on-secondary: #ffffff;
+  --theme-secondary-container: #82f5c1;
+  --theme-on-secondary-container: #00714e;
+  --theme-tertiary: #8d4b00;
+  --theme-on-tertiary: #ffffff;
+  --theme-tertiary-container: #b15f00;
+  --theme-on-tertiary-container: #fffbff;
+  --theme-error: #ba1a1a;
+  --theme-on-error: #ffffff;
+  --theme-error-container: #ffdad6;
+  --theme-on-error-container: #93000a;
+  --theme-primary-fixed: #cce5ff;
+  --theme-primary-fixed-dim: #93ccff;
+  --theme-on-primary-fixed: #001d31;
+  --theme-on-primary-fixed-variant: #004b73;
+  --theme-secondary-fixed: #85f8c4;
+  --theme-secondary-fixed-dim: #68dba9;
+  --theme-on-secondary-fixed: #002114;
+  --theme-on-secondary-fixed-variant: #005137;
+  --theme-tertiary-fixed: #ffdcc3;
+  --theme-tertiary-fixed-dim: #ffb77d;
+  --theme-on-tertiary-fixed: #2f1500;
+  --theme-on-tertiary-fixed-variant: #6e3900;
+  --theme-background: #faf8ff;
+  --theme-on-background: #131b2e;
+  --theme-surface-variant: #dae2fd;
+}
+
+html.dark {
+  --theme-surface: #0b0f19;
+  --theme-surface-dim: #080b12;
+  --theme-surface-bright: #171f2f;
+  --theme-surface-container-lowest: #0e1422;
+  --theme-surface-container-low: #131a2c;
+  --theme-surface-container: #182238;
+  --theme-surface-container-high: #1e2a44;
+  --theme-surface-container-highest: #263553;
+  --theme-on-surface: #eef0ff;
+  --theme-on-surface-variant: #bfc7d2;
+  --theme-inverse-surface: #eef0ff;
+  --theme-inverse-on-surface: #131b2e;
+  --theme-outline: #88929e;
+  --theme-outline-variant: #3f4850;
+  --theme-surface-tint: #93ccff;
+  --theme-primary: #38bdf8;
+  --theme-on-primary: #003353;
+  --theme-primary-container: #004b73;
+  --theme-on-primary-container: #cce5ff;
+  --theme-inverse-primary: #006194;
+  --theme-secondary: #34d399;
+  --theme-on-secondary: #003824;
+  --theme-secondary-container: #005137;
+  --theme-on-secondary-container: #85f8c4;
+  --theme-tertiary: #fb923c;
+  --theme-on-tertiary: #2f1500;
+  --theme-tertiary-container: #6e3900;
+  --theme-on-tertiary-container: #ffdcc3;
+  --theme-error: #f87171;
+  --theme-on-error: #450a0a;
+  --theme-error-container: #7f1d1d;
+  --theme-on-error-container: #fecaca;
+  --theme-primary-fixed: #004b73;
+  --theme-primary-fixed-dim: #003353;
+  --theme-on-primary-fixed: #cce5ff;
+  --theme-on-primary-fixed-variant: #93ccff;
+  --theme-secondary-fixed: #005137;
+  --theme-secondary-fixed-dim: #003824;
+  --theme-on-secondary-fixed: #85f8c4;
+  --theme-on-secondary-fixed-variant: #68dba9;
+  --theme-tertiary-fixed: #6e3900;
+  --theme-tertiary-fixed-dim: #2f1500;
+  --theme-on-tertiary-fixed: #ffdcc3;
+  --theme-on-tertiary-fixed-variant: #ffb77d;
+  --theme-background: #0b0f19;
+  --theme-on-background: #eef0ff;
+  --theme-surface-variant: #263553;
+}
+
 @theme {
-  --font-sans: "Inter", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --color-ink: #0f172a;
-  --color-muted: #64748b;
-  --color-command: #f8fafc;
-  --color-panel: #ffffff;
-  --color-forest: #f1f5f9;
-  --color-lime: #059669;
-  --color-silver: #94a3b8;
-  --color-soil: #b45309;
-  --color-alert: #e11d48;
-  --color-warn: #d97706;
-  --color-info: #0284c7;
+  --color-surface: var(--theme-surface);
+  --color-surface-dim: var(--theme-surface-dim);
+  --color-surface-bright: var(--theme-surface-bright);
+  --color-surface-container-lowest: var(--theme-surface-container-lowest);
+  --color-surface-container-low: var(--theme-surface-container-low);
+  --color-surface-container: var(--theme-surface-container);
+  --color-surface-container-high: var(--theme-surface-container-high);
+  --color-surface-container-highest: var(--theme-surface-container-highest);
+  --color-on-surface: var(--theme-on-surface);
+  --color-on-surface-variant: var(--theme-on-surface-variant);
+  --color-inverse-surface: var(--theme-inverse-surface);
+  --color-inverse-on-surface: var(--theme-inverse-on-surface);
+  --color-outline: var(--theme-outline);
+  --color-outline-variant: var(--theme-outline-variant);
+  --color-surface-tint: var(--theme-surface-tint);
+  --color-primary: var(--theme-primary);
+  --color-on-primary: var(--theme-on-primary);
+  --color-primary-container: var(--theme-primary-container);
+  --color-on-primary-container: var(--theme-on-primary-container);
+  --color-inverse-primary: var(--theme-inverse-primary);
+  --color-secondary: var(--theme-secondary);
+  --color-on-secondary: var(--theme-on-secondary);
+  --color-secondary-container: var(--theme-secondary-container);
+  --color-on-secondary-container: var(--theme-on-secondary-container);
+  --color-tertiary: var(--theme-tertiary);
+  --color-on-tertiary: var(--theme-on-tertiary);
+  --color-tertiary-container: var(--theme-tertiary-container);
+  --color-on-tertiary-container: var(--theme-on-tertiary-container);
+  --color-error: var(--theme-error);
+  --color-on-error: var(--theme-on-error);
+  --color-error-container: var(--theme-error-container);
+  --color-on-error-container: var(--theme-on-error-container);
+  --color-primary-fixed: var(--theme-primary-fixed);
+  --color-primary-fixed-dim: var(--theme-primary-fixed-dim);
+  --color-on-primary-fixed: var(--theme-on-primary-fixed);
+  --color-on-primary-fixed-variant: var(--theme-on-primary-fixed-variant);
+  --color-secondary-fixed: var(--theme-secondary-fixed);
+  --color-secondary-fixed-dim: var(--theme-secondary-fixed-dim);
+  --color-on-secondary-fixed: var(--theme-on-secondary-fixed);
+  --color-on-secondary-fixed-variant: var(--theme-on-secondary-fixed-variant);
+  --color-tertiary-fixed: var(--theme-tertiary-fixed);
+  --color-tertiary-fixed-dim: var(--theme-tertiary-fixed-dim);
+  --color-on-tertiary-fixed: var(--theme-on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant: var(--theme-on-tertiary-fixed-variant);
+  --color-background: var(--theme-background);
+  --color-on-background: var(--theme-on-background);
+  --color-surface-variant: var(--theme-surface-variant);
+
+  /* Semantic aliases */
+  --color-ink: var(--theme-on-surface);
+  --color-muted: var(--theme-outline);
+  --color-command: var(--theme-surface);
+  --color-panel: var(--theme-surface-container-lowest);
+  --color-forest: var(--theme-surface-container-low);
+  --color-lime: var(--theme-secondary);
+  --color-silver: var(--theme-outline-variant);
+  --color-soil: var(--theme-tertiary);
+  --color-alert: var(--theme-error);
+  --color-warn: var(--theme-tertiary);
+  --color-info: var(--theme-primary);
+
+  --spacing-gutter: 0.75rem;
+  --spacing-margin: 1.25rem;
+  --spacing-space-xs: 0.2rem;
+  --spacing-space-sm: 0.375rem;
+  --spacing-space-md: 0.625rem;
+  --spacing-space-lg: 1rem;
+  --spacing-space-xl: 1.35rem;
+
+  --radius-sm: 0.125rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  --font-display-2xl: "Space Grotesk", sans-serif;
+  --font-headline-xl: "Space Grotesk", sans-serif;
+  --font-headline-lg: "Space Grotesk", sans-serif;
+  --font-body-base: "Work Sans", sans-serif;
+  --font-body-medium: "Work Sans", sans-serif;
+  --font-caption: "Inter", sans-serif;
+  --font-label-caps: "Inter", sans-serif;
+  --font-mono-telemetry: "JetBrains Mono", monospace;
+}
+
+html {
+  font-size: 14px;
 }
 
 html,
@@ -24,80 +199,170 @@ body,
 
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #0f172a;
-  font-family: var(--font-sans);
+  background: var(--theme-background);
+  color: var(--theme-on-surface);
+  font-family: var(--font-body-base), "Work Sans", sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
   letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* DT Minim Bright Minimalist Card & UI Utilities */
-.minim-tag {
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  font-size: 11px;
+/* Material Symbols Integration */
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 20;
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.material-symbols-outlined.fill {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 20;
+}
+
+/* Typography Utility Classes */
+.font-display-2xl {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 20px;
   font-weight: 700;
-  color: #64748b;
+  line-height: 26px;
+  letter-spacing: -0.02em;
+}
+
+.font-headline-xl {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.015em;
+}
+
+.font-headline-lg {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+}
+
+.font-body-base {
+  font-family: "Work Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.012em;
+}
+
+.font-body-medium {
+  font-family: "Work Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.012em;
+}
+
+.font-caption {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0;
+}
+
+.font-label-caps {
+  font-family: "Inter", sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.font-mono-telemetry {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+
+/* BhuRaksha UI Utilities */
+.minim-tag {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--theme-outline);
 }
 
 .minim-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+  background: var(--theme-surface-container-lowest);
+  border: 1px solid var(--theme-surface-container-high);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .minim-card:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  border-color: var(--theme-surface-container-highest);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.1);
 }
 
 .minim-button {
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--theme-primary);
+  background: var(--theme-primary);
+  color: var(--theme-on-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
 }
 
 .minim-button:hover {
-  background: #0f172a;
-  color: #ffffff;
-  border-color: #0f172a;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+  background: var(--theme-primary-container);
+  border-color: var(--theme-primary-container);
 }
 
-/* Bright Minimalist Custom Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--theme-surface-container-low);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--theme-surface-container-highest);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--theme-outline);
 }
 
-/* Bright Leaflet Map Theme */
+/* Leaflet Map Theme */
 .leaflet-container {
-  background: #f1f5f9;
-  font-family: var(--font-sans);
+  background: var(--theme-surface-container-low);
+  font-family: var(--font-body-base), "Work Sans", sans-serif;
   isolation: isolate;
   z-index: 1 !important;
 }
@@ -137,37 +402,37 @@ body {
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: #ffffff !important;
-  color: #0f172a !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+  background: var(--theme-surface-container-lowest) !important;
+  color: var(--theme-on-surface) !important;
+  border: 1px solid var(--theme-surface-container-high) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2) !important;
   border-radius: 12px !important;
 }
 
 .leaflet-control-zoom {
-  border: 1px solid #e2e8f0 !important;
+  border: 1px solid var(--theme-surface-container-high) !important;
   border-radius: 8px !important;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
 }
 
 .leaflet-control-zoom a {
-  background: #ffffff !important;
-  color: #0f172a !important;
-  border-color: #e2e8f0 !important;
+  background: var(--theme-surface-container-lowest) !important;
+  color: var(--theme-on-surface) !important;
+  border-color: var(--theme-surface-container-high) !important;
   transition: all 0.15s ease-in-out !important;
 }
 
 .leaflet-control-zoom a:hover {
-  background: #f8fafc !important;
-  color: #059669 !important;
+  background: var(--theme-surface-container-low) !important;
+  color: var(--theme-primary) !important;
 }
 
-/* Bright Subtle Architectural Grid */
+/* Subtle Architectural Grid */
 .scan-grid {
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(128, 128, 128, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -215,10 +480,12 @@ body {
 @media print {
   nav,
   aside,
+  header,
   .no-print {
     display: none !important;
   }
   main {
     overflow: visible !important;
+    padding: 0 !important;
   }
 }

@@ -183,28 +183,28 @@ export function RiskMap({ height = 'h-[520px]' }: { height?: string }) {
       </MapContainer>
 
       {/* Layer Legend Overlay */}
-      <div className="pointer-events-none absolute left-3 top-3 rounded-lg border border-gray-200 bg-white/95 px-3 py-2 text-[10px] tracking-wide text-gray-800 backdrop-blur-sm z-10 hidden sm:block shadow-md">
-        <p className="font-bold text-emerald-800 uppercase tracking-wider">Layer Legend</p>
-        <p className="text-gray-700 mt-0.5">Heat = zone risk · Teal = sensors · Green = villages · Brown = field reports</p>
-        <p className="text-gray-600">Corridors: green open · amber restricted · red blocked</p>
+      <div className="pointer-events-none absolute left-3 top-3 rounded-lg border border-surface-container-high bg-surface-container-lowest/95 px-3 py-2 text-[10px] tracking-wide text-on-surface backdrop-blur-sm z-10 hidden sm:block shadow-md">
+        <p className="font-label-caps text-primary">Layer Legend</p>
+        <p className="text-on-surface-variant mt-0.5">Heat = zone risk &bull; Teal = sensors &bull; Green = villages &bull; Brown = field reports</p>
+        <p className="text-outline">Corridors: green open &bull; amber restricted &bull; red blocked</p>
       </div>
 
       {/* Map Control & Basemap Switcher */}
-      <div className="absolute right-3 top-3 z-10 flex flex-wrap items-center gap-1 rounded-lg border border-gray-200 bg-white/95 p-1 backdrop-blur-sm shadow-md">
+      <div className="absolute right-3 top-3 z-10 flex flex-wrap items-center gap-1 rounded-lg border border-surface-container-high bg-surface-container-lowest/95 p-1 backdrop-blur-sm shadow-md">
         <button
           type="button"
           onClick={() => setEnableScrollZoom(!enableScrollZoom)}
           className={`rounded px-2 py-1 text-[10px] font-semibold transition cursor-pointer ${
             enableScrollZoom
-              ? 'bg-rose-100 text-rose-800 border border-rose-200 font-bold'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              ? 'bg-error-container text-on-error-container border border-error/30 font-bold'
+              : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
           }`}
           title={enableScrollZoom ? 'Wheel zoom is active (click to lock for page scrolling)' : 'Click to enable map wheel zoom'}
         >
           {enableScrollZoom ? '🔍 Zoom: Wheel' : '🔒 Page Scroll'}
         </button>
 
-        <span className="h-3 w-px bg-gray-200" />
+        <span className="h-3 w-px bg-surface-container-high" />
 
         {(Object.keys(BASEMAPS) as BasemapKey[]).map((key) => (
           <button
@@ -213,8 +213,8 @@ export function RiskMap({ height = 'h-[520px]' }: { height?: string }) {
             onClick={() => setBasemap(key)}
             className={`rounded px-2 py-1 text-[10px] font-medium transition-colors cursor-pointer ${
               basemap === key
-                ? 'bg-emerald-600 text-white font-bold shadow-xs'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                ? 'bg-primary text-on-primary font-bold shadow-xs'
+                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
             }`}
           >
             {BASEMAPS[key].name}

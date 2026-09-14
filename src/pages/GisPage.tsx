@@ -13,16 +13,16 @@ export function GisPage() {
   )
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <div className="space-y-space-lg">
+      <div className="flex flex-wrap items-end justify-between gap-space-md">
         <div>
-          <p className="text-[11px] tracking-[0.22em] text-emerald-700 uppercase font-semibold">Interactive GIS</p>
-          <h1 className="text-2xl font-bold text-gray-900">Operations map — vulnerable slopes, roads, villages</h1>
+          <p className="font-label-caps text-primary">Interactive Geospatial GIS</p>
+          <h1 className="font-display-2xl text-on-surface">Operations Map &bull; Vulnerable Slopes &amp; Corridors</h1>
         </div>
-        <label className="text-xs font-semibold text-gray-700 flex items-center gap-2">
-          <span>Filter State:</span>
+        <label className="text-xs font-semibold text-on-surface-variant flex items-center gap-2">
+          <span className="font-label-caps text-outline">Filter State:</span>
           <select
-            className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-900 shadow-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+            className="rounded-lg border border-surface-container-high bg-surface-container-lowest px-3 py-1.5 text-sm font-medium text-on-surface shadow-xs outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             value={stateFilter}
             onChange={(e) => setStateFilter(e.target.value)}
           >
@@ -33,36 +33,36 @@ export function GisPage() {
         </label>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-3">
-        <Panel title="Leaflet Geohazard Basemap · CARTO" className="xl:col-span-2">
+      <div className="grid gap-space-lg xl:grid-cols-3">
+        <Panel title="Geohazard Basemap Intelligence" className="xl:col-span-2">
           <RiskMap height="h-[640px]" />
         </Panel>
-        <div className="space-y-4">
-          <Panel title="Inspect zone">
+        <div className="space-y-space-md">
+          <Panel title="Inspect Zone Telemetry">
             {selectedZone ? (
-              <div className="space-y-2 text-sm text-gray-800">
-                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-                  <p className="font-bold text-base text-gray-900">{selectedZone.name}</p>
+              <div className="space-y-2 text-sm text-on-surface">
+                <div className="flex items-center justify-between border-b border-surface-container-high/60 pb-2">
+                  <p className="font-headline-lg font-bold text-on-surface">{selectedZone.name}</p>
                   <Pill severity={selectedZone.severity} />
                 </div>
-                <p className="text-gray-600 font-medium">
+                <p className="text-on-surface-variant font-medium">
                   {selectedZone.district}, {selectedZone.state}
                 </p>
-                <p className="font-mono text-xs text-gray-700 bg-gray-50 p-1.5 rounded border border-gray-200 inline-block">
+                <p className="font-mono text-xs text-on-surface bg-surface-container-low p-1.5 rounded border border-surface-container-high inline-block">
                   📍 {selectedZone.lat.toFixed(3)}° N, {selectedZone.lng.toFixed(3)}° E
                 </p>
-                <p><strong className="text-gray-900">Corridor:</strong> {selectedZone.corridor}</p>
-                <p><strong className="text-gray-900">Lithology:</strong> {selectedZone.lithology}</p>
-                <p><strong className="text-gray-900">Land use:</strong> {selectedZone.landUse}</p>
-                <p><strong className="text-gray-900">Slope:</strong> {selectedZone.slopeDeg}° · <strong className="text-gray-900">History:</strong> {selectedZone.historicalEvents} slides</p>
-                <p><strong className="text-gray-900">Population at risk:</strong> {selectedZone.populationAtRisk.toLocaleString('en-IN')}</p>
-                <p className="text-xs leading-relaxed text-gray-600"><strong className="text-gray-900">Villages:</strong> {selectedZone.villages.join(', ')}</p>
+                <p><strong className="text-on-surface">Corridor:</strong> {selectedZone.corridor}</p>
+                <p><strong className="text-on-surface">Lithology:</strong> {selectedZone.lithology}</p>
+                <p><strong className="text-on-surface">Land use:</strong> {selectedZone.landUse}</p>
+                <p><strong className="text-on-surface">Slope:</strong> {selectedZone.slopeDeg}° &bull; <strong className="text-on-surface">History:</strong> {selectedZone.historicalEvents} slides</p>
+                <p><strong className="text-on-surface">Population at risk:</strong> {selectedZone.populationAtRisk.toLocaleString('en-IN')}</p>
+                <p className="text-xs leading-relaxed text-on-surface-variant"><strong className="text-on-surface">Villages:</strong> {selectedZone.villages.join(', ')}</p>
               </div>
             ) : (
-              <p className="text-sm text-gray-500 py-4 text-center">Select a zone marker on the map to inspect details.</p>
+              <p className="text-sm text-outline py-4 text-center">Select a zone marker on the map to inspect details.</p>
             )}
           </Panel>
-          <Panel title="Filtered watch boxes">
+          <Panel title="Filtered Watch Boxes">
             <ul className="max-h-72 space-y-2 overflow-auto pr-1">
               {filtered.map((z) => (
                 <li key={z.id}>
@@ -71,12 +71,12 @@ export function GisPage() {
                     onClick={() => selectZone(z.id)}
                     className={`w-full rounded-lg border px-3 py-2 text-left text-sm transition cursor-pointer flex items-center justify-between ${
                       selectedZone?.id === z.id
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold shadow-sm'
-                        : 'border-gray-200 bg-gray-50/70 text-gray-900 hover:border-emerald-400 hover:bg-emerald-50/40'
+                        ? 'border-primary bg-primary-fixed text-on-primary-fixed font-bold shadow-xs'
+                        : 'border-surface-container-high bg-surface-container-low text-on-surface hover:border-primary/50'
                     }`}
                   >
-                    <span className="font-medium">{z.name}</span>
-                    <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-700">
+                    <span className="font-medium text-xs truncate mr-2">{z.name}</span>
+                    <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-surface-container-lowest border border-surface-container-high text-on-surface shrink-0">
                       Score {z.riskScore.toFixed(0)}
                     </span>
                   </button>
@@ -84,25 +84,25 @@ export function GisPage() {
               ))}
             </ul>
           </Panel>
-          <Panel title="Road status">
-            <ul className="space-y-2 text-sm divide-y divide-gray-100">
+          <Panel title="Corridor Arterials Status">
+            <ul className="space-y-2 text-sm divide-y divide-surface-container-high/60">
               {roads.map((r) => (
                 <li key={r.id} className="pt-2 first:pt-0">
                   <div className="flex items-center justify-between">
-                    <p className="font-semibold text-gray-900">{r.name}</p>
+                    <p className="font-semibold text-on-surface text-xs">{r.name}</p>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                      className={`text-[10px] font-label-caps px-2 py-0.5 rounded ${
                         r.status === 'Open'
-                          ? 'bg-emerald-100 text-emerald-800'
+                          ? 'bg-secondary-container text-on-secondary-container'
                           : r.status === 'Restricted'
-                            ? 'bg-amber-100 text-amber-800'
-                            : 'bg-rose-100 text-rose-800'
+                            ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant'
+                            : 'bg-error-container text-on-error-container'
                       }`}
                     >
                       {r.status}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-600 mt-0.5">
+                  <p className="text-xs text-on-surface-variant mt-0.5 font-caption">
                     {r.diversion}
                   </p>
                 </li>
