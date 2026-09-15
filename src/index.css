@@ -1,103 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  --theme-surface: #faf8ff;
-  --theme-surface-dim: #d2d9f4;
-  --theme-surface-bright: #faf8ff;
+  --theme-surface: #fff4d6;
+  --theme-surface-dim: #ebdcb9;
+  --theme-surface-bright: #fff9eb;
   --theme-surface-container-lowest: #ffffff;
-  --theme-surface-container-low: #f2f3ff;
-  --theme-surface-container: #eaedff;
-  --theme-surface-container-high: #e2e7ff;
-  --theme-surface-container-highest: #dae2fd;
-  --theme-on-surface: #131b2e;
-  --theme-on-surface-variant: #3f4850;
-  --theme-inverse-surface: #283044;
-  --theme-inverse-on-surface: #eef0ff;
-  --theme-outline: #707881;
-  --theme-outline-variant: #bfc7d2;
-  --theme-surface-tint: #006398;
-  --theme-primary: #006194;
+  --theme-surface-container-low: #fdf2d7;
+  --theme-surface-container: #f8e8c2;
+  --theme-surface-container-high: #eedcb0;
+  --theme-surface-container-highest: #e4cf9c;
+  --theme-on-surface: #2b1408;
+  --theme-on-surface-variant: #5c361e;
+  --theme-inverse-surface: #211107;
+  --theme-inverse-on-surface: #fff4d6;
+  --theme-outline: #8c5a37;
+  --theme-outline-variant: #d4bd9e;
+  --theme-surface-tint: #fc6c26;
+  --theme-primary: #fc6c26;
   --theme-on-primary: #ffffff;
-  --theme-primary-container: #007bb9;
-  --theme-on-primary-container: #fdfcff;
-  --theme-inverse-primary: #93ccff;
-  --theme-secondary: #006c4a;
+  --theme-primary-container: #ff7e3d;
+  --theme-on-primary-container: #ffffff;
+  --theme-inverse-primary: #ffb592;
+  --theme-secondary: #e85d19;
   --theme-on-secondary: #ffffff;
-  --theme-secondary-container: #82f5c1;
-  --theme-on-secondary-container: #00714e;
-  --theme-tertiary: #8d4b00;
+  --theme-secondary-container: #ffe1ce;
+  --theme-on-secondary-container: #6b2500;
+  --theme-tertiary: #945300;
   --theme-on-tertiary: #ffffff;
-  --theme-tertiary-container: #b15f00;
-  --theme-on-tertiary-container: #fffbff;
+  --theme-tertiary-container: #ffdfa1;
+  --theme-on-tertiary-container: #472700;
   --theme-error: #ba1a1a;
   --theme-on-error: #ffffff;
   --theme-error-container: #ffdad6;
   --theme-on-error-container: #93000a;
-  --theme-primary-fixed: #cce5ff;
-  --theme-primary-fixed-dim: #93ccff;
-  --theme-on-primary-fixed: #001d31;
-  --theme-on-primary-fixed-variant: #004b73;
-  --theme-secondary-fixed: #85f8c4;
-  --theme-secondary-fixed-dim: #68dba9;
-  --theme-on-secondary-fixed: #002114;
-  --theme-on-secondary-fixed-variant: #005137;
-  --theme-tertiary-fixed: #ffdcc3;
-  --theme-tertiary-fixed-dim: #ffb77d;
-  --theme-on-tertiary-fixed: #2f1500;
-  --theme-on-tertiary-fixed-variant: #6e3900;
-  --theme-background: #faf8ff;
-  --theme-on-background: #131b2e;
-  --theme-surface-variant: #dae2fd;
+  --theme-primary-fixed: #ffdbcb;
+  --theme-primary-fixed-dim: #ffb592;
+  --theme-on-primary-fixed: #390c00;
+  --theme-on-primary-fixed-variant: #7d2600;
+  --theme-secondary-fixed: #ffe1ce;
+  --theme-secondary-fixed-dim: #ffb68f;
+  --theme-on-secondary-fixed: #331000;
+  --theme-on-secondary-fixed-variant: #732900;
+  --theme-tertiary-fixed: #ffdf9c;
+  --theme-tertiary-fixed-dim: #f5be48;
+  --theme-on-tertiary-fixed: #291800;
+  --theme-on-tertiary-fixed-variant: #613b00;
+  --theme-background: #fff4d6;
+  --theme-on-background: #2b1408;
+  --theme-surface-variant: #eedcb0;
 }
 
 html.dark {
-  --theme-surface: #0b0f19;
-  --theme-surface-dim: #080b12;
-  --theme-surface-bright: #171f2f;
-  --theme-surface-container-lowest: #0e1422;
-  --theme-surface-container-low: #131a2c;
-  --theme-surface-container: #182238;
-  --theme-surface-container-high: #1e2a44;
-  --theme-surface-container-highest: #263553;
-  --theme-on-surface: #eef0ff;
-  --theme-on-surface-variant: #bfc7d2;
-  --theme-inverse-surface: #eef0ff;
-  --theme-inverse-on-surface: #131b2e;
-  --theme-outline: #88929e;
-  --theme-outline-variant: #3f4850;
-  --theme-surface-tint: #93ccff;
-  --theme-primary: #38bdf8;
-  --theme-on-primary: #003353;
-  --theme-primary-container: #004b73;
-  --theme-on-primary-container: #cce5ff;
-  --theme-inverse-primary: #006194;
-  --theme-secondary: #34d399;
-  --theme-on-secondary: #003824;
-  --theme-secondary-container: #005137;
-  --theme-on-secondary-container: #85f8c4;
-  --theme-tertiary: #fb923c;
-  --theme-on-tertiary: #2f1500;
-  --theme-tertiary-container: #6e3900;
-  --theme-on-tertiary-container: #ffdcc3;
+  --theme-surface: #140d08;
+  --theme-surface-dim: #0e0805;
+  --theme-surface-bright: #221710;
+  --theme-surface-container-lowest: #100a06;
+  --theme-surface-container-low: #18100a;
+  --theme-surface-container: #20160f;
+  --theme-surface-container-high: #2b1e15;
+  --theme-surface-container-highest: #38281d;
+  --theme-on-surface: #fff4d6;
+  --theme-on-surface-variant: #e8dcbe;
+  --theme-inverse-surface: #fff4d6;
+  --theme-inverse-on-surface: #20140a;
+  --theme-outline: #a88d74;
+  --theme-outline-variant: #523e2f;
+  --theme-surface-tint: #fc6c26;
+  --theme-primary: #fc6c26;
+  --theme-on-primary: #1a0800;
+  --theme-primary-container: #e65510;
+  --theme-on-primary-container: #fff4d6;
+  --theme-inverse-primary: #fc6c26;
+  --theme-secondary: #ff8c4b;
+  --theme-on-secondary: #280c00;
+  --theme-secondary-container: #632500;
+  --theme-on-secondary-container: #ffdac6;
+  --theme-tertiary: #ffd978;
+  --theme-on-tertiary: #3d2700;
+  --theme-tertiary-container: #664600;
+  --theme-on-tertiary-container: #fff4d6;
   --theme-error: #f87171;
   --theme-on-error: #450a0a;
   --theme-error-container: #7f1d1d;
   --theme-on-error-container: #fecaca;
-  --theme-primary-fixed: #004b73;
-  --theme-primary-fixed-dim: #003353;
-  --theme-on-primary-fixed: #cce5ff;
-  --theme-on-primary-fixed-variant: #93ccff;
-  --theme-secondary-fixed: #005137;
-  --theme-secondary-fixed-dim: #003824;
-  --theme-on-secondary-fixed: #85f8c4;
-  --theme-on-secondary-fixed-variant: #68dba9;
-  --theme-tertiary-fixed: #6e3900;
-  --theme-tertiary-fixed-dim: #2f1500;
-  --theme-on-tertiary-fixed: #ffdcc3;
-  --theme-on-tertiary-fixed-variant: #ffb77d;
-  --theme-background: #0b0f19;
-  --theme-on-background: #eef0ff;
-  --theme-surface-variant: #263553;
+  --theme-primary-fixed: #7d2600;
+  --theme-primary-fixed-dim: #541800;
+  --theme-on-primary-fixed: #ffdbcb;
+  --theme-on-primary-fixed-variant: #ffb592;
+  --theme-secondary-fixed: #632500;
+  --theme-secondary-fixed-dim: #431600;
+  --theme-on-secondary-fixed: #ffdac6;
+  --theme-on-secondary-fixed-variant: #ffb68f;
+  --theme-tertiary-fixed: #664600;
+  --theme-tertiary-fixed-dim: #452d00;
+  --theme-on-tertiary-fixed: #ffdf9c;
+  --theme-on-tertiary-fixed-variant: #ffd978;
+  --theme-background: #140d08;
+  --theme-on-background: #fff4d6;
+  --theme-surface-variant: #38281d;
 }
 
 @theme {
@@ -177,13 +177,14 @@ html.dark {
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
 
-  --font-display-2xl: "Space Grotesk", sans-serif;
-  --font-headline-xl: "Space Grotesk", sans-serif;
-  --font-headline-lg: "Space Grotesk", sans-serif;
-  --font-body-base: "Work Sans", sans-serif;
-  --font-body-medium: "Work Sans", sans-serif;
-  --font-caption: "Inter", sans-serif;
-  --font-label-caps: "Inter", sans-serif;
+  --font-sans: "Montserrat", sans-serif;
+  --font-display-2xl: "Montserrat", sans-serif;
+  --font-headline-xl: "Montserrat", sans-serif;
+  --font-headline-lg: "Montserrat", sans-serif;
+  --font-body-base: "Montserrat", sans-serif;
+  --font-body-medium: "Montserrat", sans-serif;
+  --font-caption: "Montserrat", sans-serif;
+  --font-label-caps: "Montserrat", sans-serif;
   --font-mono-telemetry: "JetBrains Mono", monospace;
 }
 
@@ -201,13 +202,18 @@ body {
   margin: 0;
   background: var(--theme-background);
   color: var(--theme-on-surface);
-  font-family: var(--font-body-base), "Work Sans", sans-serif;
+  font-family: var(--font-body-base), "Montserrat", sans-serif;
   font-size: 13px;
   line-height: 1.45;
   letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background-color: #fc6c26;
+  color: #fff4d6;
 }
 
 /* Material Symbols Integration */
@@ -235,7 +241,7 @@ body {
 
 /* Typography Utility Classes */
 .font-display-2xl {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 20px;
   font-weight: 700;
   line-height: 26px;
@@ -243,7 +249,7 @@ body {
 }
 
 .font-headline-xl {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 17px;
   font-weight: 600;
   line-height: 22px;
@@ -251,7 +257,7 @@ body {
 }
 
 .font-headline-lg {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 15px;
   font-weight: 600;
   line-height: 20px;
@@ -259,7 +265,7 @@ body {
 }
 
 .font-body-base {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 13px;
   font-weight: 400;
   line-height: 18px;
@@ -267,7 +273,7 @@ body {
 }
 
 .font-body-medium {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 13px;
   font-weight: 500;
   line-height: 18px;
@@ -275,7 +281,7 @@ body {
 }
 
 .font-caption {
-  font-family: "Inter", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 11px;
   font-weight: 400;
   line-height: 15px;
@@ -283,7 +289,7 @@ body {
 }
 
 .font-label-caps {
-  font-family: "Inter", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 9.5px;
   font-weight: 700;
   line-height: 13px;
@@ -356,13 +362,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-outline);
+  background: var(--theme-primary);
 }
 
 /* Leaflet Map Theme */
 .leaflet-container {
   background: var(--theme-surface-container-low);
-  font-family: var(--font-body-base), "Work Sans", sans-serif;
+  font-family: var(--font-body-base), "Montserrat", sans-serif;
   isolation: isolate;
   z-index: 1 !important;
 }

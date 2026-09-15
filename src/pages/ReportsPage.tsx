@@ -89,46 +89,46 @@ export function ReportsPage() {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-[11px] tracking-[0.22em] text-lime uppercase">Situation reports</p>
-        <h1 className="text-2xl font-semibold">SITREP factory</h1>
-        <p className="text-sm text-muted">Pulls live zones, roads, alerts and tasking into a ministry-style brief.</p>
+        <p className="font-label-caps text-secondary">Situation reports</p>
+        <h1 className="font-display-2xl text-on-surface">SITREP factory</h1>
+        <p className="text-sm text-on-surface-variant">Pulls live zones, roads, alerts and tasking into a ministry-style brief.</p>
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="Compose">
-          <label className="block text-xs font-semibold text-muted uppercase">
+          <label className="block text-xs font-semibold text-outline uppercase">
             Title
-            <input className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-xs outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input className="mt-1 w-full rounded-lg border border-surface-container-high bg-surface-container-low px-3 py-2 text-sm text-on-surface shadow-xs outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
-          <label className="mt-3 block text-xs font-semibold text-muted uppercase">
+          <label className="mt-3 block text-xs font-semibold text-outline uppercase">
             Duty officer note
-            <textarea className="mt-1 min-h-28 w-full rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-900 shadow-xs outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600" value={note} onChange={(e) => setNote(e.target.value)} />
+            <textarea className="mt-1 min-h-28 w-full rounded-lg border border-surface-container-high bg-surface-container-low p-3 text-sm text-on-surface shadow-xs outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" value={note} onChange={(e) => setNote(e.target.value)} />
           </label>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" onClick={downloadPdf} className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition cursor-pointer">
+            <button type="button" onClick={downloadPdf} className="rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-on-secondary shadow-sm hover:bg-secondary/90 transition cursor-pointer">
               Generate PDF
             </button>
-            <button type="button" onClick={downloadTxt} className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-50 transition cursor-pointer">
+            <button type="button" onClick={downloadTxt} className="rounded-lg border border-surface-container-high bg-surface-container-low px-4 py-2 text-sm font-semibold text-on-surface shadow-xs hover:bg-surface-container-high transition cursor-pointer">
               Download TXT
             </button>
-            <button type="button" onClick={() => window.print()} className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 shadow-xs hover:bg-gray-50 transition cursor-pointer">
+            <button type="button" onClick={() => window.print()} className="rounded-lg border border-surface-container-high bg-surface-container-low px-4 py-2 text-sm font-semibold text-on-surface shadow-xs hover:bg-surface-container-high transition cursor-pointer">
               Print preview
             </button>
           </div>
-          {flash ? <p className="mt-3 text-sm font-semibold text-emerald-700">{flash}</p> : null}
+          {flash ? <p className="mt-3 text-sm font-semibold text-secondary">{flash}</p> : null}
         </Panel>
         <Panel title="Live brief preview">
-          <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap font-mono text-[11px] leading-5 text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-200">{buildBody()}</pre>
+          <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap font-mono text-[11px] leading-5 text-on-surface bg-surface-container-low p-3 rounded-lg border border-surface-container-high">{buildBody()}</pre>
         </Panel>
       </div>
       <Panel title="Generated this session">
         {sitreps.length === 0 ? (
-          <p className="text-sm text-muted">No SITREPs generated yet in this browser session.</p>
+          <p className="text-sm text-outline">No SITREPs generated yet in this browser session.</p>
         ) : (
           <ul className="space-y-2 text-sm">
             {sitreps.map((s) => (
-              <li key={s.id} className="flex justify-between gap-2 border-b border-gray-100 pb-2 text-gray-900">
+              <li key={s.id} className="flex justify-between gap-2 border-b border-surface-container-high pb-2 text-on-surface">
                 <span className="font-medium">{s.title}</span>
-                <span className="font-mono text-[11px] text-muted">
+                <span className="font-mono text-[11px] text-outline">
                   {s.id} · {fmtTime(s.generatedAt)} · {s.author}
                 </span>
               </li>

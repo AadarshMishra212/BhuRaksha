@@ -296,31 +296,31 @@ export function AiPage() {
   return (
     <div className="space-y-5">
       {/* Top Header & Tab Switcher */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-surface-container-high pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-600 pulse-dot" />
-            <p className="text-[11px] tracking-[0.22em] text-emerald-700 uppercase font-bold">
+            <span className="flex h-2 w-2 rounded-full bg-secondary pulse-dot" />
+            <p className="text-[11px] tracking-[0.22em] text-secondary uppercase font-bold">
               Automated Situation-Adaptive Intelligence
             </p>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-on-surface mt-1">
             BHOOMI Intelligence
           </h1>
-          <p className="max-w-2xl text-xs text-muted mt-1">
+          <p className="max-w-2xl text-xs text-on-surface-variant mt-1">
             Automated thunderstorm sirens, real-time user risk exposure mapping, and live evacuation shelter routing for North Eastern India.
           </p>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-100 p-1.5 shadow-xs">
+        <div className="flex items-center gap-1.5 rounded-xl border border-surface-container-high bg-surface-container-low p-1.5 shadow-xs">
           <button
             type="button"
             onClick={() => setActiveTab('bhoomi')}
-            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
+            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition cursor-pointer ${
               activeTab === 'bhoomi'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-white'
+                ? 'bg-secondary text-on-secondary shadow-sm'
+                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest'
             }`}
           >
             <Brain className="h-3.5 w-3.5" />
@@ -329,10 +329,10 @@ export function AiPage() {
           <button
             type="button"
             onClick={() => setActiveTab('nowcast')}
-            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition ${
+            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition cursor-pointer ${
               activeTab === 'nowcast'
-                ? 'bg-emerald-600 text-white shadow-sm font-semibold'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-white'
+                ? 'bg-secondary text-on-secondary shadow-sm font-semibold'
+                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest'
             }`}
           >
             <Activity className="h-3.5 w-3.5" />
@@ -448,10 +448,10 @@ export function AiPage() {
           <Panel title="Automated High-Risk Zone & Evacuation Route Mapping">
             <div className="space-y-3">
               {/* Map Layer Basemap Controls */}
-              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-gray-200 bg-gray-50 p-2.5 text-xs shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-surface-container-high bg-surface-container-low p-2.5 text-xs shadow-xs">
                 <div className="flex items-center gap-1.5 overflow-x-auto">
-                  <span className="text-[11px] font-semibold text-gray-700 uppercase flex items-center gap-1 mr-1">
-                    <Layers className="h-3.5 w-3.5 text-emerald-600" />
+                  <span className="text-[11px] font-semibold text-on-surface-variant uppercase flex items-center gap-1 mr-1">
+                    <Layers className="h-3.5 w-3.5 text-secondary" />
                     <span>Basemap:</span>
                   </span>
                   {(['google_hybrid', 'google_terrain', 'google_streets', 'carto_dark'] as BhoomiBasemapKey[]).map((bmKey) => {
@@ -464,8 +464,8 @@ export function AiPage() {
                         onClick={() => setSelectedBasemap(bmKey)}
                         className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs transition cursor-pointer ${
                           isSelected
-                            ? 'border border-emerald-600 bg-emerald-50 font-bold text-emerald-700 shadow-xs'
-                            : 'border border-gray-200 bg-white text-gray-700 hover:border-emerald-500 hover:text-emerald-700'
+                            ? 'border border-secondary bg-secondary-container font-bold text-on-secondary-container shadow-xs'
+                            : 'border border-surface-container-high bg-surface-container-lowest text-on-surface-variant hover:border-secondary hover:text-on-surface'
                         }`}
                       >
                         <span>{bm.icon}</span>
@@ -476,34 +476,34 @@ export function AiPage() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-on-surface-variant">
                 <div className="flex flex-wrap items-center gap-3.5">
-                  <span className="flex items-center gap-1.5 text-gray-900 font-medium">
-                    <span className="h-3 w-3 rounded-full bg-cyan-500 border border-gray-300" />
+                  <span className="flex items-center gap-1.5 text-on-surface font-medium">
+                    <span className="h-3 w-3 rounded-full bg-cyan-500 border border-surface-container-high" />
                     <span>Your Location ({userLocation.name.split(',')[0]})</span>
                   </span>
-                  <span className="flex items-center gap-1.5 text-gray-900 font-medium">
-                    <span className="h-3 w-3 rounded-full bg-emerald-500 border border-gray-300" />
+                  <span className="flex items-center gap-1.5 text-on-surface font-medium">
+                    <span className="h-3 w-3 rounded-full bg-emerald-500 border border-surface-container-high" />
                     <span>Nearest Shelter</span>
                   </span>
-                  <span className="flex items-center gap-1.5 text-gray-900 font-medium">
-                    <span className="h-3 w-3 rounded-full bg-amber-500 border border-gray-300" />
+                  <span className="flex items-center gap-1.5 text-on-surface font-medium">
+                    <span className="h-3 w-3 rounded-full bg-amber-500 border border-surface-container-high" />
                     <span>Food Camp</span>
                   </span>
-                  <span className="flex items-center gap-1.5 text-gray-900 font-medium">
-                    <span className="h-3 w-3 rounded-full bg-rose-500 border border-gray-300" />
+                  <span className="flex items-center gap-1.5 text-on-surface font-medium">
+                    <span className="h-3 w-3 rounded-full bg-rose-500 border border-surface-container-high" />
                     <span>Hospital</span>
                   </span>
-                  <span className="flex items-center gap-1.5 text-gray-900 font-medium">
-                    <span className="h-3 w-3 rounded-full bg-blue-500 border border-gray-300" />
+                  <span className="flex items-center gap-1.5 text-on-surface font-medium">
+                    <span className="h-3 w-3 rounded-full bg-blue-500 border border-surface-container-high" />
                     <span>Vehicle Depot</span>
                   </span>
-                  <span className="flex items-center gap-1.5 text-gray-900 font-medium">
-                    <span className="h-3 w-3 rounded-full bg-alert border border-gray-300" />
+                  <span className="flex items-center gap-1.5 text-on-surface font-medium">
+                    <span className="h-3 w-3 rounded-full bg-alert border border-surface-container-high" />
                     <span>Critical Zone</span>
                   </span>
                 </div>
-                <span className="font-mono text-emerald-700 font-bold">
+                <span className="font-mono text-secondary font-bold">
                   Evacuation ETA: ~{userExposure.nearestShelter.driveTimeMin} min drive / ~{userExposure.nearestShelter.walkTimeMin} min walk
                 </span>
               </div>
@@ -612,10 +612,10 @@ export function AiPage() {
                   >
                     <Popup>
                       <div className="text-xs font-sans">
-                        <p className="font-bold text-emerald-700">🏛️ Nearest Evacuation Shelter</p>
-                        <p className="font-semibold">{userExposure.nearestShelter.village.shelter}</p>
-                        <p className="text-muted">Distance: {userExposure.nearestShelter.distanceKm} km</p>
-                        <p className="font-bold mt-1">ETA: ~{userExposure.nearestShelter.driveTimeMin} min vehicle</p>
+                        <p className="font-bold text-primary">🏛️ Nearest Evacuation Shelter</p>
+                        <p className="font-semibold text-on-surface">{userExposure.nearestShelter.village.shelter}</p>
+                        <p className="text-on-surface-variant">Distance: {userExposure.nearestShelter.distanceKm} km</p>
+                        <p className="font-bold mt-1 text-on-surface">ETA: ~{userExposure.nearestShelter.driveTimeMin} min vehicle</p>
                       </div>
                     </Popup>
                   </CircleMarker>
@@ -631,19 +631,19 @@ export function AiPage() {
                       pathOptions={{
                         color: '#ffffff',
                         weight: 2.5,
-                        fillColor: '#f59e0b',
+                        fillColor: '#fc6c26',
                         fillOpacity: 1,
                       }}
                     >
                       <Popup>
                         <div className="text-xs font-sans">
-                          <p className="font-bold text-amber-700">🍲 Relief Food / Ration Hub</p>
-                          <p className="font-semibold">{userExposure.nearestResources.foodPlace.data.name}</p>
-                          <p className="text-muted">{userExposure.nearestResources.foodPlace.data.type}</p>
-                          <p className="text-muted">
+                          <p className="font-bold text-primary">🍲 Relief Food / Ration Hub</p>
+                          <p className="font-semibold text-on-surface">{userExposure.nearestResources.foodPlace.data.name}</p>
+                          <p className="text-on-surface-variant">{userExposure.nearestResources.foodPlace.data.type}</p>
+                          <p className="text-on-surface-variant">
                             Distance: {userExposure.nearestResources.foodPlace.distanceKm} km (~{userExposure.nearestResources.foodPlace.driveTimeMin}m drive)
                           </p>
-                          <p className="font-bold mt-1 text-emerald-700">
+                          <p className="font-bold mt-1 text-on-surface">
                             Capacity: {userExposure.nearestResources.foodPlace.data.dailyMealCapacity.toLocaleString()} meals/day
                           </p>
                         </div>
@@ -668,13 +668,13 @@ export function AiPage() {
                     >
                       <Popup>
                         <div className="text-xs font-sans">
-                          <p className="font-bold text-rose-700">🏥 Emergency Hospital &amp; Trauma Centre</p>
-                          <p className="font-semibold">{userExposure.nearestResources.hospital.data.name}</p>
-                          <p className="text-muted">{userExposure.nearestResources.hospital.data.type}</p>
-                          <p className="text-muted">
+                          <p className="font-bold text-rose-500">🏥 Emergency Hospital &amp; Trauma Centre</p>
+                          <p className="font-semibold text-on-surface">{userExposure.nearestResources.hospital.data.name}</p>
+                          <p className="text-on-surface-variant">{userExposure.nearestResources.hospital.data.type}</p>
+                          <p className="text-on-surface-variant">
                             Distance: {userExposure.nearestResources.hospital.distanceKm} km (~{userExposure.nearestResources.hospital.driveTimeMin}m drive)
                           </p>
-                          <p className="font-bold mt-1 text-slate-800">
+                          <p className="font-bold mt-1 text-on-surface">
                             Emergency Beds: {userExposure.nearestResources.hospital.data.emergencyBeds} | ICU: {userExposure.nearestResources.hospital.data.icuAvailable ? 'Active' : 'Limited'}
                           </p>
                         </div>
@@ -699,13 +699,13 @@ export function AiPage() {
                     >
                       <Popup>
                         <div className="text-xs font-sans">
-                          <p className="font-bold text-blue-700">🚜 Government Machinery &amp; Vehicle Depot</p>
-                          <p className="font-semibold">{userExposure.nearestResources.vehicleDepot.data.name}</p>
-                          <p className="text-muted">{userExposure.nearestResources.vehicleDepot.data.agency}</p>
-                          <p className="text-muted">
+                          <p className="font-bold text-blue-500">🚜 Government Machinery &amp; Vehicle Depot</p>
+                          <p className="font-semibold text-on-surface">{userExposure.nearestResources.vehicleDepot.data.name}</p>
+                          <p className="text-on-surface-variant">{userExposure.nearestResources.vehicleDepot.data.agency}</p>
+                          <p className="text-on-surface-variant">
                             Distance: {userExposure.nearestResources.vehicleDepot.distanceKm} km (~{userExposure.nearestResources.vehicleDepot.driveTimeMin}m drive)
                           </p>
-                          <p className="font-bold mt-1 text-slate-800">
+                          <p className="font-bold mt-1 text-on-surface">
                             Excavators: {userExposure.nearestResources.vehicleDepot.data.heavyExcavators} | JCBs: {userExposure.nearestResources.vehicleDepot.data.jcbBulldozers}
                           </p>
                         </div>
@@ -732,7 +732,7 @@ export function AiPage() {
                       type="button"
                       onClick={handleDetectGpsLocation}
                       disabled={gpsLoading}
-                      className="flex items-center gap-1.5 text-xs text-emerald-700 font-bold hover:underline cursor-pointer"
+                      className="flex items-center gap-1.5 text-xs text-primary font-bold hover:underline cursor-pointer"
                     >
                       <MapPin className="h-3.5 w-3.5" />
                       <span>{gpsLoading ? 'Accessing GPS...' : 'Detect Live GPS'}</span>
@@ -747,7 +747,7 @@ export function AiPage() {
                         setUserLocation({ ...found, isLiveGps: false })
                       }
                     }}
-                    className="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2 text-xs text-gray-900 focus:border-emerald-600 focus:outline-none shadow-xs"
+                    className="w-full rounded-xl border border-surface-container-high bg-surface-container-lowest px-3.5 py-2 text-xs text-on-surface focus:border-secondary focus:outline-none shadow-xs"
                   >
                     {userLocation.isLiveGps && (
                       <option value={userLocation.name}>📍 Live GPS Position ({userLocation.lat}, {userLocation.lng})</option>
@@ -760,18 +760,18 @@ export function AiPage() {
                   </select>
 
                   {gpsError && (
-                    <p className="text-[10px] text-amber-700 font-medium">{gpsError}</p>
+                    <p className="text-[10px] text-amber-500 font-medium">{gpsError}</p>
                   )}
                 </div>
 
                 {/* Exposure Index Gauge */}
-                <div className="rounded-xl border border-gray-200 bg-gray-50/80 p-4 space-y-3">
+                <div className="rounded-xl border border-surface-container-high bg-surface-container-low p-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-[11px] uppercase text-muted font-semibold">Personal Risk Exposure</p>
-                      <p className="text-3xl font-mono font-bold text-gray-900 mt-0.5">
+                      <p className="text-[11px] uppercase text-outline font-semibold">Personal Risk Exposure</p>
+                      <p className="text-3xl font-mono font-bold text-on-surface mt-0.5">
                         {userExposure.exposureScore}
-                        <span className="text-base text-muted font-normal"> / 100</span>
+                        <span className="text-base text-outline font-normal"> / 100</span>
                       </p>
                     </div>
                     <span
@@ -779,37 +779,37 @@ export function AiPage() {
                         userExposure.dangerLevel === 'Immediate Danger'
                           ? 'border-alert/50 bg-alert/20 text-alert'
                           : userExposure.dangerLevel === 'High Vigilance'
-                            ? 'border-amber-500/50 bg-amber-500/20 text-amber-600'
-                            : 'border-emerald-500/50 bg-emerald-50 text-emerald-700'
+                            ? 'border-amber-500/50 bg-amber-500/20 text-amber-500'
+                            : 'border-secondary/50 bg-secondary-container text-on-secondary-container'
                       }`}
                     >
                       {userExposure.dangerLevel}
                     </span>
                   </div>
 
-                  <div className="h-2 w-full rounded-full bg-gray-200 overflow-hidden">
+                  <div className="h-2 w-full rounded-full bg-surface-container-high overflow-hidden">
                     <div
                       className={`h-full transition-all duration-300 ${
                         userExposure.exposureScore >= 70
                           ? 'bg-alert'
                           : userExposure.exposureScore >= 45
                             ? 'bg-amber-500'
-                            : 'bg-emerald-500'
+                            : 'bg-secondary'
                       }`}
                       style={{ width: `${userExposure.exposureScore}%` }}
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-200 text-xs">
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-surface-container-high text-xs">
                     <div>
-                      <span className="text-muted text-[10px] uppercase font-semibold">Closest Hazard Scarp:</span>
-                      <p className="font-semibold text-gray-900 mt-0.5 truncate">
+                      <span className="text-outline text-[10px] uppercase font-semibold">Closest Hazard Scarp:</span>
+                      <p className="font-semibold text-on-surface mt-0.5 truncate">
                         {userExposure.nearestHazardZone.name.split('–')[0]}
                       </p>
                     </div>
                     <div>
-                      <span className="text-muted text-[10px] uppercase font-semibold">Distance to Scarp:</span>
-                      <p className="font-mono font-bold text-emerald-700 mt-0.5">
+                      <span className="text-outline text-[10px] uppercase font-semibold">Distance to Scarp:</span>
+                      <p className="font-mono font-bold text-secondary mt-0.5">
                         {userExposure.distanceToHazardKm} km
                       </p>
                     </div>
@@ -817,9 +817,9 @@ export function AiPage() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-[11px] text-muted">
+              <div className="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between text-[11px] text-outline">
                 <span>Coordinates: {userLocation.lat}&deg;N, {userLocation.lng}&deg;E</span>
-                <span className="text-emerald-700 font-semibold">BHOOMI Geodesic Mesh</span>
+                <span className="text-secondary font-semibold">BHOOMI Geodesic Mesh</span>
               </div>
             </Panel>
 
@@ -827,24 +827,24 @@ export function AiPage() {
             <Panel title="Nearest Designated Shelter & Fastest Evacuation Route" className="lg:col-span-7 flex flex-col justify-between">
               <div className="space-y-4">
                 {/* Shelter Header */}
-                <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+                <div className="rounded-xl border border-secondary/30 bg-secondary-container/20 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
                   <div className="flex items-start gap-3">
-                    <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-700 border border-emerald-300 mt-0.5">
+                    <div className="p-2.5 rounded-xl bg-secondary-container text-on-secondary-container border border-secondary/30 mt-0.5">
                       <Navigation className="h-5 w-5" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] uppercase font-bold text-emerald-800 tracking-wider">
+                        <span className="text-[10px] uppercase font-bold text-secondary tracking-wider">
                           Primary Designated Shelter
                         </span>
-                        <span className="text-[10px] rounded bg-white px-1.5 py-0.2 text-muted border border-gray-200 font-medium">
+                        <span className="text-[10px] rounded bg-surface-container-lowest px-1.5 py-0.2 text-outline border border-surface-container-high font-medium">
                           Official DDMA Camp
                         </span>
                       </div>
-                      <h4 className="text-base font-bold text-gray-900 mt-0.5">
+                      <h4 className="text-base font-bold text-on-surface mt-0.5">
                         {userExposure.nearestShelter.village.shelter}
                       </h4>
-                      <p className="text-xs text-muted">
+                      <p className="text-xs text-outline">
                         Sector: {userExposure.nearestShelter.village.name} &bull; {userExposure.nearestShelter.village.district},{' '}
                         {userExposure.nearestShelter.village.state}
                       </p>
@@ -852,68 +852,68 @@ export function AiPage() {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <p className="text-xs text-muted uppercase tracking-wider font-semibold">Distance</p>
-                    <p className="text-2xl font-mono font-bold text-emerald-700">
-                      {userExposure.nearestShelter.distanceKm} <span className="text-xs font-normal text-muted">km</span>
+                    <p className="text-xs text-outline uppercase tracking-wider font-semibold">Distance</p>
+                    <p className="text-2xl font-mono font-bold text-secondary">
+                      {userExposure.nearestShelter.distanceKm} <span className="text-xs font-normal text-outline">km</span>
                     </p>
                   </div>
                 </div>
 
                 {/* Fastest Travel Times (Drive vs Walk) */}
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/80 p-3.5 flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-orange-100 text-orange-700 border border-orange-200">
+                  <div className="rounded-xl border border-surface-container-high bg-surface-container-low p-3.5 flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant border border-tertiary/30">
                       <Car className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase text-muted font-semibold">Fastest Vehicle ETA</p>
-                      <p className="text-lg font-mono font-bold text-gray-900">
-                        ~{userExposure.nearestShelter.driveTimeMin} <span className="text-xs font-normal text-muted">mins</span>
+                      <p className="text-[10px] uppercase text-outline font-semibold">Fastest Vehicle ETA</p>
+                      <p className="text-lg font-mono font-bold text-on-surface">
+                        ~{userExposure.nearestShelter.driveTimeMin} <span className="text-xs font-normal text-outline">mins</span>
                       </p>
                     </div>
                   </div>
 
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/80 p-3.5 flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-cyan-100 text-cyan-700 border border-cyan-200">
+                  <div className="rounded-xl border border-surface-container-high bg-surface-container-low p-3.5 flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-primary-fixed text-on-primary-fixed-variant border border-primary/30">
                       <Footprints className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase text-muted font-semibold">On-Foot Evacuation</p>
-                      <p className="text-lg font-mono font-bold text-gray-900">
-                        ~{userExposure.nearestShelter.walkTimeMin} <span className="text-xs font-normal text-muted">mins</span>
+                      <p className="text-[10px] uppercase text-outline font-semibold">On-Foot Evacuation</p>
+                      <p className="text-lg font-mono font-bold text-on-surface">
+                        ~{userExposure.nearestShelter.walkTimeMin} <span className="text-xs font-normal text-outline">mins</span>
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Safe Evacuation Corridor Turn-by-Turn Guidance */}
-                <div className="rounded-xl border border-gray-200 bg-gray-50/70 p-3.5 space-y-2">
+                <div className="rounded-xl border border-surface-container-high bg-surface-container-low p-3.5 space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-gray-900 flex items-center gap-1.5">
-                      <ShieldAlert className="h-3.5 w-3.5 text-emerald-600" />
+                    <span className="font-bold text-on-surface flex items-center gap-1.5">
+                      <ShieldAlert className="h-3.5 w-3.5 text-secondary" />
                       <span>Recommended Evacuation Corridor:</span>
                     </span>
                     <span
                       className={`font-mono text-[11px] font-bold ${
-                        userExposure.nearestShelter.isRoadClear ? 'text-emerald-700' : 'text-amber-700'
+                        userExposure.nearestShelter.isRoadClear ? 'text-secondary' : 'text-tertiary'
                       }`}
                     >
                       {userExposure.nearestShelter.isRoadClear ? 'Route Passable' : 'Caution / Divert'}
                     </span>
                   </div>
-                  <p className="text-xs text-muted leading-relaxed">
+                  <p className="text-xs text-on-surface-variant leading-relaxed">
                     {userExposure.nearestShelter.safeCorridor}
                   </p>
                 </div>
               </div>
 
               {/* Direct GPS Navigation */}
-              <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2.5">
-                <div className="text-xs text-muted">
+              <div className="mt-4 pt-3 border-t border-surface-container-high flex flex-wrap items-center justify-between gap-2.5">
+                <div className="text-xs text-outline">
                   <span>Routing: </span>
-                  <span className="text-gray-900 font-semibold">{userLocation.name.split(',')[0]}</span>
+                  <span className="text-on-surface font-semibold">{userLocation.name.split(',')[0]}</span>
                   <span> &rarr; </span>
-                  <span className="text-emerald-700 font-semibold">{userExposure.nearestShelter.village.shelter}</span>
+                  <span className="text-secondary font-semibold">{userExposure.nearestShelter.village.shelter}</span>
                 </div>
                 <a
                   href={userExposure.nearestShelter.googleMapsUrl}
@@ -932,29 +932,29 @@ export function AiPage() {
           {userExposure.nearestResources && (
             <div className="space-y-4 pt-1">
               {/* Section Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-gray-200 pt-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-surface-container-high pt-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 flex items-center gap-1.5">
+                    <span className="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-1.5">
                       <Layers className="h-4 w-4" />
                       <span>Critical Lifeline Infrastructure Grid</span>
                     </span>
-                    <span className="rounded-full bg-emerald-100 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
+                    <span className="rounded-full bg-secondary-container border border-secondary/30 px-2.5 py-0.5 text-[10px] font-bold text-on-secondary-container">
                       Auto-Synced to {userLocation.isLiveGps ? '📍 Live GPS' : userLocation.name.split(',')[0]}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mt-1">
+                  <h3 className="text-lg font-bold text-on-surface mt-1">
                     Nearest Food Distribution, Trauma Hospital &amp; Government Fleet Depot
                   </h3>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-on-surface-variant">
                     Proximity analysis, fleet readiness, and direct GPS routing to essential emergency support services for{' '}
-                    <span className="text-gray-950 font-bold">{userLocation.name}</span>.
+                    <span className="text-on-surface font-bold">{userLocation.name}</span>.
                   </p>
                 </div>
 
                 <div className="text-right shrink-0 hidden md:block">
-                  <span className="text-[10px] uppercase text-gray-500 font-semibold tracking-wider">Sector Coordinates</span>
-                  <p className="font-mono text-xs font-bold text-emerald-700 mt-0.5">
+                  <span className="text-[10px] uppercase text-outline font-semibold tracking-wider">Sector Coordinates</span>
+                  <p className="font-mono text-xs font-bold text-secondary mt-0.5">
                     {userLocation.lat}&deg;N, {userLocation.lng}&deg;E
                   </p>
                 </div>
@@ -963,7 +963,7 @@ export function AiPage() {
               {/* 3 Infrastructure Cards Grid */}
               <div className="grid gap-4.5 md:grid-cols-3">
                 {/* CARD 1: Nearest Relief Food Place / Kitchen */}
-                <div className="rounded-2xl border border-amber-500/30 bg-[#0e1610] p-4.5 flex flex-col justify-between space-y-4 shadow-xl hover:border-amber-500/50 transition">
+                <div className="rounded-2xl border border-amber-500/30 bg-surface-container-low p-4.5 flex flex-col justify-between space-y-4 shadow-xl hover:border-amber-500/50 transition">
                   <div className="space-y-3.5">
                     {/* Card Top: Icon & Type */}
                     <div className="flex items-start justify-between gap-2">
@@ -975,61 +975,61 @@ export function AiPage() {
                           <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block">
                             Nearest Food Facility
                           </span>
-                          <span className="text-[10px] rounded bg-white/10 px-1.5 py-0.5 text-muted font-medium">
+                          <span className="text-[10px] rounded bg-surface-container-high px-1.5 py-0.5 text-on-surface-variant font-medium">
                             {userExposure.nearestResources.foodPlace.data.type}
                           </span>
                         </div>
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-[10px] uppercase text-muted font-semibold">Distance</span>
+                        <span className="text-[10px] uppercase text-on-surface-variant font-semibold">Distance</span>
                         <p className="text-xl font-mono font-bold text-amber-400">
                           {userExposure.nearestResources.foodPlace.distanceKm}{' '}
-                          <span className="text-xs font-normal text-muted">km</span>
+                          <span className="text-xs font-normal text-on-surface-variant">km</span>
                         </p>
                       </div>
                     </div>
 
                     {/* Facility Name & Location */}
                     <div>
-                      <h4 className="text-base font-bold text-white leading-snug">
+                      <h4 className="text-base font-bold text-on-surface leading-snug">
                         {userExposure.nearestResources.foodPlace.data.name}
                       </h4>
-                      <p className="text-xs text-muted mt-0.5">
+                      <p className="text-xs text-on-surface-variant mt-0.5">
                         Sector: {userExposure.nearestResources.foodPlace.data.district},{' '}
                         {userExposure.nearestResources.foodPlace.data.state}
                       </p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                      <p className="text-[11px] text-on-surface-variant mt-0.5">
                         In-Charge: {userExposure.nearestResources.foodPlace.data.inCharge}
                       </p>
                     </div>
 
                     {/* Travel Time ETAs */}
-                    <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-2.5 text-xs">
+                    <div className="grid grid-cols-2 gap-2 rounded-xl border border-surface-container-high bg-surface-container-high/40 p-2.5 text-xs">
                       <div>
-                        <span className="text-[10px] uppercase text-muted">Vehicle ETA:</span>
-                        <p className="font-mono font-bold text-white">
+                        <span className="text-[10px] uppercase text-on-surface-variant">Vehicle ETA:</span>
+                        <p className="font-mono font-bold text-on-surface">
                           ~{userExposure.nearestResources.foodPlace.driveTimeMin} mins
                         </p>
                       </div>
                       <div>
-                        <span className="text-[10px] uppercase text-muted">Walking ETA:</span>
-                        <p className="font-mono font-bold text-white">
+                        <span className="text-[10px] uppercase text-on-surface-variant">Walking ETA:</span>
+                        <p className="font-mono font-bold text-on-surface">
                           ~{userExposure.nearestResources.foodPlace.walkTimeMin} mins
                         </p>
                       </div>
                     </div>
 
                     {/* Capacity & Operating Stats */}
-                    <div className="space-y-2 text-xs border-t border-white/10 pt-2.5">
+                    <div className="space-y-2 text-xs border-t border-surface-container-high pt-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Meal Capacity:</span>
-                        <span className="font-mono font-bold text-white">
+                        <span className="text-on-surface-variant">Meal Capacity:</span>
+                        <span className="font-mono font-bold text-on-surface">
                           {userExposure.nearestResources.foodPlace.data.dailyMealCapacity.toLocaleString()} meals/day
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Ration Stock:</span>
+                        <span className="text-on-surface-variant">Ration Stock:</span>
                         <span
                           className={`font-semibold px-2 py-0.2 rounded text-[10px] ${
                             userExposure.nearestResources.foodPlace.data.rationStockStatus === 'Abundant'
@@ -1041,13 +1041,13 @@ export function AiPage() {
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Hours:</span>
-                        <span className="text-zinc-300 font-medium">
+                        <span className="text-on-surface-variant">Hours:</span>
+                        <span className="text-on-surface font-medium">
                           {userExposure.nearestResources.foodPlace.data.operatingHours}
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-[11px] pt-1">
-                        <span className="text-muted">Corridor:</span>
+                        <span className="text-on-surface-variant">Corridor:</span>
                         <span
                           className={`font-medium truncate max-w-[170px] ${
                             userExposure.nearestResources.foodPlace.isRoutePassable
@@ -1063,9 +1063,9 @@ export function AiPage() {
                   </div>
 
                   {/* Actions: Call & Map Navigation */}
-                  <div className="pt-3 border-t border-white/10 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-muted">
-                      <span className="flex items-center gap-1.5 text-zinc-300">
+                  <div className="pt-3 border-t border-surface-container-high space-y-2">
+                    <div className="flex items-center justify-between text-xs text-on-surface-variant">
+                      <span className="flex items-center gap-1.5 text-on-surface">
                         <PhoneCall className="h-3.5 w-3.5 text-amber-400" />
                         <span>{userExposure.nearestResources.foodPlace.data.contactNumber}</span>
                       </span>
@@ -1089,7 +1089,7 @@ export function AiPage() {
                 </div>
 
                 {/* CARD 2: Nearest Emergency Hospital & Trauma Centre */}
-                <div className="rounded-2xl border border-rose-500/30 bg-[#160d10] p-4.5 flex flex-col justify-between space-y-4 shadow-xl hover:border-rose-500/50 transition">
+                <div className="rounded-2xl border border-rose-500/30 bg-surface-container-low p-4.5 flex flex-col justify-between space-y-4 shadow-xl hover:border-rose-500/50 transition">
                   <div className="space-y-3.5">
                     {/* Card Top: Icon & Type */}
                     <div className="flex items-start justify-between gap-2">
@@ -1101,74 +1101,74 @@ export function AiPage() {
                           <span className="text-[10px] uppercase font-bold text-rose-400 tracking-wider block">
                             Nearest Hospital / Trauma
                           </span>
-                          <span className="text-[10px] rounded bg-white/10 px-1.5 py-0.5 text-muted font-medium">
+                          <span className="text-[10px] rounded bg-surface-container-high px-1.5 py-0.5 text-on-surface-variant font-medium">
                             {userExposure.nearestResources.hospital.data.type}
                           </span>
                         </div>
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-[10px] uppercase text-muted font-semibold">Distance</span>
+                        <span className="text-[10px] uppercase text-on-surface-variant font-semibold">Distance</span>
                         <p className="text-xl font-mono font-bold text-rose-400">
                           {userExposure.nearestResources.hospital.distanceKm}{' '}
-                          <span className="text-xs font-normal text-muted">km</span>
+                          <span className="text-xs font-normal text-on-surface-variant">km</span>
                         </p>
                       </div>
                     </div>
 
                     {/* Facility Name & Location */}
                     <div>
-                      <h4 className="text-base font-bold text-white leading-snug">
+                      <h4 className="text-base font-bold text-on-surface leading-snug">
                         {userExposure.nearestResources.hospital.data.name}
                       </h4>
-                      <p className="text-xs text-muted mt-0.5">
+                      <p className="text-xs text-on-surface-variant mt-0.5">
                         Sector: {userExposure.nearestResources.hospital.data.district},{' '}
                         {userExposure.nearestResources.hospital.data.state}
                       </p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                      <p className="text-[11px] text-on-surface-variant mt-0.5">
                         Surgeons on Duty: {userExposure.nearestResources.hospital.data.traumaSurgeonsOnDuty} Specialists
                       </p>
                     </div>
 
                     {/* Travel Time ETAs */}
-                    <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-2.5 text-xs">
+                    <div className="grid grid-cols-2 gap-2 rounded-xl border border-surface-container-high bg-surface-container-high/40 p-2.5 text-xs">
                       <div>
-                        <span className="text-[10px] uppercase text-muted">Ambulance ETA:</span>
-                        <p className="font-mono font-bold text-white">
+                        <span className="text-[10px] uppercase text-on-surface-variant">Ambulance ETA:</span>
+                        <p className="font-mono font-bold text-on-surface">
                           ~{userExposure.nearestResources.hospital.driveTimeMin} mins
                         </p>
                       </div>
                       <div>
-                        <span className="text-[10px] uppercase text-muted">Walking ETA:</span>
-                        <p className="font-mono font-bold text-white">
+                        <span className="text-[10px] uppercase text-on-surface-variant">Walking ETA:</span>
+                        <p className="font-mono font-bold text-on-surface">
                           ~{userExposure.nearestResources.hospital.walkTimeMin} mins
                         </p>
                       </div>
                     </div>
 
                     {/* Capacity & Medical Stats */}
-                    <div className="space-y-2 text-xs border-t border-white/10 pt-2.5">
+                    <div className="space-y-2 text-xs border-t border-surface-container-high pt-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Emergency Beds:</span>
-                        <span className="font-mono font-bold text-white">
+                        <span className="text-on-surface-variant">Emergency Beds:</span>
+                        <span className="font-mono font-bold text-on-surface">
                           {userExposure.nearestResources.hospital.data.emergencyBeds} Beds (
                           {userExposure.nearestResources.hospital.data.icuAvailable ? 'ICU Active' : 'Basic ICU'})
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Ambulance Fleet:</span>
+                        <span className="text-on-surface-variant">Ambulance Fleet:</span>
                         <span className="font-mono font-bold text-emerald-400">
                           {userExposure.nearestResources.hospital.data.ambulancesOnStandby} Units on Standby
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Oxygen Supply:</span>
-                        <span className="text-zinc-300 font-medium">
+                        <span className="text-on-surface-variant">Oxygen Supply:</span>
+                        <span className="text-on-surface font-medium">
                           {userExposure.nearestResources.hospital.data.oxygenCapacity}
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-[11px] pt-1">
-                        <span className="text-muted">Corridor:</span>
+                        <span className="text-on-surface-variant">Corridor:</span>
                         <span
                           className={`font-medium truncate max-w-[170px] ${
                             userExposure.nearestResources.hospital.isRoutePassable
@@ -1184,9 +1184,9 @@ export function AiPage() {
                   </div>
 
                   {/* Actions: Call & Map Navigation */}
-                  <div className="pt-3 border-t border-white/10 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-muted">
-                      <span className="flex items-center gap-1.5 text-zinc-300">
+                  <div className="pt-3 border-t border-surface-container-high space-y-2">
+                    <div className="flex items-center justify-between text-xs text-on-surface-variant">
+                      <span className="flex items-center gap-1.5 text-on-surface">
                         <PhoneCall className="h-3.5 w-3.5 text-rose-400" />
                         <span>{userExposure.nearestResources.hospital.data.emergencyHelpline}</span>
                       </span>
@@ -1210,7 +1210,7 @@ export function AiPage() {
                 </div>
 
                 {/* CARD 3: Nearest Government Vehicle & Heavy Machinery Depot */}
-                <div className="rounded-2xl border border-blue-500/30 bg-[#0d131d] p-4.5 flex flex-col justify-between space-y-4 shadow-xl hover:border-blue-500/50 transition">
+                <div className="rounded-2xl border border-blue-500/30 bg-surface-container-low p-4.5 flex flex-col justify-between space-y-4 shadow-xl hover:border-blue-500/50 transition">
                   <div className="space-y-3.5">
                     {/* Card Top: Icon & Type */}
                     <div className="flex items-start justify-between gap-2">
@@ -1222,73 +1222,73 @@ export function AiPage() {
                           <span className="text-[10px] uppercase font-bold text-blue-400 tracking-wider block">
                             Govt Vehicle / Machinery Depot
                           </span>
-                          <span className="text-[10px] rounded bg-white/10 px-1.5 py-0.5 text-muted font-medium">
+                          <span className="text-[10px] rounded bg-surface-container-high px-1.5 py-0.5 text-on-surface-variant font-medium">
                             {userExposure.nearestResources.vehicleDepot.data.agency.split('(')[0]}
                           </span>
                         </div>
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-[10px] uppercase text-muted font-semibold">Distance</span>
+                        <span className="text-[10px] uppercase text-on-surface-variant font-semibold">Distance</span>
                         <p className="text-xl font-mono font-bold text-blue-400">
                           {userExposure.nearestResources.vehicleDepot.distanceKm}{' '}
-                          <span className="text-xs font-normal text-muted">km</span>
+                          <span className="text-xs font-normal text-on-surface-variant">km</span>
                         </p>
                       </div>
                     </div>
 
                     {/* Facility Name & Location */}
                     <div>
-                      <h4 className="text-base font-bold text-white leading-snug">
+                      <h4 className="text-base font-bold text-on-surface leading-snug">
                         {userExposure.nearestResources.vehicleDepot.data.name}
                       </h4>
-                      <p className="text-xs text-muted mt-0.5">
+                      <p className="text-xs text-on-surface-variant mt-0.5">
                         Sector: {userExposure.nearestResources.vehicleDepot.data.district},{' '}
                         {userExposure.nearestResources.vehicleDepot.data.state}
                       </p>
-                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                      <p className="text-[11px] text-on-surface-variant mt-0.5">
                         In-Charge: {userExposure.nearestResources.vehicleDepot.data.commandingOfficer}
                       </p>
                     </div>
 
                     {/* Travel Time ETAs */}
-                    <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-black/30 p-2.5 text-xs">
+                    <div className="grid grid-cols-2 gap-2 rounded-xl border border-surface-container-high bg-surface-container-high/40 p-2.5 text-xs">
                       <div>
-                        <span className="text-[10px] uppercase text-muted">Vehicle ETA:</span>
-                        <p className="font-mono font-bold text-white">
+                        <span className="text-[10px] uppercase text-on-surface-variant">Vehicle ETA:</span>
+                        <p className="font-mono font-bold text-on-surface">
                           ~{userExposure.nearestResources.vehicleDepot.driveTimeMin} mins
                         </p>
                       </div>
                       <div>
-                        <span className="text-[10px] uppercase text-muted">Heavy Fleet ETA:</span>
-                        <p className="font-mono font-bold text-white">
+                        <span className="text-[10px] uppercase text-on-surface-variant">Heavy Fleet ETA:</span>
+                        <p className="font-mono font-bold text-on-surface">
                           ~{Math.round(userExposure.nearestResources.vehicleDepot.driveTimeMin * 1.35)} mins
                         </p>
                       </div>
                     </div>
 
                     {/* Heavy Machinery & Readiness Stats */}
-                    <div className="space-y-2 text-xs border-t border-white/10 pt-2.5">
+                    <div className="space-y-2 text-xs border-t border-surface-container-high pt-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">Heavy Excavators:</span>
-                        <span className="font-mono font-bold text-white">
+                        <span className="text-on-surface-variant">Heavy Excavators:</span>
+                        <span className="font-mono font-bold text-on-surface">
                           {userExposure.nearestResources.vehicleDepot.data.heavyExcavators} Tracked Excavators
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">JCB / Earthmovers:</span>
-                        <span className="font-mono font-bold text-white">
+                        <span className="text-on-surface-variant">JCB / Earthmovers:</span>
+                        <span className="font-mono font-bold text-on-surface">
                           {userExposure.nearestResources.vehicleDepot.data.jcbBulldozers} Bulldozers
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-muted">4x4 Rescue Vehicles:</span>
+                        <span className="text-on-surface-variant">4x4 Rescue Vehicles:</span>
                         <span className="font-mono font-bold text-cyan-400">
                           {userExposure.nearestResources.vehicleDepot.data.fourByFourAmbulanceTrucks} All-Terrain Units
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-[11px] pt-1">
-                        <span className="text-muted">Readiness:</span>
+                        <span className="text-on-surface-variant">Readiness:</span>
                         <span className="font-semibold text-emerald-400 flex items-center gap-1">
                           <span className="h-2 w-2 rounded-full bg-emerald-400 pulse-dot" />
                           <span>{userExposure.nearestResources.vehicleDepot.data.readinessStatus}</span>
@@ -1298,9 +1298,9 @@ export function AiPage() {
                   </div>
 
                   {/* Actions: Call & Map Navigation */}
-                  <div className="pt-3 border-t border-white/10 space-y-2">
-                    <div className="flex items-center justify-between text-xs text-muted">
-                      <span className="flex items-center gap-1.5 text-zinc-300 truncate max-w-[200px]">
+                  <div className="pt-3 border-t border-surface-container-high space-y-2">
+                    <div className="flex items-center justify-between text-xs text-on-surface-variant">
+                      <span className="flex items-center gap-1.5 text-on-surface truncate max-w-[200px]">
                         <PhoneCall className="h-3.5 w-3.5 text-blue-400 shrink-0" />
                         <span className="truncate">{userExposure.nearestResources.vehicleDepot.data.dispatchHotline}</span>
                       </span>
@@ -1330,10 +1330,10 @@ export function AiPage() {
           {assessment && (
             <div className="space-y-4 pt-2">
               {/* Sector Selector Pills & Auto-Sync Indicator */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 overflow-x-auto pb-1 border-t border-gray-200 pt-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 overflow-x-auto pb-1 border-t border-surface-container-high pt-4">
                 <div className="flex items-center gap-2 overflow-x-auto">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-700 shrink-0 flex items-center gap-1">
-                    <MapPin className="h-3 w-3 text-emerald-600" />
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-on-surface-variant shrink-0 flex items-center gap-1">
+                    <MapPin className="h-3 w-3 text-secondary" />
                     <span>Sector Forecast:</span>
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -1345,10 +1345,10 @@ export function AiPage() {
                           key={z.id}
                           type="button"
                           onClick={() => selectZone(z.id)}
-                          className={`rounded-full border px-3 py-1 text-xs transition ${
+                          className={`rounded-full border px-3 py-1 text-xs transition cursor-pointer ${
                             z.id === zone.id
-                              ? 'border-emerald-600 bg-emerald-50 text-emerald-700 font-semibold shadow-xs ring-1 ring-emerald-300'
-                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:text-gray-900'
+                              ? 'border-secondary bg-secondary-container text-on-secondary-container font-semibold shadow-xs ring-1 ring-secondary/40'
+                              : 'border-surface-container-high bg-surface-container-lowest text-on-surface-variant hover:border-surface-container-highest hover:text-on-surface'
                           }`}
                         >
                           {z.id === userExposure.nearestHazardZone.id && '📍 '}
@@ -1363,13 +1363,13 @@ export function AiPage() {
                   type="button"
                   onClick={() => selectZone(userExposure.nearestHazardZone.id)}
                   title="Auto-sync sector forecast to your location's nearest hazard scarp"
-                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold shrink-0 transition ${
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold shrink-0 transition cursor-pointer ${
                     zone.id === userExposure.nearestHazardZone.id
-                      ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
-                      : 'border-gray-200 bg-white text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                      ? 'border-secondary/40 bg-secondary-container text-on-secondary-container'
+                      : 'border-surface-container-high bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:border-surface-container-highest'
                   }`}
                 >
-                  <span className="h-2 w-2 rounded-full bg-emerald-600 pulse-dot" />
+                  <span className="h-2 w-2 rounded-full bg-secondary pulse-dot" />
                   <span>
                     {zone.id === userExposure.nearestHazardZone.id
                       ? `Auto-Synced: ${userLocation.name.split(',')[0]} (${userExposure.distanceToHazardKm} km)`
@@ -1380,21 +1380,21 @@ export function AiPage() {
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-on-surface flex items-center gap-2">
                     <span>Automated Impact Forecast: {zone.name}</span>
                     <span
                       className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                         assessment.hazardSeverity === 'Catastrophic'
                           ? 'border-alert/50 bg-alert/20 text-alert'
                           : assessment.hazardSeverity === 'Severe'
-                            ? 'border-amber-500/50 bg-amber-500/20 text-amber-700'
-                            : 'border-emerald-500/50 bg-emerald-50 text-emerald-700'
+                            ? 'border-amber-500/50 bg-amber-500/20 text-amber-500'
+                            : 'border-secondary/50 bg-secondary-container text-on-secondary-container'
                       }`}
                     >
                       {assessment.hazardSeverity} Risk
                     </span>
                   </h3>
-                  <p className="text-xs text-muted">
+                  <p className="text-xs text-on-surface-variant">
                     {zone.corridor} &bull; Sector: {zone.state} &bull; Distance from Position: {userExposure.distanceToHazardKm} km &bull; Model Confidence: {assessment.confidenceScore}%
                   </p>
                 </div>
@@ -1403,117 +1403,117 @@ export function AiPage() {
               {/* 4 Impact Metric Cards */}
               <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
                 {/* 1. Road Closure */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-4 space-y-3 shadow-xs hover:border-gray-300 transition">
+                <div className="rounded-2xl border border-surface-container-high bg-surface-container-lowest p-4 space-y-3 shadow-xs hover:border-surface-container-highest transition">
                   <div className="flex items-center justify-between">
-                    <span className="p-2 rounded-xl bg-orange-100 text-orange-700 border border-orange-200">
+                    <span className="p-2 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed-variant border border-tertiary/30">
                       <Car className="h-5 w-5" />
                     </span>
-                    <span className="font-mono text-xs text-orange-700 font-bold">
+                    <span className="font-mono text-xs text-tertiary font-bold">
                       {assessment.severanceProbability}% Severance Prob
                     </span>
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase tracking-wider text-muted font-semibold">Corridor Blockage</p>
-                    <p className="text-2xl font-mono font-bold text-gray-900 mt-0.5">
-                      {assessment.roadClosureHours} <span className="text-sm font-normal text-muted">hours</span>
+                    <p className="text-[11px] uppercase tracking-wider text-outline font-semibold">Corridor Blockage</p>
+                    <p className="text-2xl font-mono font-bold text-on-surface mt-0.5">
+                      {assessment.roadClosureHours} <span className="text-sm font-normal text-outline">hours</span>
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <div className="h-1.5 w-full rounded-full bg-gray-200 overflow-hidden">
+                    <div className="h-1.5 w-full rounded-full bg-surface-container-high overflow-hidden">
                       <div
-                        className="h-full bg-orange-500"
+                        className="h-full bg-tertiary"
                         style={{ width: `${assessment.severanceProbability}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-muted">
+                    <p className="text-[10px] text-outline">
                       Estimated clearance window for heavy traffic.
                     </p>
                   </div>
                 </div>
 
                 {/* 2. Isolated Population */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-4 space-y-3 shadow-xs hover:border-gray-300 transition">
+                <div className="rounded-2xl border border-surface-container-high bg-surface-container-lowest p-4 space-y-3 shadow-xs hover:border-surface-container-highest transition">
                   <div className="flex items-center justify-between">
-                    <span className="p-2 rounded-xl bg-cyan-100 text-cyan-700 border border-cyan-200">
+                    <span className="p-2 rounded-xl bg-primary-fixed text-on-primary-fixed-variant border border-primary/30">
                       <Users className="h-5 w-5" />
                     </span>
-                    <span className="font-mono text-xs text-cyan-700 font-bold">
+                    <span className="font-mono text-xs text-primary font-bold">
                       {zone.villages.length} Downslope Villages
                     </span>
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase tracking-wider text-muted font-semibold">Isolated Citizens</p>
-                    <p className="text-2xl font-mono font-bold text-gray-900 mt-0.5">
+                    <p className="text-[11px] uppercase tracking-wider text-outline font-semibold">Isolated Citizens</p>
+                    <p className="text-2xl font-mono font-bold text-on-surface mt-0.5">
                       {assessment.isolatedPopulation.toLocaleString()}{' '}
-                      <span className="text-sm font-normal text-muted">people</span>
+                      <span className="text-sm font-normal text-outline">people</span>
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <div className="h-1.5 w-full rounded-full bg-gray-200 overflow-hidden">
+                    <div className="h-1.5 w-full rounded-full bg-surface-container-high overflow-hidden">
                       <div
-                        className="h-full bg-cyan-500"
+                        className="h-full bg-primary"
                         style={{ width: `${Math.min(100, (assessment.isolatedPopulation / 10000) * 100)}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-muted">
+                    <p className="text-[10px] text-outline">
                       Population cut off from primary supply routes.
                     </p>
                   </div>
                 </div>
 
                 {/* 3. Infrastructure Damage */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-4 space-y-3 shadow-xs hover:border-gray-300 transition">
+                <div className="rounded-2xl border border-surface-container-high bg-surface-container-lowest p-4 space-y-3 shadow-xs hover:border-surface-container-highest transition">
                   <div className="flex items-center justify-between">
-                    <span className="p-2 rounded-xl bg-rose-100 text-rose-700 border border-rose-200">
+                    <span className="p-2 rounded-xl bg-error-container text-on-error-container border border-error/30">
                       <ShieldAlert className="h-5 w-5" />
                     </span>
-                    <span className="font-mono text-xs text-rose-700 font-bold">
+                    <span className="font-mono text-xs text-error font-bold">
                       Asset Index
                     </span>
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase tracking-wider text-muted font-semibold">Infrastructure Damage</p>
-                    <p className="text-2xl font-mono font-bold text-gray-900 mt-0.5">
-                      {assessment.infrastructureDamageIndex} <span className="text-sm font-normal text-muted">/ 100</span>
+                    <p className="text-[11px] uppercase tracking-wider text-outline font-semibold">Infrastructure Damage</p>
+                    <p className="text-2xl font-mono font-bold text-on-surface mt-0.5">
+                      {assessment.infrastructureDamageIndex} <span className="text-sm font-normal text-outline">/ 100</span>
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <div className="h-1.5 w-full rounded-full bg-gray-200 overflow-hidden">
+                    <div className="h-1.5 w-full rounded-full bg-surface-container-high overflow-hidden">
                       <div
-                        className="h-full bg-rose-500"
+                        className="h-full bg-error"
                         style={{ width: `${assessment.infrastructureDamageIndex}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-muted">
+                    <p className="text-[10px] text-outline">
                       Probability of retaining wall shear &amp; culvert scouring.
                     </p>
                   </div>
                 </div>
 
                 {/* 4. Time-to-Failure Window */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-4 space-y-3 shadow-xs hover:border-gray-300 transition">
+                <div className="rounded-2xl border border-surface-container-high bg-surface-container-lowest p-4 space-y-3 shadow-xs hover:border-surface-container-highest transition">
                   <div className="flex items-center justify-between">
-                    <span className="p-2 rounded-xl bg-emerald-100 text-emerald-700 border border-emerald-200">
+                    <span className="p-2 rounded-xl bg-secondary-container text-on-secondary-container border border-secondary/30">
                       <Clock className="h-5 w-5" />
                     </span>
-                    <span className="font-mono text-xs text-emerald-700 font-bold">
+                    <span className="font-mono text-xs text-secondary font-bold">
                       {assessment.debrisVolumeM3.toLocaleString()} m³ Debris
                     </span>
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase tracking-wider text-muted font-semibold">Time-to-Failure (TTF)</p>
-                    <p className="text-2xl font-mono font-bold text-gray-900 mt-0.5">
-                      {assessment.timeToFailureHours} <span className="text-sm font-normal text-muted">hours</span>
+                    <p className="text-[11px] uppercase tracking-wider text-outline font-semibold">Time-to-Failure (TTF)</p>
+                    <p className="text-2xl font-mono font-bold text-on-surface mt-0.5">
+                      {assessment.timeToFailureHours} <span className="text-sm font-normal text-outline">hours</span>
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <div className="h-1.5 w-full rounded-full bg-gray-200 overflow-hidden">
+                    <div className="h-1.5 w-full rounded-full bg-surface-container-high overflow-hidden">
                       <div
-                        className="h-full bg-emerald-600"
+                        className="h-full bg-secondary"
                         style={{ width: `${Math.max(10, 100 - (assessment.timeToFailureHours / 24) * 100)}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-muted">
+                    <p className="text-[10px] text-outline">
                       Estimated window before primary shear failure.
                     </p>
                   </div>
@@ -1531,13 +1531,13 @@ export function AiPage() {
         <div className="space-y-4">
           <div className="grid gap-4 lg:grid-cols-3">
             <Panel title="Model output" className="lg:col-span-1">
-              <p className="font-mono text-5xl font-semibold text-emerald-700">{zone.riskScore.toFixed(1)}</p>
+              <p className="font-mono text-5xl font-semibold text-secondary">{zone.riskScore.toFixed(1)}</p>
               <div className="mt-2">
                 <Pill severity={zone.severity} />
               </div>
-              <p className="mt-3 text-sm font-bold text-gray-900">{zone.name}</p>
-              <p className="text-xs text-muted">{zone.lithology}</p>
-              <p className="mt-4 text-xs leading-relaxed text-muted">
+              <p className="mt-3 text-sm font-bold text-on-surface">{zone.name}</p>
+              <p className="text-xs text-outline">{zone.lithology}</p>
+              <p className="mt-4 text-xs leading-relaxed text-on-surface-variant">
                 If 6-hour nowcast stays above 76, recommend corridor closure and downslope evacuation. Model is conservative on cut slopes with soil moisture &gt; 70%.
               </p>
             </Panel>
@@ -1545,11 +1545,11 @@ export function AiPage() {
               <div className="h-72">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={explain} layout="vertical" margin={{ left: 120 }}>
-                    <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
-                    <XAxis type="number" stroke="#64748b" fontSize={11} />
-                    <YAxis type="category" dataKey="feature" stroke="#64748b" fontSize={11} width={115} />
-                    <Tooltip contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', color: '#0f172a', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }} />
-                    <Bar dataKey="contribution" fill="#059669" name="Contribution %" radius={[0, 4, 4, 0]} />
+                    <CartesianGrid stroke="var(--theme-surface-container-high)" strokeDasharray="3 3" />
+                    <XAxis type="number" stroke="var(--theme-outline)" fontSize={11} />
+                    <YAxis type="category" dataKey="feature" stroke="var(--theme-outline)" fontSize={11} width={115} />
+                    <Tooltip contentStyle={{ background: 'var(--theme-surface-container-lowest)', border: '1px solid var(--theme-surface-container-high)', borderRadius: '8px', color: 'var(--theme-on-surface)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }} />
+                    <Bar dataKey="contribution" fill="#006c4a" name="Contribution %" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -1561,11 +1561,11 @@ export function AiPage() {
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={forecast}>
-                    <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
-                    <XAxis dataKey="hour" stroke="#64748b" />
-                    <YAxis domain={[0, 100]} stroke="#64748b" />
-                    <Tooltip contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', color: '#0f172a', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }} />
-                    <Line type="monotone" dataKey="score" stroke="#e11d48" strokeWidth={2.5} dot={{ r: 3 }} />
+                    <CartesianGrid stroke="var(--theme-surface-container-high)" strokeDasharray="3 3" />
+                    <XAxis dataKey="hour" stroke="var(--theme-outline)" />
+                    <YAxis domain={[0, 100]} stroke="var(--theme-outline)" />
+                    <Tooltip contentStyle={{ background: 'var(--theme-surface-container-lowest)', border: '1px solid var(--theme-surface-container-high)', borderRadius: '8px', color: 'var(--theme-on-surface)', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }} />
+                    <Line type="monotone" dataKey="score" stroke="#ba1a1a" strokeWidth={2.5} dot={{ r: 3 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -1573,7 +1573,7 @@ export function AiPage() {
             <Panel title="Geotechnical Evidence Matrix">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="text-[11px] uppercase tracking-wider text-gray-700 font-semibold border-b border-gray-200">
+                  <thead className="text-[11px] uppercase tracking-wider text-outline font-semibold border-b border-surface-container-high">
                     <tr>
                       <th className="pb-2">Factor / Sensor Feature</th>
                       <th className="pb-2">Live Reading</th>
@@ -1582,10 +1582,10 @@ export function AiPage() {
                   </thead>
                   <tbody>
                     {zone.explain.map((e) => (
-                      <tr key={e.feature} className="border-t border-gray-100 hover:bg-gray-50/60">
-                        <td className="py-2.5 pr-2 font-medium text-gray-900">{e.feature}</td>
-                        <td className="font-mono text-xs text-emerald-700 font-semibold">{e.value}</td>
-                        <td className="font-mono text-xs text-muted">{(e.weight * 100).toFixed(0)}%</td>
+                      <tr key={e.feature} className="border-t border-surface-container-high hover:bg-surface-container-low">
+                        <td className="py-2.5 pr-2 font-medium text-on-surface">{e.feature}</td>
+                        <td className="font-mono text-xs text-secondary font-semibold">{e.value}</td>
+                        <td className="font-mono text-xs text-outline">{(e.weight * 100).toFixed(0)}%</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1596,20 +1596,20 @@ export function AiPage() {
         </div>
       )}
 
-      {/* SEOC Tactical Operations Console Banner (Dark banner with bright text) */}
-      <div className="rounded-2xl border border-emerald-900/40 bg-gradient-to-r from-[#0a241c] via-[#0b1f1a] to-[#071713] p-5 shadow-xl text-white">
+      {/* SEOC Tactical Operations Console Banner (Burnt Orange & Vanilla Theme) */}
+      <div className="rounded-2xl border border-[#fc6c26]/40 bg-gradient-to-r from-[#1c1008] via-[#24150d] to-[#160b05] p-5 shadow-xl text-[#fff4d6]">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 pulse-dot" />
-              <p className="text-xs font-bold tracking-widest text-emerald-400 uppercase">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[#fc6c26] pulse-dot" />
+              <p className="text-xs font-bold tracking-widest text-[#fc6c26] uppercase">
                 SEOC Tactical Operations Desk Active
               </p>
             </div>
-            <h2 className="text-lg font-bold text-white">
+            <h2 className="text-lg font-bold text-[#fff4d6]">
               Query Geotechnical Telemetry &amp; Shelters for {zone.name}
             </h2>
-            <p className="text-xs text-gray-300 max-w-2xl">
+            <p className="text-xs text-[#e8dcbe] max-w-2xl">
               Inspect physical parameter contributions, simulate slope saturation thresholds, request road corridor diversions, or check designated evacuation shelters. Open the SEOC Tactical Console at the bottom right.
             </p>
           </div>
@@ -1620,7 +1620,7 @@ export function AiPage() {
                 const el = document.querySelector('button[aria-label="Open SEOC Duty Desk"]') as HTMLButtonElement
                 if (el) el.click()
               }}
-              className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-gray-950 hover:bg-emerald-400 transition shadow-lg shadow-emerald-900/40 cursor-pointer"
+              className="flex items-center gap-2 rounded-xl bg-[#fc6c26] px-4 py-2 text-xs font-bold text-[#1a0800] hover:bg-[#ff7e3d] transition shadow-lg shadow-[#fc6c26]/30 cursor-pointer"
             >
               <Radio className="h-4 w-4" />
               <span>SEOC Tactical Console</span>

@@ -55,19 +55,46 @@ export function AppLayout() {
   const profileRef = useRef<HTMLDivElement>(null)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     try {
-      return localStorage.getItem('bhuraksha_sidebar_collapsed') === 'true'
+      const saved = localStorage.getItem('bhuraksha_sidebar_collapsed')
+      return saved === null ? true : saved === 'true'
     } catch {
-      return false
+      return true
     }
   })
+  const [sidebarHovered, setSidebarHovered] = useState(false)
+  const hoverTimeoutRef = useRef<number | null>(null)
   const [clock, setClock] = useState(fmtClock())
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<typeof zones>([])
   const [searchOpen, setSearchOpen] = useState(false)
 
+  const isExpanded = !sidebarCollapsed || sidebarHovered
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      window.clearTimeout(hoverTimeoutRef.current)
+      hoverTimeoutRef.current = null
+    }
+    setSidebarHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      window.clearTimeout(hoverTimeoutRef.current)
+    }
+    hoverTimeoutRef.current = window.setTimeout(() => {
+      setSidebarHovered(false)
+    }, 120)
+  }
+
   useEffect(() => {
     const id = window.setInterval(() => setClock(fmtClock()), 1000)
-    return () => window.clearInterval(id)
+    return () => {
+      window.clearInterval(id)
+      if (hoverTimeoutRef.current) {
+        window.clearTimeout(hoverTimeoutRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -94,6 +121,7 @@ export function AppLayout() {
   useEffect(() => {
     setMobileMenuOpen(false)
     setProfileOpen(false)
+    setSidebarHovered(false)
   }, [location.pathname])
 
   if (!user) return null
@@ -133,104 +161,112 @@ export function AppLayout() {
 
   return (
     <div className="min-h-screen bg-surface text-on-surface font-body-base flex">
-      {/* Sidebar Navigation - Desktop (Collapsible between full w-64 and icon-rail w-16) */}
+      {/* Sidebar Navigation - Desktop (Auto-expands on hover, collapses on mouse leave, can be pinned) */}
       <aside
-        className={`fixed left-0 top-0 bottom-0 z-50 hidden flex-col justify-between border-r border-surface-container-high/80 bg-surface-container-low pt-space-md pb-space-md lg:flex transition-all duration-300 ease-in-out ${
-          sidebarCollapsed ? 'w-16' : 'w-64'
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={`fixed left-0 top-0 bottom-0 z-50 hidden flex-col justify-between border-r border-surface-container-high/80 bg-surface-container-low py-4 lg:flex transition-all duration-300 ease-in-out ${
+          isExpanded
+            ? 'w-72 px-3.5 shadow-2xl ring-1 ring-surface-container-highest/60'
+            : 'w-[72px] px-2 shadow-xs'
         }`}
       >
-        <div className={`flex flex-col flex-1 overflow-y-auto ${sidebarCollapsed ? 'px-1.5 items-center' : 'px-space-sm'}`}>
+        <div className={`flex flex-col flex-1 overflow-y-auto overflow-x-hidden ${!isExpanded ? 'items-center' : ''}`}>
           {/* Header Brand Section */}
-          {!sidebarCollapsed ? (
+          {isExpanded ? (
             /* Expanded Brand Header */
-            <div className="mb-space-md flex items-center justify-between gap-space-xs px-space-xs w-full">
-              <div className="flex items-center gap-2 min-w-0">
+            <div className="mb-4 pb-3.5 border-b border-surface-container-high/60 flex items-center justify-between gap-2 px-1 w-full">
+              <div className="flex items-center gap-2.5 min-w-0">
                 <button
                   type="button"
                   onClick={handleToggleSidebar}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-on-primary shadow-xs shrink-0 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                  title="Collapse to Icon Bar"
-                  aria-label="Collapse Sidebar"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-on-primary shadow-xs shrink-0 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                  title={sidebarCollapsed ? 'Pin Sidebar Expanded' : 'Collapse to Auto-Hover Rail'}
+                  aria-label="Toggle Pin Sidebar"
                 >
-                  <span className="material-symbols-outlined text-[18px]">shield</span>
+                  <span className="material-symbols-outlined text-[19px]">shield</span>
                 </button>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-headline-lg font-bold text-primary tracking-tight text-base truncate">BhuRaksha</span>
-                    <span className="rounded bg-surface-container-highest px-1.5 py-0.2 font-label-caps text-[8.5px] font-bold text-primary shrink-0">
+                    <span className="font-headline-lg font-bold text-primary tracking-tight text-base whitespace-nowrap">BhuRaksha</span>
+                    <span className="rounded-md bg-surface-container-highest px-1.5 py-0.5 font-label-caps text-[8.5px] font-bold text-primary shrink-0">
                       SEOC-NER
                     </span>
                   </div>
-                  <p className="text-[10.5px] text-on-surface-variant font-caption truncate">
+                  <p className="text-[10.5px] text-on-surface-variant font-caption whitespace-nowrap">
                     Landslide Early Warning System
                   </p>
                 </div>
               </div>
 
-              {/* Collapse to Icon Rail Button */}
+              {/* Pin / Collapse Button */}
               <button
                 type="button"
                 onClick={handleToggleSidebar}
-                className="flex h-7 w-7 items-center justify-center rounded-lg text-outline hover:bg-surface-container-high hover:text-on-surface transition-colors cursor-pointer shrink-0"
-                title="Collapse to Icon Bar"
-                aria-label="Collapse to Icon Bar"
+                className={`flex h-7 w-7 items-center justify-center rounded-lg transition-colors cursor-pointer shrink-0 ${
+                  !sidebarCollapsed ? 'text-primary bg-surface-container-high' : 'text-outline hover:bg-surface-container-high hover:text-on-surface'
+                }`}
+                title={sidebarCollapsed ? 'Pin Sidebar Expanded' : 'Collapse to Auto-Hover Rail'}
+                aria-label="Toggle Pin Sidebar"
               >
-                <span className="material-symbols-outlined text-[17px]">left_panel_close</span>
+                <span className="material-symbols-outlined text-[17px]">
+                  {!sidebarCollapsed ? 'push_pin' : 'left_panel_close'}
+                </span>
               </button>
             </div>
           ) : (
-            /* Collapsed Icon-Rail Header - Blue Shield Icon button only (Opens/Closes sidebar) */
-            <div className="mb-space-md flex items-center justify-center w-full">
+            /* Collapsed Icon-Rail Header - Shield Icon button */
+            <div className="mb-4 pb-3 border-b border-surface-container-high/40 flex items-center justify-center w-full">
               <button
                 type="button"
                 onClick={handleToggleSidebar}
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-on-primary shadow-xs transition-all hover:scale-105 active:scale-95 hover:shadow-md cursor-pointer group"
-                title="Expand Sidebar (Click to Open)"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-on-primary shadow-xs transition-all hover:scale-105 active:scale-95 hover:shadow-md cursor-pointer group"
+                title="Hover or Click to Expand Sidebar"
                 aria-label="Expand Sidebar"
               >
-                <span className="material-symbols-outlined text-[19px] transition-transform group-hover:scale-110">shield</span>
+                <span className="material-symbols-outlined text-[20px] transition-transform group-hover:scale-110">shield</span>
               </button>
             </div>
           )}
 
-          {/* Navigation Items List (Icons always visible) */}
-          <nav className={`flex-1 space-y-1 w-full ${sidebarCollapsed ? 'flex flex-col items-center' : ''}`}>
+          {/* Navigation Items List with Generous Spacing Between Bars */}
+          <nav className={`flex-1 w-full ${!isExpanded ? 'flex flex-col items-center space-y-2.5' : 'space-y-2 px-0.5'}`}>
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.to === '/'}
-                title={sidebarCollapsed ? item.label : undefined}
+                title={!isExpanded ? item.label : undefined}
                 className={({ isActive }) =>
-                  `flex items-center rounded-lg transition-all ${
-                    sidebarCollapsed
-                      ? `h-9 w-9 justify-center ${
+                  `flex items-center transition-all duration-200 ${
+                    !isExpanded
+                      ? `h-10 w-10 justify-center rounded-xl ${
                           isActive
-                            ? 'bg-primary-container text-on-primary-container font-semibold shadow-2xs ring-1 ring-primary/30'
-                            : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                            ? 'bg-primary text-on-primary font-bold shadow-md shadow-primary/25 scale-105'
+                            : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface hover:scale-105'
                         }`
-                      : `gap-2 px-2.5 py-1.5 text-xs font-medium ${
+                      : `gap-3 px-3.5 py-2.5 text-xs font-medium rounded-xl ${
                           isActive
-                            ? 'bg-primary-container text-on-primary-container font-semibold shadow-2xs'
-                            : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                            ? 'bg-primary text-on-primary font-semibold shadow-md shadow-primary/20 scale-[1.01]'
+                            : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface hover:translate-x-0.5'
                         }`
                   }`
                 }
               >
-                <span className="material-symbols-outlined text-[18px] shrink-0">{item.iconName}</span>
-                {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+                <span className="material-symbols-outlined text-[19px] shrink-0">{item.iconName}</span>
+                {isExpanded && <span className="truncate tracking-wide">{item.label}</span>}
               </NavLink>
             ))}
           </nav>
         </div>
 
         {/* User Profile & Logout Section (Bottom) */}
-        {!sidebarCollapsed ? (
+        {isExpanded ? (
           /* Expanded Footer Profile */
-          <div className="mt-space-sm border-t border-surface-container-high/80 pt-space-sm px-space-md w-full">
-            <div className="flex items-center justify-between gap-space-xs">
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-on-primary-fixed font-bold text-[11px]">
+          <div className="mt-auto pt-3.5 border-t border-surface-container-high/80 px-1 w-full">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary-fixed text-on-primary-fixed font-bold text-xs shadow-2xs">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -245,19 +281,19 @@ export function AppLayout() {
                   logout()
                   navigate('/login')
                 }}
-                className="flex h-7 w-7 items-center justify-center rounded-lg text-outline hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-outline hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer shrink-0"
                 title="Sign Out"
                 aria-label="Sign Out"
               >
-                <LogOut size={14} />
+                <LogOut size={15} />
               </button>
             </div>
           </div>
         ) : (
           /* Collapsed Icon-Rail Footer Profile */
-          <div className="mt-space-sm border-t border-surface-container-high/80 pt-space-sm flex flex-col items-center gap-1.5 w-full">
+          <div className="mt-auto pt-3.5 border-t border-surface-container-high/60 flex flex-col items-center gap-2.5 w-full">
             <div
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-fixed text-on-primary-fixed font-bold text-[11px] shadow-2xs"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-fixed text-on-primary-fixed font-bold text-xs shadow-2xs"
               title={`${user.name} (${roleLabel(user.role)})`}
             >
               {user.name.charAt(0).toUpperCase()}
@@ -268,11 +304,11 @@ export function AppLayout() {
                 logout()
                 navigate('/login')
               }}
-              className="flex h-7 w-7 items-center justify-center rounded-lg text-outline hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-outline hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer"
               title="Sign Out"
               aria-label="Sign Out"
             >
-              <LogOut size={14} />
+              <LogOut size={15} />
             </button>
           </div>
         )}
@@ -306,7 +342,7 @@ export function AppLayout() {
               </button>
             </div>
 
-            <nav className="flex-1 space-y-1">
+            <nav className="flex-1 space-y-2">
               {NAV_ITEMS.map((item) => (
                 <NavLink
                   key={item.to}
@@ -314,9 +350,9 @@ export function AppLayout() {
                   end={item.to === '/'}
                   onClick={() => setMobileMenuOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-space-sm px-space-md py-space-sm text-sm font-body-medium rounded-lg transition-all ${
+                    `flex items-center gap-space-sm px-space-md py-space-sm text-sm font-body-medium rounded-xl transition-all ${
                       isActive
-                        ? 'bg-primary-container text-on-primary-container font-semibold'
+                        ? 'bg-primary text-on-primary font-semibold shadow-sm'
                         : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                     }`
                   }
@@ -347,13 +383,13 @@ export function AppLayout() {
       {/* Main Container (dynamically adjusts margin when sidebar is expanded vs collapsed into icon rail) */}
       <div
         className={`flex min-w-0 flex-1 flex-col transition-all duration-300 ease-in-out ${
-          sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64'
+          sidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-72'
         }`}
       >
         {/* Top Header */}
         <header
           className={`fixed top-0 right-0 z-40 flex h-14 items-center justify-between border-b border-surface-container-high/80 bg-surface/90 px-space-sm sm:px-space-md backdrop-blur-xl shadow-[0_1px_6px_rgba(0,0,0,0.03)] transition-all duration-300 ease-in-out ${
-            sidebarCollapsed ? 'left-0 lg:left-16 lg:px-space-lg' : 'left-0 lg:left-64 lg:px-space-lg'
+            sidebarCollapsed ? 'left-0 lg:left-[72px] lg:px-space-lg' : 'left-0 lg:left-72 lg:px-space-lg'
           }`}
         >
           {/* Left: Mobile Toggle & Desktop Sidebar Toggle & Search Bar */}
