@@ -255,13 +255,13 @@ function initState(): State {
   let savedReports: FieldReport[] = []
   let savedSitreps: SitrepMeta[] = []
   let savedEmailAlerts: BhoomiEmailAlert[] = []
-  let savedTheme: ThemeMode = 'light'
+  let savedTheme: ThemeMode = 'dark'
 
   try {
     const rawTheme = localStorage.getItem('bhuraksha_theme')
     if (rawTheme === 'dark' || rawTheme === 'light') {
       savedTheme = rawTheme
-    } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    } else {
       savedTheme = 'dark'
     }
 
